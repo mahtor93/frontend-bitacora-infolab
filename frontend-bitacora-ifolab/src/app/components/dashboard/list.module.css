@@ -1,0 +1,22 @@
+.listContent{
+    height: 90vh;
+    width: auto;
+    overflow: scroll-;
+    margin:12px
+}
+
+.list{
+    color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.list li {
+    padding: 6px 12px;
+}
+.list li p {
+    font-style: italic;
+    font-size: 12px;
+    padding:6px 3px;
+}
