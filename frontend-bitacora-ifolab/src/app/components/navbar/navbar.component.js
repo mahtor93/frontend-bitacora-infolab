@@ -2,6 +2,7 @@ import styles from "./navbar.module.css"
 import { IoHome } from "react-icons/io5";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsPencilSquare } from "react-icons/bs";
+import Link from "next/link";
 export default function Navbar(){
     
     return(
@@ -11,10 +12,14 @@ export default function Navbar(){
                     <RiLogoutBoxLine />
                 </div>
                 <div>
-                    <IoHome />
+                    <Link href="/dashboard">
+                        <IoHome />                    
+                    </Link>
                 </div>
                 <div>
-                    <BsPencilSquare />
+                    <Link href="/dashboard/create">
+                        <BsPencilSquare />
+                    </Link>
                 </div>
             </div>
         </div>

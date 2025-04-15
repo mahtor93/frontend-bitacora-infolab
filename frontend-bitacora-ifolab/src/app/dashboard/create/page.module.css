@@ -1,0 +1,11 @@
+.mainContent{
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainContent h2 {
+    margin: 12px 0;
+}
