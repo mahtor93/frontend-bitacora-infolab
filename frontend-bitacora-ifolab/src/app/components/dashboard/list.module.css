@@ -1,7 +1,7 @@
 .listContent{
     height: 90vh;
     width: auto;
-    overflow: scroll-;
+    overflow: scroll;
     margin:12px
 }
 
@@ -19,4 +19,10 @@
     font-style: italic;
     font-size: 12px;
     padding:6px 3px;
+}
+
+@media(min-width: 720px){
+    .listContent{
+        height: 100%;
+    }
 }

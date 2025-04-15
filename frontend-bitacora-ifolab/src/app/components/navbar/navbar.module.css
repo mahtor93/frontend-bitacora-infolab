@@ -1,0 +1,32 @@
+.navbar {
+    height:60px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #f8aa00;
+}
+.buttonRack {
+    display: flex;
+    color: #fff;
+    margin: 0 3px;
+    align-items: center;
+    justify-content: space-between;
+}
+.buttonRack div {
+    display: flex;
+    margin: 17px 3px;
+    font-size: 24px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+@media(min-width: 720px){
+    .navbar {
+        height:60px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        background-color: #f8aa00;
+    }
+}
