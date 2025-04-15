@@ -1,5 +1,6 @@
 import Editor from "@/app/components/editor/editor.component";
 import styles from "./page.module.css"
+
 export default function CreateReport() {
     return (
      <div className={styles.mainContent}>
@@ -8,4 +9,3 @@ export default function CreateReport() {
      </div>
     );
   }
-  

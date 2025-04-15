@@ -17,7 +17,7 @@ export default function Editor() {
                 </div>
                 <div className={styles.inputs}>
                     <label htmlFor="location">Ubicación</label>
-                    <input id="location" {...register('location', { required: false, maxLength: 24 })} />
+                    <select id="location" {...register('location', { required: false, maxLength: 24 })} />
                 </div>
                 <textarea id="description" {...register('description', { required: true, maxLength: 500 })} />
                 <input className={styles.btnSend} type="submit" />

@@ -1,11 +1,19 @@
 .mainContent{
     color:#fff;
-    display: flex;
-    flex-direction: column;
+    margin:12px;
     align-items: center;
     justify-content: center;
 }
 
 .mainContent h2 {
+    text-align: center;
     margin: 12px 0;
+}
+
+@media (min-width: 720px){
+    .mainContent{
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+    }
 }

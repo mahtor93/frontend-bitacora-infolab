@@ -29,3 +29,9 @@ export default function Login() {
     </div>
   );
 }
+
+/*
+Credenciales:
+mario.torneria
+123456789
+*/
