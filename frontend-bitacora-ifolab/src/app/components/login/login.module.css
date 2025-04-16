@@ -32,12 +32,11 @@
     width: 220px;
     border:1px solid #063d7d;
     background-color: var(--primary-blue-color);
-    align-content: center;
-    align-items: center;
     border-radius: 3px;
-    display: flex;
-    flex-direction: row;
     color: #fff;
+    display:inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: ease-in-out 0.2s;
 }
 
