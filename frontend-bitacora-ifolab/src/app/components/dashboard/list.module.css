@@ -2,7 +2,7 @@
     height: 90vh;
     width: auto;
     overflow: scroll;
-    margin:12px
+    margin:1vh 0 12vh 0;  
 }
 
 .list{
@@ -13,16 +13,41 @@
 }
 
 .list li {
-    padding: 6px 12px;
+    padding-bottom: 6px;
+    border: solid 2px #063d7d;
+    margin-bottom:12px;
 }
 .list li p {
     font-style: italic;
     font-size: 12px;
-    padding:6px 3px;
+    color:#ffffffa2;
+    padding:6px 0 3px 12px;
 }
 
+.encabezado{
+    display: flex;
+    flex-direction: row;
+    background-color: #063d7d;
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 12px;
+}
+.encabezado p {
+    margin-left: 12px;
+    color:#f5d500 !important;
+    font-weight: 600;
+}
+.encabezado h3{
+    font-size: 18px;
+}
+.date{
+    text-align: end;
+    padding: 6px 12px 0 0;
+}
 @media(min-width: 720px){
     .listContent{
+        margin: 8vh 0;
         height: 100%;
+        overflow: auto;
     }
 }

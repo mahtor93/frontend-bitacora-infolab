@@ -18,8 +18,13 @@ const apiPost = async (endpoint, payload) => {
     }
 }
 
-const apiGet = async (endpoint) => {
-    return await axios.get()
+const apiGet = async (endpoint,token) => {
+    console.log(`${URL}${endpoint}`);
+    return await axios.get(`${URL}${endpoint}`, {
+        headers:{
+            'Authorization': `Bearer ${token}`
+        }
+    })
 }
 
 export { apiPost, apiGet }
