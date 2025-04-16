@@ -1,3 +1,17 @@
+.mainContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.backgroundTop{
+    background-color: #003471;
+    width: 100vh;
+    padding: 40px;
+    margin-bottom: 50px;
+}
+.image{
+    padding-bottom: 24px;
+}
 .loginContent{
     display: flex;
     flex-direction: column;
@@ -5,9 +19,11 @@
     align-items: center;
 }
 
-.loginContent h2 {
-    padding: 12px 0 24px 0;
-    color:#fff;
+.backgroundTop p {
+    color:#ffffffc7;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant: small-caps;
     text-align: center;
 }
 .loginForm{
@@ -20,23 +36,26 @@
 
 .loginForm input {
     border-radius: 3px;
-    width: 220px;
+    width: 320px;
+    height: 45px;
     padding:6px 0;
-    color: #fff;
+    color: #ffffffc7;
     padding-left: 12px;
     border: 1px solid #063d7d;
-    background-color: #003471;
+    background:transparent;
 }
 
 .loginForm button {
-    width: 220px;
+    width: 320px;
+    height: 45px;
     border:1px solid #063d7d;
     background-color: var(--primary-blue-color);
     border-radius: 3px;
-    color: #fff;
+    color: #ffffff;
+    padding: 0 12px;
     display:inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     transition: ease-in-out 0.2s;
 }
 
@@ -46,4 +65,11 @@
 
 .loginForm button:hover{
     background-color:#003471 ;
+}
+
+.error {
+    color:red;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant: small-caps;
 }

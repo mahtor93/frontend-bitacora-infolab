@@ -7,11 +7,10 @@ import styles from "./page.module.css";
 import CreateReport from "./create/page.js";
 
 export default function Dashboard() {
-  const router = useRouter();
   return (
    <div>
-        {/*<ListDashboard/>*/}
-        <CreateReport />
+        <ListDashboard/>
+        {/*<CreateReport />*/}
         <Navbar/>
    </div>
   );

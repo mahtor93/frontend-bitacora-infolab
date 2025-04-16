@@ -1,9 +1,9 @@
 import axios from "axios";
-const URL = "152.74.180.135:3000/api"
+const URL = "http://152.74.180.135:3000/api"
 
 const apiPost = async (endpoint, payload) => {
     try {
-        const response = await axios.post(`http://152.74.180.135:3000/api${endpoint}`,
+        const response = await axios.post(`${URL}${endpoint}`,
             payload,
             {
                 headers: {
@@ -11,7 +11,6 @@ const apiPost = async (endpoint, payload) => {
                 }
             }
         );
-
         return response;
     } catch (error) {
         return (`API POST ERROR (${endpoint})`, error);

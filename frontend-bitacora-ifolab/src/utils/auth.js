@@ -13,7 +13,7 @@ export const setToken = (token) => {
 }
 
 export const removeToken = () => {
-    if(typeof window !== 'uindefined'){
+    if(typeof window !== 'undefined'){
         return localStorage.removeItem('token');
     }
 }
