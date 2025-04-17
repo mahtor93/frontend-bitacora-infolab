@@ -31,6 +31,7 @@ export default function ListDashboard() {
 
     return (
         <div className={styles.listContent}>
+            {/* Detectar Dispositivo Renderizar Lista o Cuadricula */}
             <ul className={styles.list} >
                 {
                     reportes.map((reporte) => (
@@ -48,5 +49,6 @@ export default function ListDashboard() {
                 }
             </ul>
         </div>
+
     );
 }

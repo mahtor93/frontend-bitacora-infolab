@@ -4,14 +4,13 @@
     overflow: scroll;
     margin:1vh 0 12vh 0;  
 }
-
 .list{
     color: #fff;
     width: 100%;
     display: flex;
     flex-direction: column;
+    list-style: none;
 }
-
 .list li {
     padding-bottom: 6px;
     border: solid 2px #063d7d;
@@ -46,8 +45,14 @@
 }
 @media(min-width: 720px){
     .listContent{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin: 8vh 0;
         height: 100%;
         overflow: auto;
+    }
+    .list{ 
+        width: 30vw;
     }
 }
