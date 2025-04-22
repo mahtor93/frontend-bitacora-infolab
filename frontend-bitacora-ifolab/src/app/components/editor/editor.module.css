@@ -2,17 +2,17 @@
     display: flex;
     flex-direction: column;
     color:#fff;
-
+    width: 90vw;
 }
 
 .form textarea {
-    color:#fff;
+    color:#000000;
     border:1px solid #063d7d;
     margin: 6px 0;
-    height: 30vh;
+    height: 40vh;
     padding: 6px;
     border-radius: 3px;
-    background-color: var(--primary-blue-color);
+    background-color: #ffffff;
 }
 .inputs{
     display: flex;
@@ -24,23 +24,23 @@
 .inputs input {
     color:#fff;
     border-radius: 3px;
-    border:1px solid #063d7d;
+    border:2px solid #063d7d;
     margin: 6px 0 6px 6px;
     width: 200px;
     padding: 6px 12px;
-    background-color: var(--primary-blue-color);
+    background-color: #ffffff;
 }
 .inputs select{
-    background-color: var(--primary-blue-color);
-    border: 1px solid #063d7d;
+    background-color: #ffffff;
+    border: 2px solid #063d7d;
     width: 200px;
     margin: 6px 0 6px 6px;
     padding: 6px 12px;
     border-radius: 3px;
-    color: #fff;
+    color: #000000;
 }
 .btnSend {
-    border:1px solid #063d7d;
+    border:2px solid #063d7d;
     padding: 6px;
     background-color: var(--primary-blue-color);
     align-content: center;
@@ -58,7 +58,15 @@
 }
 
 @media (min-width: 720px){
+    .form {
+        width: 100%;
+    }
     .form textarea {
-        max-width: 100%;
+        width: 500px;
+    }
+    .btnSend{
+        display: block;
+        align-self: flex-end;
+        padding: 6px 32px;
     }
 }

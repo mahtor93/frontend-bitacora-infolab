@@ -1,0 +1,75 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.reportSection {
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    border: 2px solid #063d7d;
+}
+
+.header {
+    background-color: #063d7d;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerdos{
+    display: flex;
+    flex-direction: row;
+    background-color: blueviolet;
+}
+
+.header h2 {
+    text-transform: capitalize;
+    margin: 1 12px;
+}
+.header h3 {
+    margin: 1px 12px;
+}
+
+.bodyReport{
+    margin:6px 12px;
+}
+
+.bodyReport p {
+    margin: 24px;
+}
+
+.commentSection {
+    color:#fff
+}
+
+.commentSection ul {
+    list-style: none;
+}
+
+.commentSection li {
+    border: 2px solid #063d7d;
+    border-radius: 3px;
+    width: 50vw;
+    margin: 6px 12px;
+}
+
+.commentSection p:last-child{
+    margin: 6px 6px;
+}
+
+.commentSection li p:first-child {    
+    text-transform: capitalize;
+    padding: 3px 6px;
+    font-weight: 700;
+    background-color: #063d7d;
+}
