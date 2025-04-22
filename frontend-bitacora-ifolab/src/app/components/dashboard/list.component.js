@@ -17,7 +17,7 @@ export default function ListDashboard() {
         const selected = reportes.find(reporte => reporte.uuid === selectedPost);
         console.log(selected);
         localStorage.setItem('selectedPost', JSON.stringify(selected));
-        router.push('/dashboard/reporte');
+        router.push(`/dashboard/reporte/${selected.uuid}`);
     }
     
     useEffect(() => {
@@ -44,8 +44,8 @@ export default function ListDashboard() {
             <ul className={styles.list} >
                 {
                     reportes.map((reporte) => (
-                        <li key={reporte.id} >
-                            <div className={styles.encabezado} onClick={e => onPostClick(reporte.uuid)}>
+                        <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
+                            <div className={styles.encabezado} /*onClick={e => onPostClick(reporte.uuid)}*/>
                                 <h3>{reporte.title}</h3>
                                 <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
                             </div>

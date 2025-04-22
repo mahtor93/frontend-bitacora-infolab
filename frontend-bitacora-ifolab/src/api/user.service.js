@@ -1,13 +1,14 @@
 import axios from "axios";
 const URL = "http://152.74.180.135:3000/api"
 
-const apiPost = async (endpoint, payload) => {
+const apiPost = async (endpoint, payload, token) => {
     try {
         const response = await axios.post(`${URL}${endpoint}`,
             payload,
             {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             }
         );

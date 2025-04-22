@@ -47,6 +47,22 @@
 .bodyReport p {
     margin: 24px;
 }
+.bodyReport p:first-child{
+    text-transform: capitalize;
+}
+
+.footerReport {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 24px;
+}
+.footerReport p{
+    text-transform: capitalize;
+    font-size: 13px;
+}
 
 .commentSection {
     color:#fff
@@ -72,4 +88,31 @@
     padding: 3px 6px;
     font-weight: 700;
     background-color: #063d7d;
+}
+
+.commentBox {
+    width: 50vw;
+    margin: 6px;
+    display: flex;
+    flex-direction: column;
+}
+
+.commentBox textarea{
+    width: 100%;
+    height: 64px;
+    padding: 12px;
+}
+
+.commentBox button {
+    border:2px solid #063d7d;
+    padding: 6px;
+    width: 128px;
+    background-color: var(--primary-blue-color);
+    align-content: center;
+    align-items: center;
+    border-radius: 3px;
+    color: #fff;
+    transition: ease-in-out 0.2s;
+    margin-top: 12px;
+    align-self: flex-end;
 }
