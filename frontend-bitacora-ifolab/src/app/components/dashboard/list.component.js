@@ -17,6 +17,7 @@ export default function ListDashboard() {
         const selected = reportes.find(reporte => reporte.uuid === selectedPost);
         console.log(selected);
         localStorage.setItem('selectedPost', JSON.stringify(selected));
+        localStorage.setItem('uuidPost', JSON.stringify(selectedPost))
         router.push(`/dashboard/reporte/${selected.uuid}`);
     }
     

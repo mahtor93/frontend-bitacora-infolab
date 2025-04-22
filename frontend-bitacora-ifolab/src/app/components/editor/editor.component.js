@@ -11,6 +11,7 @@ export default function Editor() {
     const [isBadPosting, setIsBadPosting] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState({ id: '', name: '' });
     const [locations, setLocations] = useState([]);
+    const [categories, setCategories] = useState([]);
     const { handleSubmit, register, formState: { errors } } = useForm();
     const router = useRouter();
 
@@ -46,11 +47,16 @@ export default function Editor() {
             try {
                 const token = getToken();
                 const response = await apiGet('/location', token);
+                const categories = await apiGet('/category', token);
+                if(!categories?.data || categories.status !== 200){
+                    throw new Error('Error al cargar Categorías')
+                }
                 if (!response?.data || response.status !== 200) {
                     throw new Error('Error al cargar Ubicaiones')
                 }
                 setLocations(response.data);
-                console.log(response.data)
+                setCategories(categories.data)
+                console.log(categories.data)
             } catch (error) {
                 throw error;
             }
@@ -81,6 +87,17 @@ export default function Editor() {
                             </option>
                         ))
                         }
+                    </select>
+                    <select id="categories" {...register('categories', {required:true})}
+                        /*onChange={}*/>
+                            <option></option>
+                            {categories.map((category =>(
+                                <option key={category.id}>
+                                    {category.name}
+                                </option>
+                            )))
+                            }
+
                     </select>
 
                 </div>
