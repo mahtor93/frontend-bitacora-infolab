@@ -20,7 +20,6 @@ export default  function Dashboard() {
         const cleanUuid = uuidPost.replaceAll('"', '');
         const post = await apiGet(`/post/${cleanUuid}`, token);
         setReporte(post.data);
-        //console.log(reporte.Location.name);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
     }
 
@@ -30,22 +29,18 @@ export default  function Dashboard() {
         if (!token) return;
         const comentario = commentRef.current.value;
         if (!comentario.trim()) {
-            console.log("Por favor escribe un comentario.");
             return;
         }
         try {
             await apiPost(`/comment/${reporte.uuid}`, { comment: comentario }, token);
-            console.log("Comentario enviado con éxito");
             await onLoadPost();
             commentRef.current.value = '';
         } catch (error) {
             console.error("Error al enviar el comentario:", error);
-            console.log("Error al enviar el comentario");
         }
     };
 
     useEffect(() => {
-        console.log(reportId);
         const getPost = async () => {
             try {
                 const storedPost = localStorage.getItem("selectedPost");
