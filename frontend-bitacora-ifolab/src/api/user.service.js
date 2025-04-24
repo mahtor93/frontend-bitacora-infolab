@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://152.74.180.135:3000/api"
+const URL = "http://152.74.182.226:3000/api"
 
 const apiPost = async (endpoint, payload, token) => {
     try {

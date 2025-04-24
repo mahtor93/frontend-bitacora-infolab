@@ -1,51 +1,63 @@
 .navbar {
-    height:60px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: var(--main-blue-color);
-    
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: var(--main-blue-color);
 }
 .buttonRack {
-    display: flex;
-    color: #fff;
-    margin: 6px 12px 3px 0;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  color: #fff;
+  margin: 6px 12px 3px 0;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
-.button {
-    display: flex;
-    margin: 0 3px 16px 3px;
-    font-size: 24px;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    align-items: center;
+.logo {
+    display: none;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+.button {
+  display: flex;
+  margin: 0 3px 16px 3px;
+  font-size: 24px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
-.button p{
-    font-size: 14px;
+.button p {
+  font-size: 14px;
 }
 
-@media(min-width: 720px){
-    .navbar {
-        height:auto;
-        width: 120px;
-        top: 0;
-        left:0;
-        background-color: var(--main-blue-color);
-    }
-    .buttonRack {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        justify-content: left;
-    }
-    .button {
-        margin: 12px 3px;
-        display: flex;
-        flex-direction: row;
-    }
+@media (min-width: 720px) {
+  .navbar {
+    height: auto;
+    width: 120px;
+    top: 0;
+    left: 0;
+    background-color: var(--main-blue-color);
+  }
+  .buttonRack {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: left;
+  }
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        width: 100%;
+  }
+  .button {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: row;
+  }
 }

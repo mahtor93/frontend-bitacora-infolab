@@ -17,6 +17,9 @@ export default function Navbar() {
     return (
         <div className={styles.navbar}>
             <div className={styles.buttonRack}>
+                <div className={styles.logo}>
+                    <img src="/ipvgLogoBlanco.png" width={'90px'}/>
+                </div>
                 <div className={styles.button}>
                     <Link href="/dashboard">
                         <IoHome /> <p>Dashboard</p>

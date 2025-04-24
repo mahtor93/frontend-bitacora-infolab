@@ -92,8 +92,10 @@ export default function Editor() {
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
                 </div>
+                <div className={styles.bodyPost}>
                 <textarea id="description" {...register('description', { required: true, maxLength: 1500 })} />
                 <input className={styles.btnSend} type="submit" />
+                </div>
             </form>
 
         </div>

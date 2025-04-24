@@ -1,7 +1,6 @@
 .main {
     display: flex;
     flex-direction: column;
-    width: 100%;
     justify-content: center;
     align-items: center;
 }
@@ -10,7 +9,7 @@
     color:var(--secondary-blue-color);
     display: flex;
     flex-direction: column;
-    width: 50vw;
+    width: 90vw;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
@@ -35,7 +34,6 @@
 .headerdos{
     display: flex;
     flex-direction: row;
-
 }
 
 .header h2 {
@@ -51,7 +49,7 @@
 }
 
 .bodyReport p {
-    margin: 24px;
+    margin: 12px;
 }
 .bodyReport p:first-child{
     text-transform: capitalize;
@@ -77,36 +75,41 @@
 
 .commentSection ul {
     list-style: none;
+    width: 90vw;
 }
 
 .commentSection li {
-    border: 2px solid #063d7d;
+    border: 1px solid #063d7d;
+    border-left-width: 12px;
     border-radius: 3px;
-    width: 50vw;
-    margin: 6px 12px;
+    width: 90vw;
+    margin: 12px 0;
 }
 
 .commentSection p:last-child{
-    margin: 6px 12px;
+    padding:0px 12px 18px 12px;
     font-size: 14px;
 }
 
 .commentSection li p:first-child {    
     text-transform: capitalize;
-    padding: 3px 12px;
-    background-color: #063d7d;
-    color:#fff;
+    padding:3px 12px;
+    color: #063d7d;
+    font-weight: 600;
 }
 
 .commentBox {
-    width: 50vw;
-    margin: 6px;
+    width: 90vw;
+    margin: 6px 0 72px 0;
     display: flex;
     flex-direction: column;
+    
 }
 
 .commentBox textarea{
     color:var(--secondary-blue-color);
+    background-color: #fff;
+    border-radius: 3px;
     width: 100%;
     height: 64px;
     padding: 12px;
@@ -124,4 +127,34 @@
     transition: ease-in-out 0.2s;
     margin-top: 12px;
     align-self: flex-end;
+}
+
+@media(min-width: 720px){
+    .main{
+        color:var(--main-blue-color);
+        display: flex;
+        margin-left: 140px;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+        width: 80vw;
+    }
+    .reportSection{
+        width: 80vw;
+        margin-bottom: 6px;
+    }
+    .commentSection li {
+        font-size: 14px;
+        border: 1px solid #063d7d;
+        border-left-width: 12px;
+        border-radius: 3px;
+        width: 40vw;
+        margin: 6px 0;
+    }
+    .commentSection ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        width: 80vw;
+    }
 }
