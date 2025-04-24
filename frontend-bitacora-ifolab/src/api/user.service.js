@@ -19,11 +19,17 @@ const apiPost = async (endpoint, payload, token) => {
 }
 
 const apiGet = async (endpoint,token) => {
-    return await axios.get(`${URL}${endpoint}`, {
-        headers:{
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    try{
+        const res = await axios.get(`${URL}${endpoint}`, {
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return res;
+    }catch(error){
+        return (`API GET ERROR (${endpoint})`, error);
+    }
+
 }
 
 export { apiPost, apiGet }
