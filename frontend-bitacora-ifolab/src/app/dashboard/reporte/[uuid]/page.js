@@ -67,7 +67,7 @@ export default  function Dashboard() {
         getPost();
     }, []);
 
-    if (!reporte) return <p>Cargando post...</p>;
+    if (!reporte) return <p>Cargando Reporte...</p>;
 
     return (
         <div className={styles.main}>

@@ -39,7 +39,7 @@ export default function Login() {
   return (
     <div className={styles.mainContent}>
       <div className={styles.backgroundTop}>
-        <img className={styles.image} src="https://intranet.virginiogomez.cl/intranet/assets/images/logo-ipvg.png" width="300" alt="IPVG_LOGO" />
+        <img className={styles.image} src="/ipvgLogoGrande.png" width="300" alt="IPVG_LOGO" />
         <p>Acceso Lab. Computación</p>
       </div>
       <div className={styles.loginContent}>
