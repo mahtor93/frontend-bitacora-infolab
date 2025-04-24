@@ -99,7 +99,7 @@
 }
 
 .commentBox {
-    width: 90vw;
+    width: 80vw;
     margin: 6px 0 72px 0;
     display: flex;
     flex-direction: column;
@@ -148,12 +148,13 @@
         border: 1px solid #063d7d;
         border-left-width: 12px;
         border-radius: 3px;
-        width: 40vw;
+        width: 75vw;
         margin: 6px 0;
     }
     .commentSection ul {
         display: flex;
         flex-direction: column;
+        align-items: end;
         list-style: none;
         width: 80vw;
     }

@@ -48,7 +48,6 @@ export default function Editor() {
         fetchData();
     }, []);
 
-
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

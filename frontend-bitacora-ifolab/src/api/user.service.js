@@ -1,6 +1,5 @@
 import axios from "axios";
-const URL = "http://152.74.182.226:3000/api"
-
+const URL = process.env.NEXT_PUBLIC_SERVER_ALT_URL 
 const apiPost = async (endpoint, payload, token) => {
     try {
         const response = await axios.post(`${URL}${endpoint}`,
