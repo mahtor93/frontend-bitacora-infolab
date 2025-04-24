@@ -1,8 +1,9 @@
 .form {
     display: flex;
     flex-direction: column;
-    color:#fff;
+    color:var(--main-blue-color);
     width: 90vw;
+    padding-left: 64px;
 }
 
 .form textarea {
@@ -14,6 +15,7 @@
     border-radius: 3px;
     background-color: #ffffff;
 }
+
 .inputs{
     display: flex;
     flex-direction: row;
@@ -48,25 +50,46 @@
     border-radius: 3px;
     display: flex;
     flex-direction: row;
-    color: #fff;
+    color:var(--main-blue-color);
     transition: ease-in-out 0.2s;
     margin-top: 12px;
 }
 
 .btnSend:hover{
     background-color:#003471 ;
+    color: #fff;
 }
 
 @media (min-width: 720px){
     .form {
         width: 100%;
+        display: flexbox;
     }
     .form textarea {
-        width: 500px;
+        width: 50vw;
+        height: 240px;
+        border:2px solid #063d7d;
+    }
+    .inputs{
+        display: flex;
+        flex-direction: row;
     }
     .btnSend{
         display: block;
         align-self: flex-end;
         padding: 6px 32px;
     }
+}
+
+@media (min-width: 1880px){
+    .inputsHeads{
+        display: flex;
+        flex-direction: row;
+        width: 50vw;
+        gap:12px
+    }
+    .inputs input{
+        width: 320px;
+    }
+
 }

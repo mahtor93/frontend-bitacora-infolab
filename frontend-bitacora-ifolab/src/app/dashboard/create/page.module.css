@@ -1,18 +1,20 @@
 .mainContent{
-    color:#fff;
+    color:var(--main-blue-color);
     margin:12px;
     width: 100%;
     align-items: center;
     justify-content: center;
 }
 
-.mainContent h2 {
+.mainContent h2{
+    margin: 24px 0;
+    width: 100%;
     text-align: center;
-    margin: 12px 0;
 }
 
 @media (min-width: 720px){
     .mainContent{
+        color:var(--main-blue-color);
         display: flex;
         flex-direction: column;
         width: 100%;

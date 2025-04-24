@@ -3,18 +3,24 @@ import { useEffect, useRef, useState } from "react";
 import { apiGet, apiPost } from "@/api/user.service";
 import styles from './page.module.css';
 import { getToken } from "@/utils/auth";
+import Navbar from "@/app/components/navbar/navbar.component";
+import { useParams } from "next/navigation";
 
-export default function Dashboard() {
+export default  function Dashboard() {
     const [reporte, setReporte] = useState(null);
     const [uuidPost, setUuidPost] = useState('');
     const commentRef = useRef(null);
+
+    const params = useParams();
+    const reportId = params.uuid;
+
 
     const onLoadPost = async () =>{
         const token = getToken();
         const cleanUuid = uuidPost.replaceAll('"', '');
         const post = await apiGet(`/post/${cleanUuid}`, token);
         setReporte(post.data);
-        console.log(reporte.Location.name);
+        //console.log(reporte.Location.name);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
     }
 
@@ -39,12 +45,13 @@ export default function Dashboard() {
     };
 
     useEffect(() => {
+        console.log(reportId);
         const getPost = async () => {
             try {
                 const storedPost = localStorage.getItem("selectedPost");
-                const uuidLs = localStorage.getItem('uuidPost');
-                if(uuidLs){
-                    setUuidPost(uuidLs);
+                //const uuidLs = localStorage.getItem('uuidPost');
+                if(reportId){
+                    setUuidPost(reportId);
                 }
                 
                 if (storedPost) {
@@ -64,6 +71,7 @@ export default function Dashboard() {
 
     return (
         <div className={styles.main}>
+            <Navbar/>
             <div className={styles.reportSection}>
                 <div className={styles.header}>
                     <h2>{reporte.title}</h2>
@@ -82,9 +90,10 @@ export default function Dashboard() {
                 <ul>
                     {reporte.Comments.map((comment, index) => (
                         <li key={index}>
-                            <p>{comment.User.name} {comment.User.lastname}</p>
+                            <p>{comment.User.name} {comment.User.lastname} - {comment.date}</p>
                             <p>{comment.comment}</p>
                         </li>
+                        
                     ))}
                 </ul>
             </div>

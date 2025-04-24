@@ -9,99 +9,90 @@ import { getToken } from "@/utils/auth";
 
 export default function Editor() {
     const [isBadPosting, setIsBadPosting] = useState(false);
-    const [selectedLocation, setSelectedLocation] = useState({ id: '', name: '' });
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
-    const { handleSubmit, register, formState: { errors } } = useForm();
+    const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
 
-    const onHandleSelection = (event) => {
-        const selectedId = Number(event.target.value);
-        const selected = locations.find(location => location.id === selectedId);
-        console.log(selected.id)
-        setSelectedLocation({
-            id: selectedId,
-            name: selected ? selected.name : ''
-        });
-    }
 
     const onSubmit = async (values) => {
         try {
             const token = getToken();
             const res = await apiPost('/post', values, token);
-            if (!res.data?.token || res.status === 401) {
-                setIsBadPosting(true);
-                if (res.status === 401) {
-                    throw new Error('Operación No Permitida');
-                }
+            if (res.error) {
+                 throw new Error(res.error.msg);
+            } else {
+                router.push('/dashboard');
             }
-            router.push('/dashboard');
+            
         } catch (err) {
-            console.log(err);
-            //const errorMessage = err.response?.data?.message || err.message || 'Fallo al crear Reporte';
+            console.error(err);
         }
     };
 
     useEffect(() => {
-        async function onHandleLocationList() {
+        async function fetchData() {
             try {
                 const token = getToken();
-                const response = await apiGet('/location', token);
-                const categories = await apiGet('/category', token);
-                if(!categories?.data || categories.status !== 200){
-                    throw new Error('Error al cargar Categorías')
+                const resLocations = await apiGet('/location', token);
+                const resCategories = await apiGet('/category', token);
+                if (resLocations.status !== 200 || resCategories.status !== 200) {
+                    throw new Error('Error al cargar datos');
                 }
-                if (!response?.data || response.status !== 200) {
-                    throw new Error('Error al cargar Ubicaiones')
-                }
-                setLocations(response.data);
-                setCategories(categories.data)
-                console.log(categories.data)
+                setLocations(resLocations.data);
+                setCategories(resCategories.data);
             } catch (error) {
-                throw error;
+                console.error(error);
             }
         }
+        fetchData();
+    }, []);
 
-        onHandleLocationList();
-    }, [])
 
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <div className={styles.inputsHeads}>
                 <div className={styles.inputs}>
                     <label htmlFor="title">Título</label>
-                    <input id="title" {...register('title', { required: true, maxLength: 64 })} />
+                    <input id="title" {...register('title', { required: true, maxLength: 255 })} />
                     {errors.name && errors.name.type === "required" && <span>This is required</span>}
                     {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
                 </div>
                 <div className={styles.inputs}>
-
-                    <label htmlFor="location">Ubicación</label>
-                    <select id="location" {...register('location', { required: true, maxLength: 24 })}
-                        onChange={onHandleSelection}
-                        value={selectedLocation.id}>
-                            <option value="">Selecciona...</option>
-                        {locations.map((location ) => (
-                            <option key={location.id} value={location.id}>
-                                {location.name}
-                            </option>
-                        ))
-                        }
-                    </select>
-                    <select id="categories" {...register('categories', {required:true})}
-                        /*onChange={}*/>
-                            <option></option>
-                            {categories.map((category =>(
-                                <option key={category.id}>
+                        <label htmlFor="location">Ubicación</label>
+                        <select
+                            id="location"
+                            {...register('location', { required: true })}
+                            onChange={(e) => setValue('location', e.target.value)}
+                        >
+                            <option value="">Selecciona ...</option>
+                            {locations.map(location => (
+                                <option key={location.id} value={location.id}>
+                                    {location.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.location && <span>Selecciona una ubicación</span>}
+                    </div>
+                <div className={styles.inputs}>
+                        <label htmlFor="category">Categoría</label>
+                        <select
+                            id="category"
+                            {...register('category', { required: true })}
+                            onChange={(e) => setValue('category', e.target.value)}
+                        >
+                            <option value="">Selecciona ...</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.name}>
                                     {category.name}
                                 </option>
-                            )))
-                            }
-
-                    </select>
-
+                            ))}
+                        </select>
+                        {errors.category && <span>Selecciona una categoría</span>}
+                    </div>
                 </div>
-                <textarea id="description" {...register('description', { required: true, maxLength: 500 })} />
+                <textarea id="description" {...register('description', { required: true, maxLength: 1500 })} />
                 <input className={styles.btnSend} type="submit" />
             </form>
 

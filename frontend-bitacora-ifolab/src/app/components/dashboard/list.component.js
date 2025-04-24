@@ -12,12 +12,10 @@ export default function ListDashboard() {
     const [selectedPost, setSelectedPost] = useState(null);
 
     function onPostClick(selectedPost){
-        console.log(`Has clickado el post ${selectedPost}`)
         setSelectedPost(selectedPost)
         const selected = reportes.find(reporte => reporte.uuid === selectedPost);
-        console.log(selected);
         localStorage.setItem('selectedPost', JSON.stringify(selected));
-        localStorage.setItem('uuidPost', JSON.stringify(selectedPost))
+        //localStorage.setItem('uuidPost', JSON.stringify(selectedPost))
         router.push(`/dashboard/reporte/${selected.uuid}`);
     }
     
@@ -33,7 +31,6 @@ export default function ListDashboard() {
                     };
                 });
                 setReportes(reportesProcesados);
-                console.log(reportesProcesados);
             }
         }
         onHandleList();
@@ -41,16 +38,15 @@ export default function ListDashboard() {
 
     return ( 
         <div className={styles.listContent}>
-            {/* Detectar Dispositivo Renderizar Lista o Cuadricula */}
             <ul className={styles.list} >
                 {
                     reportes.map((reporte) => (
                         <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
-                            <div className={styles.encabezado} /*onClick={e => onPostClick(reporte.uuid)}*/>
+                            <div className={styles.encabezado}>
                                 <h3>{reporte.title}</h3>
                                 <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
                             </div>
-                            <p>{reporte.description.substring(0, 64)}...</p>
+                            <p>{reporte.description.substring(0, 256)}...</p>
                             <div className={styles.date}>
                                 <p>{reporte.date}</p>
                             </div>

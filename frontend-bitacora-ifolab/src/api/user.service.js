@@ -15,12 +15,11 @@ const apiPost = async (endpoint, payload, token) => {
         return response;
     } catch (error) {
         return (`API POST ERROR (${endpoint})`, error);
-        throw error;
+
     }
 }
 
 const apiGet = async (endpoint,token) => {
-    console.log(`${URL}${endpoint}`);
     return await axios.get(`${URL}${endpoint}`, {
         headers:{
             'Authorization': `Bearer ${token}`

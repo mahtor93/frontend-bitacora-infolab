@@ -7,7 +7,7 @@
 }
 
 .reportSection {
-    color:#fff;
+    color:var(--secondary-blue-color);
     display: flex;
     flex-direction: column;
     width: 50vw;
@@ -15,6 +15,12 @@
     align-items: center;
     border-radius: 3px;
     border: 2px solid #063d7d;
+    margin-top:5vh; 
+}
+.reportSection h2 {
+    color:#fff;
+    text-align: center;
+    padding: 6px 0;
 }
 
 .header {
@@ -29,7 +35,7 @@
 .headerdos{
     display: flex;
     flex-direction: row;
-    background-color: blueviolet;
+
 }
 
 .header h2 {
@@ -61,11 +67,12 @@
 }
 .footerReport p{
     text-transform: capitalize;
-    font-size: 13px;
+    font-size: 14px;
+    font-style: italic;
 }
 
 .commentSection {
-    color:#fff
+    color:var(--secondary-blue-color);
 }
 
 .commentSection ul {
@@ -80,14 +87,15 @@
 }
 
 .commentSection p:last-child{
-    margin: 6px 6px;
+    margin: 6px 12px;
+    font-size: 14px;
 }
 
 .commentSection li p:first-child {    
     text-transform: capitalize;
-    padding: 3px 6px;
-    font-weight: 700;
+    padding: 3px 12px;
     background-color: #063d7d;
+    color:#fff;
 }
 
 .commentBox {
@@ -98,6 +106,7 @@
 }
 
 .commentBox textarea{
+    color:var(--secondary-blue-color);
     width: 100%;
     height: 64px;
     padding: 12px;
@@ -111,7 +120,7 @@
     align-content: center;
     align-items: center;
     border-radius: 3px;
-    color: #fff;
+    color:var(--secondary-blue-color);
     transition: ease-in-out 0.2s;
     margin-top: 12px;
     align-self: flex-end;

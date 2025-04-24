@@ -31,7 +31,6 @@ export default function Login() {
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       setError(errorMessage);
-      
     } finally {
       setIsLoading(false);
     }
@@ -54,8 +53,8 @@ export default function Login() {
           />
           {errors.username && errors.username.message}
           <button type="submit">Acceso <i><CiLogin /></i></button>
-          { isBadLogin && <p className={styles.error}>{error}</p>
-
+          { 
+            isBadLogin && <p className={styles.error}>{error}</p>
           }
         </form>
       </div>

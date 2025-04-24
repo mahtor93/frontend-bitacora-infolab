@@ -1,14 +1,12 @@
 "use client"
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import ListDashboard from "../components/dashboard/list.component.js";
 import Navbar from "../components/navbar/navbar.component.js";
-import styles from "./page.module.css";
-import CreateReport from "./create/page.js";
+import styles from './page.module.css'
 
 export default function Dashboard() {
   return (
-   <div>
+   <div className={styles.mainContent}>
+    <h2>Dashboard</h2>
         <ListDashboard/>
         {/*<CreateReport />*/}
         <Navbar/>
