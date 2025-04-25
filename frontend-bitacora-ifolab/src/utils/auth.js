@@ -10,7 +10,7 @@ export const getToken = () => {
 export const setToken = (token) => {
     if(typeof window !== 'undefined'){
         const expiresIn = new Date();
-        expiresIn.setHours(expiresIn.getHours() + 5); // Sumar 5 horas a la hora actual
+        expiresIn.setHours(expiresIn.getHours() + 5);
         return Cookies.set('token', token, { expires: expiresIn, secure: true });
 
     }

@@ -32,15 +32,21 @@
     background-color: #063d7d;
     width: 100%;
     justify-content: space-between;
-    padding: 6px 12px;
+    padding: 3px 12px;
+}
+.iconAndTitle{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 18px;
+}
+.encabezado h3{
+    font-size: 16px;
 }
 .encabezado p {
     color:#f5d500 !important;
     text-transform: capitalize;
     font-weight: 600;
-}
-.encabezado h3{
-    font-size: 18px;
 }
 .date{
     text-align: end;

@@ -4,7 +4,9 @@ import styles from "./list.module.css";
 import { apiGet } from "@/api/user.service";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import moment from "moment-timezone";
+import { FcHighPriority } from "react-icons/fc";
+import { FcOk } from "react-icons/fc";
+import moment from "moment-timezone"; // <---! implementar en /[uuid]/page.js
 
 export default function ListDashboard() {
     const router = useRouter();
@@ -17,6 +19,7 @@ export default function ListDashboard() {
         localStorage.setItem('selectedPost', JSON.stringify(selected));
         //localStorage.setItem('uuidPost', JSON.stringify(selectedPost))
         router.push(`/dashboard/reporte/${selected.uuid}`);
+
     }
     
     useEffect(() => {
@@ -43,7 +46,7 @@ export default function ListDashboard() {
                     reportes.map((reporte) => (
                         <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
                             <div className={styles.encabezado}>
-                                <h3>{reporte.title}</h3>
+                            <div className={styles.iconAndTitle}>{reporte.isActive?(<FcHighPriority/>):(<FcOk />)}<h3>{reporte.title}</h3></div>
                                 <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
                             </div>
                             <p>{reporte.description.substring(0, 256)}...</p>

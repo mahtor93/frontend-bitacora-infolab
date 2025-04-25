@@ -5,8 +5,9 @@ import styles from './page.module.css';
 import { getToken } from "@/utils/auth";
 import Navbar from "@/app/components/navbar/navbar.component";
 import { useParams } from "next/navigation";
+import { FcLock } from "react-icons/fc";
 
-export default  function Dashboard() {
+export default function Dashboard() {
     const [reporte, setReporte] = useState(null);
     const [uuidPost, setUuidPost] = useState('');
     const commentRef = useRef(null);
@@ -14,13 +15,13 @@ export default  function Dashboard() {
     const params = useParams();
     const reportId = params.uuid;
 
-
-    const onLoadPost = async () =>{
+    const onLoadPost = async (uuid) => {
         const token = getToken();
-        const cleanUuid = uuidPost.replaceAll('"', '');
-        const post = await apiGet(`/post/${cleanUuid}`, token);
+        //const cleanUuid = uuidPost.replaceAll('"', '');
+        const post = await apiGet(`/post/${reportId}`, token);
         setReporte(post.data);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
+        console.log(post.data)
     }
 
     const onSubmitComment = async (e) => {
@@ -42,31 +43,29 @@ export default  function Dashboard() {
 
     useEffect(() => {
         const getPost = async () => {
-            try {
+            try {           
                 const storedPost = localStorage.getItem("selectedPost");
-                //const uuidLs = localStorage.getItem('uuidPost');
-                if(reportId){
+                if (reportId) {
+                    console.log(reportId);
                     setUuidPost(reportId);
-                }
-                
+                /*}
                 if (storedPost) {
                     setReporte(JSON.parse(storedPost));
-                } else {
-                    await onLoadPost();
+                } else {*/
+                    await onLoadPost(uuidPost);
                 }
             } catch (error) {
                 console.error("Error al obtener el reporte:", error);
             }
         };
-        
         getPost();
-    }, []);
+    }, [uuidPost]);
 
     if (!reporte) return <p>Cargando Reporte...</p>;
 
     return (
         <div className={styles.main}>
-            <Navbar/>
+            <Navbar />
             <div className={styles.reportSection}>
                 <div className={styles.header}>
                     <h2>{reporte.title}</h2>
@@ -88,19 +87,25 @@ export default  function Dashboard() {
                             <p>{comment.User.name} {comment.User.lastname} - {comment.date}</p>
                             <p>{comment.comment}</p>
                         </li>
-                        
+
                     ))}
                 </ul>
             </div>
 
-            <form className={styles.commentBox}>
-                <textarea
-                    id="comment"
-                    ref={commentRef}
-                    placeholder="Escribe tu comentario..."
-                />
-                <button type="submit" onClick={onSubmitComment}>Comentar</button>
-            </form>
+            { reporte.isActive?(
+                <form className={styles.commentBox}>
+                    <textarea
+                        id="comment"
+                        ref={commentRef}
+                        placeholder="Escribe tu comentario..."
+                    />
+                    <button type="submit" onClick={onSubmitComment}>Comentar</button>
+                </form>):(
+                    <div className={styles.error}>
+                        <FcLock style={{fontSize:'24px',}}/> <p> El Reporte se ha cerrado y no admite más comentarios</p><FcLock style={{fontSize:'24px',}}/>
+                    </div>
+                )
+            }
         </div>
     );
 }

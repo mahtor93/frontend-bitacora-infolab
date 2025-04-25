@@ -27,6 +27,7 @@ export default function Editor() {
             
         } catch (err) {
             console.error(err);
+            
         }
     };
 
