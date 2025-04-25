@@ -50,9 +50,11 @@
 
 .bodyReport p {
     margin: 12px;
+
 }
 .bodyReport p:first-child{
     text-transform: capitalize;
+    font-weight: 600;
 }
 
 .footerReport {
@@ -66,6 +68,7 @@
 .footerReport p{
     text-transform: capitalize;
     font-size: 14px;
+    font-weight: 600;
     font-style: italic;
 }
 
@@ -86,12 +89,19 @@
     margin: 12px 0;
 }
 
-.commentSection p:last-child{
-    padding:0px 12px 18px 12px;
+.commentSection p{
+    padding:0 6px 6px 12px;
     font-size: 14px;
 }
+.commentSection p:last-child{
+    font-weight: 600;
+    display: flex;
+    font-size: 12px;
+    align-items: end;
+    justify-content: end;
+}
 
-.commentSection li p:first-child {    
+.commentSection p:first-child {    
     text-transform: capitalize;
     padding:3px 12px;
     color: #063d7d;
@@ -114,8 +124,14 @@
     height: 64px;
     padding: 12px;
 }
-
-.commentBox button {
+.buttonRack {
+    margin: 12px 12px 0 0;
+    display: flex;
+    gap:12px;
+    justify-content: end;
+    align-items: center;
+}
+.buttonRack button {
     border:2px solid #063d7d;
     padding: 6px;
     width: 128px;
@@ -125,9 +141,10 @@
     border-radius: 3px;
     color:var(--secondary-blue-color);
     transition: ease-in-out 0.2s;
-    margin-top: 12px;
     align-self: flex-end;
 }
+
+
 
 .error{
     border: 1px dotted #063d7d;
