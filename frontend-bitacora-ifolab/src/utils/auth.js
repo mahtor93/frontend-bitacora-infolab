@@ -1,19 +1,24 @@
+import Cookies from 'js-cookie';
+
 export const getToken = () => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('token');
+      return Cookies.get('token');
     }
     return null;
   };
 
 export const setToken = (token) => {
     if(typeof window !== 'undefined'){
-        return localStorage.setItem('token', token)
+        const expiresIn = new Date();
+        expiresIn.setHours(expiresIn.getHours() + 5);
+        return Cookies.set('token', token, { expires: expiresIn, secure: true });
+
     }
     return null;
 }
 
 export const removeToken = () => {
     if(typeof window !== 'undefined'){
-        return localStorage.removeItem('token');
+        return Cookies.remove('token');
     }
 }

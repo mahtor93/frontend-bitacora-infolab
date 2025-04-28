@@ -3,6 +3,7 @@ import styles from "./navbar.module.css"
 import { IoHome } from "react-icons/io5";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsPencilSquare } from "react-icons/bs";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import Link from "next/link";
 import { removeToken } from "@/utils/auth";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,7 @@ export default function Navbar() {
         <div className={styles.navbar}>
             <div className={styles.buttonRack}>
                 <div className={styles.logo}>
-                    <img src="/ipvgLogoBlanco.png" width={'90px'}/>
+                    <img src="/ipvgLogoBlanco.png" width={'90px'} />
                 </div>
                 <div className={styles.button}>
                     <Link href="/dashboard">
@@ -26,7 +27,12 @@ export default function Navbar() {
                     </Link>
                 </div>
                 <div className={styles.button}>
-                    <Link href="/dashboard/create">
+                    <Link href="/dashboard/buscador">
+                        <FaMagnifyingGlass /> <p>Buscar</p>
+                    </Link>
+                </div>
+                <div className={styles.button}>
+                    <Link href="/dashboard/crear">
                         <BsPencilSquare /> <p>Crear Reporte</p>
                     </Link>
                 </div>

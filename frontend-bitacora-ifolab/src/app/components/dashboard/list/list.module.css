@@ -13,17 +13,17 @@
     list-style: none;
 }
 .list li {
-    padding-bottom: 6px;
+    padding-bottom: 3px;
     border: solid 2px #063d7d;
     border-radius: 3px;
-    margin-bottom:12px;
+    margin-bottom: 14px;
     width: 90vw;
 }
 .list li p {
     font-style: italic;
     font-size: 12px;
     color:var(--secondary-blue-color);
-    padding:6px 0 3px 12px;
+    padding:6px 0 0 12px;
 }
 
 .encabezado{
@@ -32,19 +32,56 @@
     background-color: #063d7d;
     width: 100%;
     justify-content: space-between;
-    padding: 6px 12px;
+    padding: 3px 12px;
+}
+.lineaEncabezado{
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.iconAndTitle{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 18px;
+}
+.encabezado h3{
+    font-size: 16px;
 }
 .encabezado p {
     color:#f5d500 !important;
     text-transform: capitalize;
     font-weight: 600;
-}
-.encabezado h3{
-    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .date{
     text-align: end;
     padding: 6px 12px 0 0;
+}
+
+.error{
+    border: 2px dotted #063d7d;
+    background-color: rgb(212, 212, 212);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 90vw;
+    padding: 24px;
+    margin-bottom: 72px;
+}
+
+.error p {
+    color:red;
+    font-size: 16px;
+    font-weight: 600;
+
 }
 @media(min-width: 720px){
     .listContent{
@@ -62,6 +99,9 @@
         height: 100%;
     }
     .list li {
+        width: 80vw;
+    }
+    .error{
         width: 80vw;
     }
 }

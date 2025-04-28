@@ -7,10 +7,11 @@
     background-color: #003471;
     width: 100vw;
     padding: 40px;
+    color:#ffffffc7;
     margin-bottom: 50px;
 }
 .image{
-    padding: 55px 0;
+    padding: 36px 0;
 }
 .loginContent{
     display: flex;
@@ -18,16 +19,14 @@
     text-align: center;
     align-items: center;
 }
-
 .backgroundTop p {
     color:#ffffffc7;
-    font-size: 12px;
+    font-size: 20px;
+    margin-top: 12px;
     font-weight: 600;
     font-variant: small-caps;
     text-align: center;
 }
-
-
 .loginForm{
     display: flex;
     flex-direction: column;
@@ -35,7 +34,6 @@
     width: 25%;
     gap:24px;
 }
-
 .loginForm input {
     border-radius: 3px;
     width: 320px;
@@ -46,7 +44,6 @@
     border: 1px solid #063d7d;
     background:transparent;
 }
-
 .loginForm button {
     width: 320px;
     height: 45px;
@@ -60,20 +57,16 @@
     justify-content: space-between;
     transition: ease-in-out 0.2s;
 }
-
 .loginForm button i {
     font-size: 24px;
 }
-
 .loginForm button:hover{
     background-color:#003471 ;
 }
-
 .error {
     color:red;
     font-size: 12px;
     font-weight: 600;
     font-variant: small-caps;
     width: 320px;
-    background-color: aqua;
 }

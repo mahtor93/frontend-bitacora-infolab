@@ -11,36 +11,36 @@ export default function Login() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState('');
-  const [isBadLogin, setIsBadLogin] = useState(false);
-  const { handleSubmit, register, formState: { errors }, setError: setFormError } = useForm();
+  const [isBadLogin, setIsBadLogin] = useState(true);
+  const { handleSubmit, register, formState: { errors } } = useForm();
 
   const onSubmit = async (values) => {    
     setError('');
     setIsLoading(true);
     try {
       const res = await apiPost('/login', values);
-      if (!res.data?.token || res.status === 401) {
-        setIsBadLogin(true);
-        if(res.status===401){
-          throw new Error('Credenciales inválidas');
-        }
-
+      if(res.status === 404){
+        console.log('404!!!!')
       }
-      setToken(res.data.token);
-      router.push('/dashboard');
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Login failed';
+      if(res.data.token){
+        setToken(res.data.token);
+        setIsBadLogin(false);
+        router.push('/dashboard');
+      }
+    }catch(err) {
+      console.log(err.message)
+      const errorMessage = err.message;
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   return (
     <div className={styles.mainContent}>
       <div className={styles.backgroundTop}>
+      <h1>Acceso Bitácora</h1>
+      <p>Laboratorio de Computación</p>
         <img className={styles.image} src="/ipvgLogoGrande.png" width="300" alt="IPVG_LOGO" />
-        <p>Acceso Lab. Computación</p>
+
       </div>
       <div className={styles.loginContent}>
         <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>

@@ -45,14 +45,16 @@
 }
 
 .bodyReport{
-    margin:6px 12px;
+    margin:12px 12px;
 }
 
 .bodyReport p {
     margin: 12px;
+
 }
 .bodyReport p:first-child{
     text-transform: capitalize;
+    font-weight: 600;
 }
 
 .footerReport {
@@ -66,6 +68,7 @@
 .footerReport p{
     text-transform: capitalize;
     font-size: 14px;
+    font-weight: 600;
     font-style: italic;
 }
 
@@ -86,12 +89,19 @@
     margin: 12px 0;
 }
 
-.commentSection p:last-child{
-    padding:0px 12px 18px 12px;
+.commentSection p{
+    padding:0 6px 6px 12px;
     font-size: 14px;
 }
+.commentSection p:last-child{
+    font-weight: 600;
+    display: flex;
+    font-size: 12px;
+    align-items: end;
+    justify-content: end;
+}
 
-.commentSection li p:first-child {    
+.commentSection p:first-child {    
     text-transform: capitalize;
     padding:3px 12px;
     color: #063d7d;
@@ -99,23 +109,31 @@
 }
 
 .commentBox {
-    width: 90vw;
+    width: 80vw;
     margin: 6px 0 72px 0;
     display: flex;
     flex-direction: column;
-    
+    align-items: center;
 }
 
 .commentBox textarea{
     color:var(--secondary-blue-color);
     background-color: #fff;
     border-radius: 3px;
-    width: 100%;
+    width: 90vw;
     height: 64px;
     padding: 12px;
 }
-
-.commentBox button {
+.buttonRack {
+    margin: 12px 0;
+    display: flex;
+    gap:12px;
+    width: 90vw;
+    justify-content: end;
+    align-items: end;
+    align-content: end;
+}
+.buttonRack button {
     border:2px solid #063d7d;
     padding: 6px;
     width: 128px;
@@ -125,8 +143,39 @@
     border-radius: 3px;
     color:var(--secondary-blue-color);
     transition: ease-in-out 0.2s;
-    margin-top: 12px;
     align-self: flex-end;
+}
+
+.btnCerrarReporte{
+    border: 2px solid var(--main-blue-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 31px;
+    border-radius: 3px;
+    color:#fff
+}
+
+.error{
+    border: 2px dotted #063d7d;
+    background-color: rgb(212, 212, 212);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 80vw;
+    padding: 24px;
+    margin-bottom: 72px;
+}
+
+.error p {
+    color:red;
+    font-size: 16px;
+    font-weight: 600;
+
 }
 
 @media(min-width: 720px){
@@ -143,18 +192,29 @@
         width: 80vw;
         margin-bottom: 6px;
     }
+    .commentBox{
+        align-items: end;
+        width: 80vw;
+    }
+    .commentBox textarea {
+        width: 80vw;
+    }
     .commentSection li {
         font-size: 14px;
         border: 1px solid #063d7d;
         border-left-width: 12px;
         border-radius: 3px;
-        width: 40vw;
+        width: 75vw;
         margin: 6px 0;
     }
     .commentSection ul {
         display: flex;
         flex-direction: column;
+        align-items: end;
         list-style: none;
+        width: 80vw;
+    }
+    .error{
         width: 80vw;
     }
 }

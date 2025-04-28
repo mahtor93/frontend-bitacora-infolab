@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://152.74.182.226:3000/api"
+const URL = process.env.NEXT_PUBLIC_SERVER_URL 
 
 const apiPost = async (endpoint, payload, token) => {
     try {
@@ -14,17 +14,31 @@ const apiPost = async (endpoint, payload, token) => {
         );
         return response;
     } catch (error) {
-        return (`API POST ERROR (${endpoint})`, error);
-
+        throw error?.response?.data || { message:'Error de Conexión' } 
     }
 }
 
-const apiGet = async (endpoint,token) => {
-    return await axios.get(`${URL}${endpoint}`, {
-        headers:{
-            'Authorization': `Bearer ${token}`
+const apiGet = async (endpoint, query = {}, token) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
-    })
-}
+      };
+  
+      // Si query tiene algo, lo agregamos en config.params
+      if (Object.keys(query).length > 0) {
+        config.params = query;
+      }
+  
+      const response = await axios.get(`${URL}${endpoint}`, config);
+  
+      return response;
+      
+    } catch (error) {
+      throw error.response?.data || { message: 'Error de Conexión' };
+    }
+  };
 
 export { apiPost, apiGet }

@@ -27,6 +27,7 @@ export default function Editor() {
             
         } catch (err) {
             console.error(err);
+            
         }
     };
 
@@ -34,8 +35,8 @@ export default function Editor() {
         async function fetchData() {
             try {
                 const token = getToken();
-                const resLocations = await apiGet('/location', token);
-                const resCategories = await apiGet('/category', token);
+                const resLocations = await apiGet('/location',{}, token);
+                const resCategories = await apiGet('/category',{}, token);
                 if (resLocations.status !== 200 || resCategories.status !== 200) {
                     throw new Error('Error al cargar datos');
                 }
@@ -47,7 +48,6 @@ export default function Editor() {
         }
         fetchData();
     }, []);
-
 
     return (
         <div>
