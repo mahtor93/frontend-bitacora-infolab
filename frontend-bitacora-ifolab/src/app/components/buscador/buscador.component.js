@@ -38,9 +38,9 @@ export default function BuscadorForm() {
         async function fetchData() {
             try {
                 const token = getToken();
-                const resLocations = await apiGet('/location', token);
-                const resCategories = await apiGet('/category', token);
-                const resUsers = await apiGet('/user', token);
+                const resLocations = await apiGet('/location',{}, token);
+                const resCategories = await apiGet('/category',{}, token);
+                const resUsers = await apiGet('/user',{}, token);
 
                 if (resLocations.status !== 200 || resCategories.status !== 200) {
                     throw new Error('Error al cargar datos');

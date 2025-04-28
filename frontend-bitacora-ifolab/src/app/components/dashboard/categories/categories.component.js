@@ -3,7 +3,7 @@ import styles from "./categories.module.css"
 import { apiGet } from "@/api/user.service";
 import { getToken } from "@/utils/auth";
 
-export default function RowCategories() {
+export default function RowCategories({onCategorySelect}) {
     const [selectedCategory, setSelectedCategory] = useState(3);
     const [categories, setCategories] = useState([]);
 
@@ -12,7 +12,7 @@ export default function RowCategories() {
             try{
                 const token = getToken();
                 if(token){
-                    const resCategories = await apiGet('/category', token);
+                    const resCategories = await apiGet('/category',{}, token);
                     setCategories(resCategories.data);
                 }
             } catch(error){
@@ -22,11 +22,20 @@ export default function RowCategories() {
         getCategories();
     },[])
 
-    function onClickCategory(index) {
-        console.log(index)
+    const onClickCategory = async (index) => {
+        try{
         setSelectedCategory(index);
+        const token = getToken();
+        if(token){
+            console.log(`preguntando por /post? ${index}`)
+            const reportes = await apiGet('/post',{category: index}, token)
+            onCategorySelect(reportes.data);
+        }
+        } catch(error){
+            console.log(`ERROR >>> ${error.message}`)
+            throw error.message;
+        }
     }
-
     return (
         <>
         <div className={styles.rowCategories}>

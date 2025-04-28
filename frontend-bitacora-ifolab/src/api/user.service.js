@@ -18,19 +18,27 @@ const apiPost = async (endpoint, payload, token) => {
     }
 }
 
-const apiGet = async (endpoint,token) => {
-    try{
-        const response = await axios.get(`${URL}${endpoint}`, {
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        return response;
-    }catch(error){
-        console.log(error)
-        throw error.response.data || { message:'Error de Conexión'}        
+const apiGet = async (endpoint, query = {}, token) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      };
+  
+      // Si query tiene algo, lo agregamos en config.params
+      if (Object.keys(query).length > 0) {
+        config.params = query;
+      }
+  
+      const response = await axios.get(`${URL}${endpoint}`, config);
+  
+      return response;
+      
+    } catch (error) {
+      throw error.response?.data || { message: 'Error de Conexión' };
     }
-
-}
+  };
 
 export { apiPost, apiGet }

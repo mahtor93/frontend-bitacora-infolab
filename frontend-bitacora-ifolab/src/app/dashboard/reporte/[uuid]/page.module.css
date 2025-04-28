@@ -45,7 +45,7 @@
 }
 
 .bodyReport{
-    margin:6px 12px;
+    margin:12px 12px;
 }
 
 .bodyReport p {
@@ -166,7 +166,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 90vw;
+    width: 80vw;
     padding: 24px;
     margin-bottom: 72px;
 }

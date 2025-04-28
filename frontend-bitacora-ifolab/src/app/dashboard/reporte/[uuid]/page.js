@@ -20,7 +20,7 @@ export default function Dashboard() {
     const reportId = params.uuid;
     const onLoadPost = async () => {
         const token = getToken();
-        const post = await apiGet(`/post/${reportId}`, token);
+        const post = await apiGet(`/post/${reportId}`,{}, token);
         setReporte(post.data);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
         console.log(post.data)
