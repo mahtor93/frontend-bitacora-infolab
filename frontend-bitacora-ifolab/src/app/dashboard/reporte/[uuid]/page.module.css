@@ -113,23 +113,25 @@
     margin: 6px 0 72px 0;
     display: flex;
     flex-direction: column;
-    
+    align-items: center;
 }
 
 .commentBox textarea{
     color:var(--secondary-blue-color);
     background-color: #fff;
     border-radius: 3px;
-    width: 100%;
+    width: 90vw;
     height: 64px;
     padding: 12px;
 }
 .buttonRack {
-    margin: 12px 12px 0 0;
+    margin: 12px 0;
     display: flex;
     gap:12px;
+    width: 90vw;
     justify-content: end;
-    align-items: center;
+    align-items: end;
+    align-content: end;
 }
 .buttonRack button {
     border:2px solid #063d7d;
@@ -144,23 +146,36 @@
     align-self: flex-end;
 }
 
-
+.btnCerrarReporte{
+    border: 2px solid var(--main-blue-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 31px;
+    border-radius: 3px;
+    color:#fff
+}
 
 .error{
-    border: 1px dotted #063d7d;
+    border: 2px dotted #063d7d;
+    background-color: rgb(212, 212, 212);
+    border-radius: 6px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 100%;
+    width: 90vw;
     padding: 24px;
+    margin-bottom: 72px;
 }
 
 .error p {
     color:red;
     font-size: 16px;
     font-weight: 600;
+
 }
 
 @media(min-width: 720px){
@@ -177,6 +192,13 @@
         width: 80vw;
         margin-bottom: 6px;
     }
+    .commentBox{
+        align-items: end;
+        width: 80vw;
+    }
+    .commentBox textarea {
+        width: 80vw;
+    }
     .commentSection li {
         font-size: 14px;
         border: 1px solid #063d7d;
@@ -190,6 +212,9 @@
         flex-direction: column;
         align-items: end;
         list-style: none;
+        width: 80vw;
+    }
+    .error{
         width: 80vw;
     }
 }

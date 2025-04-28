@@ -6,7 +6,6 @@ import { getToken } from "@/utils/auth";
 import Navbar from "@/app/components/navbar/navbar.component";
 import { useParams } from "next/navigation";
 import { FcLock } from "react-icons/fc";
-import { FcUnlock } from "react-icons/fc";
 import moment from "moment-timezone";
 
 import { PiLockKeyOpenFill } from "react-icons/pi";
@@ -19,16 +18,15 @@ export default function Dashboard() {
     const [isActive, setIsActive] = useState(true);
     const params = useParams();
     const reportId = params.uuid;
-    const onLoadPost = async (uuid) => {
+    const onLoadPost = async () => {
         const token = getToken();
-        //const cleanUuid = uuidPost.replaceAll('"', '');
         const post = await apiGet(`/post/${reportId}`, token);
         setReporte(post.data);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
         console.log(post.data)
     }
     const onClickLock = () =>{
-        setIsActive(!isActive)
+        setIsActive(!isActive);
     }
     const onSubmitComment = async (e) => {
         e.preventDefault();
@@ -38,8 +36,14 @@ export default function Dashboard() {
         if (!comentario.trim()) {
             return;
         }
+        if(!isActive){
+            const aceptado = confirm('¿Está seguro que desea cerrar el Reporte?');
+            if(!aceptado){
+                return
+            }
+        }
         try {
-            await apiPost(`/comment/${reporte.uuid}`, { comment: comentario }, token);
+            await apiPost(`/comment/${reporte.uuid}`, { comment: comentario, isActive: isActive }, token);
             await onLoadPost();
             commentRef.current.value = '';
         } catch (error) {
@@ -53,10 +57,6 @@ export default function Dashboard() {
                 if (reportId) {
                     console.log(reportId);
                     setUuidPost(reportId);
-                    /*}
-                    if (storedPost) {
-                        setReporte(JSON.parse(storedPost));
-                    } else {*/
                     await onLoadPost(uuidPost);
                 }
             } catch (error) {
@@ -104,13 +104,13 @@ export default function Dashboard() {
                     />
                     <div className={styles.buttonRack}>
                         <button type="submit" onClick={onSubmitComment}>Comentar</button>
-                        <div onClick={onClickLock} title="Cerrar Reporte">
-                            {isActive?(<PiLockKeyOpenFill style={{ fontSize: '28px' }}/>):(<PiLockFill style={{ fontSize: '28px' }}/>)}
+                        <div className={styles.btnCerrarReporte} style={{backgroundColor:isActive?'green':'red'}} onClick={onClickLock} title="Cerrar Reporte">
+                            {isActive?(<PiLockKeyOpenFill style={{ fontSize: '20px' }}/>):(<PiLockFill style={{ fontSize: '20px' }}/>)}
                         </div>
                     </div>
                 </form>) : (
                 <div className={styles.error}>
-                    <FcLock style={{ fontSize: '24px' }} /> <p> El Reporte se ha cerrado y no admite más comentarios</p><FcLock style={{ fontSize: '24px', }} />
+                    <FcLock style={styles.iconLock} /> <p> El Reporte se ha cerrado y no admite más comentarios</p><FcLock style={{ fontSize: '24px', }} />
                 </div>
             )
             }

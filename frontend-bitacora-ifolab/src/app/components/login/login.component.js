@@ -37,8 +37,10 @@ export default function Login() {
   return (
     <div className={styles.mainContent}>
       <div className={styles.backgroundTop}>
+      <h1>Acceso Bitácora</h1>
+      <p>Laboratorio de Computación</p>
         <img className={styles.image} src="/ipvgLogoGrande.png" width="300" alt="IPVG_LOGO" />
-        <p>Acceso Lab. Computación</p>
+
       </div>
       <div className={styles.loginContent}>
         <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>

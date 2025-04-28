@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FcHighPriority } from "react-icons/fc";
 import { FcOk } from "react-icons/fc";
-import moment from "moment-timezone"; // <---! implementar en /[uuid]/page.js
+import moment from "moment-timezone"; 
 
 export default function ListDashboard() {
     const router = useRouter();
