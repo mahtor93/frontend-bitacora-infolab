@@ -12,7 +12,7 @@ export default function RowCategories({onCategorySelect}) {
             try{
                 const token = getToken();
                 if(token){
-                    const resCategories = await apiGet('/category',{}, token);
+                    const resCategories = await apiGet('/category', token);
                     setCategories(resCategories.data);
                 }
             } catch(error){
@@ -27,8 +27,7 @@ export default function RowCategories({onCategorySelect}) {
         setSelectedCategory(index);
         const token = getToken();
         if(token){
-            console.log(`preguntando por /post? ${index}`)
-            const reportes = await apiGet('/post',{category: index}, token)
+            const reportes = await apiGet('/post', token,{category: index})
             onCategorySelect(reportes.data);
         }
         } catch(error){
