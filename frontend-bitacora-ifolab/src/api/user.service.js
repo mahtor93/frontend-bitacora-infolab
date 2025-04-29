@@ -37,7 +37,7 @@ const apiPost = async (endpoint, payload, token) => {
  * @returns {Promise<Object>} El objeto de respuesta de la API.
  * @throws {Object} Si la solicitud falla, lanza los datos de la respuesta de error o un mensaje de error de conexión por defecto.
  */
-const apiGet = async (endpoint, query = {}, token) => {
+const apiGet = async (endpoint, token, query = {}) => {
     try {
       const config = {
         headers: {
