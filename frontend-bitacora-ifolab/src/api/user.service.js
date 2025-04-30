@@ -33,7 +33,7 @@ const apiPost = async (endpoint, payload, token) => {
  *
  * @param {string} endpoint - El endpoint de la API al que se enviará la solicitud GET (se añade a la URL base).
  * @param {string} token - El token Bearer utilizado para la autorización en la cabecera de la solicitud.
- * @param {Object} [query={}] - Parámetros de consulta opcionales que se enviarán en la URL.
+ * @param {Object} [query={}] - [OPCIONAL] Parámetros de consulta que se enviarán en la URL.
  * @returns {Promise<Object>} El objeto de respuesta de la API.
  * @throws {Object} Si la solicitud falla, lanza los datos de la respuesta de error o un mensaje de error de conexión por defecto.
  */

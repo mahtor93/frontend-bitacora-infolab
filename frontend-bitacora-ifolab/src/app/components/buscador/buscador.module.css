@@ -57,9 +57,15 @@
         margin-left: 0px;
     }
     .datePicker{
-        background-color: aqua;
+        display: flex;
+        align-items: start;
+        justify-content: start;
         width: 100%;
-        padding: 32px
+        padding-top: 6px;
+    }
+    .datePicker label {
+        margin-top: 6px;
+        width: 100%;
     }
     .inputs{
         display: flex;
@@ -94,9 +100,8 @@
         align-items: start;
     }
     .datePicker{
-        background-color: aqua;
-        width: 100%;
-        padding: 32px;
+        width: 50%;
+        padding: 0px;
     }
     .inputs {
         width: 30vw;

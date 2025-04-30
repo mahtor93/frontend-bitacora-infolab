@@ -5,14 +5,25 @@
   bottom: 0;
   left: 0;
   background-color: var(--main-blue-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 .buttonRack {
   display: flex;
+  flex-direction: row;
   color: #fff;
   margin: 6px 12px 3px 0;
   align-items: center;
   width: 100%;
   justify-content: space-between;
+}
+.buttonRack p{ 
+  display: none;
+}
+.adminButtonRack{
+  display: flex;
+  flex-direction: row;
 }
 .logo {
     display: none;
@@ -30,11 +41,24 @@
   align-items: center;
   justify-content: center;
 }
-
 .button p {
   font-size: 14px;
 }
-
+.logoutButton{
+  color: #fff;
+  position: relative;
+  top:0;
+  margin: 0 3px 16px 3px;
+  font-size: 24px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.logoutButton p {
+  font-size: 14px;
+}
 @media (min-width: 720px) {
   .navbar {
     height: auto;
@@ -48,6 +72,24 @@
     flex-direction: column;
     align-items: start;
     justify-content: left;
+  }
+  .buttonRack p{ 
+    display: block;
+  }
+  .adminButtonRack{
+    margin-top: 32px;
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    border-top: 3px solid #fff;
+    padding-top: 6px;
+  }
+  .separator{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .logo {
     display: flex;

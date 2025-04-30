@@ -7,7 +7,9 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import Link from "next/link";
 import { removeToken } from "@/utils/auth";
 import { useRouter } from "next/navigation";
-
+import { HiUserAdd } from "react-icons/hi";
+import { TbReportAnalytics } from "react-icons/tb";
+import { GrConfigure } from "react-icons/gr";
 export default function Navbar() {
     const router = useRouter();
 
@@ -33,11 +35,26 @@ export default function Navbar() {
                 </div>
                 <div className={styles.button}>
                     <Link href="/dashboard/crear">
-                        <BsPencilSquare /> <p>Crear Reporte</p>
+                        <BsPencilSquare /> <p>Redactar</p>
                     </Link>
                 </div>
-                <div className={styles.button} >
-                    <div onClick={onclickLogout}>
+                <div className={styles.button}>
+                    <Link href="/users">
+                        <HiUserAdd /> <p>Usuarios</p>
+                    </Link>
+                </div>
+                <div className={styles.button}>
+                    <Link href="/">
+                        <TbReportAnalytics /> <p>Reportes</p>
+                    </Link>
+                </div>
+                <div className={styles.button}>
+                    <Link href="/">
+                        <GrConfigure /> <p>Reportes</p>
+                    </Link>
+                </div>
+                <div className={/*styles.logoutButton*/ styles.button}>
+                <div onClick={onclickLogout}>
                         <RiLogoutBoxLine /> <p>Cerrar Sesión</p>
                     </div>
                 </div>

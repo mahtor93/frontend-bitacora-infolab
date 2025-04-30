@@ -4,6 +4,14 @@
     justify-content: center;
     align-items: center;
 }
+.main h2{
+    padding: 30px 12px;
+    gap:12px;
+    width: 80vw;
+    display: flex;
+    border-bottom: 1px solid var(--main-blue-color);
+    margin-bottom: 32px;
+}
 
 .reportSection {
     color:var(--secondary-blue-color);
