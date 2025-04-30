@@ -10,6 +10,8 @@
     padding: 32px;
     width: 80vw;
     display: flex;
+    border-bottom: 1px solid var(--main-blue-color);
+    margin-bottom: 32px;
 }
 
 @media(min-width: 720px){

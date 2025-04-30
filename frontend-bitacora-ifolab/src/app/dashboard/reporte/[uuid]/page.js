@@ -7,9 +7,10 @@ import Navbar from "@/app/components/navbar/navbar.component";
 import { useParams } from "next/navigation";
 import { FcLock } from "react-icons/fc";
 import moment from "moment-timezone";
-
+import { MdOutlineKeyboardReturn } from "react-icons/md";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 import { PiLockFill } from "react-icons/pi";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
     const [reporte, setReporte] = useState(null);
@@ -18,15 +19,18 @@ export default function Dashboard() {
     const [isActive, setIsActive] = useState(true);
     const params = useParams();
     const reportId = params.uuid;
+    const router = useRouter()
     const onLoadPost = async () => {
         const token = getToken();
-        const post = await apiGet(`/post/${reportId}`,{}, token);
+        const post = await apiGet(`/post/${reportId}`, token);
         setReporte(post.data);
         localStorage.setItem("selectedPost", JSON.stringify(post.data));
-        console.log(post.data)
     }
     const onClickLock = () =>{
         setIsActive(!isActive);
+    }
+    const onClickReturn = () =>{
+        router.push('/dashboard')
     }
     const onSubmitComment = async (e) => {
         e.preventDefault();
@@ -55,7 +59,6 @@ export default function Dashboard() {
             try {
                 const storedPost = localStorage.getItem("selectedPost");
                 if (reportId) {
-                    console.log(reportId);
                     setUuidPost(reportId);
                     await onLoadPost(uuidPost);
                 }
@@ -69,6 +72,7 @@ export default function Dashboard() {
     return (
         <div className={styles.main}>
             <Navbar />
+            <h2 onClick={onClickReturn}> <MdOutlineKeyboardReturn style={{fontSize:'32px'}}/> Volver</h2>
             <div className={styles.reportSection}>
                 <div className={styles.header}>
                     <h2>{reporte.title}</h2>

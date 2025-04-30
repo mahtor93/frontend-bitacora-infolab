@@ -7,14 +7,21 @@ import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/utils/auth";
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import { Calendar, DateRange, DateRangePicker  } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 export default function BuscadorForm() {
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
-    const [startDate, setStartDate] = useState(null);
+    const [date, setDate] = useState([
+        {
+            startDate: new Date(),
+            endDate: null,
+            key: 'selection'
+          }
+    ]);
 
     const { handleSubmit, control, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
@@ -120,22 +127,18 @@ export default function BuscadorForm() {
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
                 </div>
-{/*
-                <div className={styles.datePicker}>
-                    DATE
-                    <Controller
-                        control={control}
-                        name='dateStart'
-                        render={({field})=>(
-                            <DatePicker
-                            className={styles.calendar}
-                            placeholderText='Buscar por fecha'
-                            onChange={(date) => field.onChange(date)}
-                            selected={field.value}/>
-                        )}
-                    />
-                </div>
-*/}
+                
+                {
+                    <div className={styles.datePicker}>
+                    <label htmlFor="date">Filtrar por Fecha</label>
+                        <DateRange
+                            editableDateInputs={true}
+                            onChange={item => setDate([item.selection])}
+                            moveRangeOnFirstSelection={false}
+                            ranges={date}
+                        />
+                    </div>
+                }
             </form>
 
         </div>
