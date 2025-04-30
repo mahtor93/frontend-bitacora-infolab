@@ -37,7 +37,7 @@ export default function BuscadorForm() {
                 console.log(res.data)
             }
         } catch (err) {
-            console.error(err);
+            throw err;
         }
     };
 
@@ -56,7 +56,7 @@ export default function BuscadorForm() {
                 setCategories(resCategories.data);
                 setUsers(resUsers.data);
             } catch (error) {
-                console.error(error);
+                throw error;
             }
         }
         fetchData();

@@ -43,7 +43,7 @@ export default function Editor() {
                 setLocations(resLocations.data);
                 setCategories(resCategories.data);
             } catch (error) {
-                console.error(error);
+                throw error;
             }
         }
         fetchData();

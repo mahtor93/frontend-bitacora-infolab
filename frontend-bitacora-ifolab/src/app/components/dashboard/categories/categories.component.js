@@ -17,7 +17,7 @@ export default function RowCategories({onCategorySelect}) {
                     setCategories(resCategories.data);
                 }
             } catch(error){
-                throw error;
+                throw error.message;
             }
         }
         async function initialReports(){
@@ -26,7 +26,7 @@ export default function RowCategories({onCategorySelect}) {
                 const defaultReports = await apiGet('/post', token, { category: 3 });
                 onCategorySelect(defaultReports.data)
             }catch(error){
-                throw error;
+                throw error.message;
             }
         }
 

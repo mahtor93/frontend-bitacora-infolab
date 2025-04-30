@@ -4,17 +4,18 @@ import ListDashboard from "../components/dashboard/list/list.component.js";
 import Navbar from "../components/navbar/navbar.component.js";
 import styles from './page.module.css'
 import { useState } from "react";
-
-
+import StateCompo from "@/app/components/auth/auth.component.js";
 export default function Dashboard() {
-  const [reportesList,setReportesList] = useState([])
+  const [reportesList, setReportesList] = useState([])
   return (
-   <div className={styles.mainContent}>
+    <StateCompo>
+      <div className={styles.mainContent}>
 
-    <h2>Dashboard</h2>
-        <RowCategories onCategorySelect={setReportesList}/>
+        <h2>Dashboard</h2>
+        <RowCategories onCategorySelect={setReportesList} />
         <ListDashboard reportesList={reportesList} />
-        <Navbar/>
-   </div>
+        <Navbar />
+      </div>
+    </StateCompo>
   );
 }

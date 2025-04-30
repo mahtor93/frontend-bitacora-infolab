@@ -23,6 +23,7 @@ export default function Login() {
         console.log('404!!!!')
       }
       if(res.data.token){
+        console.log('seteando token')
         setToken(res.data.token);
         setIsBadLogin(false);
         router.push('/dashboard');
@@ -61,9 +62,3 @@ export default function Login() {
     </div>
   );
 }
-
-/*
-Credenciales:
-mario.torneria
-123456789
-*/
