@@ -1,6 +1,6 @@
 import styles from "./list.module.css";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FcHighPriority } from "react-icons/fc";
 import { FcOk } from "react-icons/fc";
 import moment from "moment-timezone";
@@ -10,8 +10,9 @@ export default function ListDashboard({ reportesList }) {
     const [reportes, setReportes] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
-
+    const pathname = usePathname();
     function onPostClick(uuid) {
+        localStorage.setItem('previousPage', pathname)
         router.push(`/dashboard/reporte/${uuid}`);
     }
 

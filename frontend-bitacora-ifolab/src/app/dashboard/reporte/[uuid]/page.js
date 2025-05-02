@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { apiGet, apiPost } from "@/api/user.service";
 import styles from './page.module.css';
 import { getToken } from "@/utils/auth";
-import Navbar from "@/app/components/navbar/navbar.component";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { FcLock } from "react-icons/fc";
 import moment from "moment-timezone";
 import { MdOutlineKeyboardReturn } from "react-icons/md";
@@ -18,6 +17,7 @@ export default function Dashboard() {
     const [uuidPost, setUuidPost] = useState('');
     const commentRef = useRef(null);
     const [isActive, setIsActive] = useState(true);
+    const pathname = usePathname();
     const params = useParams();
     const reportId = params.uuid;
     const router = useRouter()
@@ -31,7 +31,10 @@ export default function Dashboard() {
         setIsActive(!isActive);
     }
     const onClickReturn = () => {
-        router.push('/dashboard')
+        const previousURL = localStorage.getItem('previousPage')
+        localStorage.removeItem('previousPage')
+        router.push(previousURL)
+
     }
     const onSubmitComment = async (e) => {
         e.preventDefault();
@@ -72,8 +75,7 @@ export default function Dashboard() {
 
     return (
         <StateCompo>
-            {!reporte ? (<LoadingSign/>) : (<div className={styles.main}>
-                <Navbar />
+            {!reporte ? (<LoadingSign />) : (<div className="mainContent">
                 <h2 onClick={onClickReturn}> <MdOutlineKeyboardReturn style={{ fontSize: '32px' }} /> Volver</h2>
                 <div className={styles.reportSection}>
                     <div className={styles.header}>
@@ -115,8 +117,9 @@ export default function Dashboard() {
                         </div>
                     </form>) : (
                     <div className={styles.error}>
-                        <FcLock style={styles.iconLock} /> <p> El Reporte se ha cerrado y no admite más comentarios</p><FcLock style={{ fontSize: '24px', }} />
-                    </div>
+                        <p><FcLock style={{ fontSize: '24px', }} /></p>
+                        <p> El Reporte se ha cerrado y no admite más comentarios</p>
+                        <p><FcLock style={{ fontSize: '24px', }} /></p>                    </div>
                 )
                 }
             </div>
