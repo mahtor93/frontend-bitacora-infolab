@@ -39,7 +39,7 @@ export default function Navbar() {
                     </Link>
                 </div>
                 <div className={styles.button}>
-                    <Link href="/users">
+                    <Link href="/dashboard/administrar-usuarios">
                         <HiUserAdd /> <p>Usuarios</p>
                     </Link>
                 </div>

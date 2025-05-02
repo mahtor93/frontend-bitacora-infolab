@@ -59,12 +59,29 @@
     flex-direction: row;
     color:var(--main-blue-color);
     transition: ease-in-out 0.2s;
-    margin-top: 12px;
 }
 
 .btnSend:hover{
     background-color:#003471 ;
     color: #fff;
+}
+.btnCerrarReporte{
+    border: 2px solid var(--main-blue-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 31px;
+    border-radius: 3px;
+    color:#fff
+}
+.buttonRack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:12px;
+    margin-top: 12px;
+    height: 32px;
 }
 
 @media (min-width: 720px){

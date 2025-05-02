@@ -6,31 +6,34 @@ import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/utils/auth";
-
+import { FcLock } from "react-icons/fc";
+import { PiLockFill } from "react-icons/pi";
+import { PiLockKeyOpenFill } from "react-icons/pi";
 export default function Editor() {
-    const [isBadPosting, setIsBadPosting] = useState(false);
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
-
+    const [isActive, setIsActive] = useState(true);
 
     const onSubmit = async (values) => {
         try {
             const token = getToken();
-            const res = await apiPost('/post', values, token);
+            const res = await apiPost('/post', { ...values, isActive: isActive }, token);
             if (res.error) {
-                 throw new Error(res.error.msg);
+                throw new Error(res.error.msg);
             } else {
                 router.push('/dashboard');
             }
-            
+
         } catch (err) {
             console.error(err);
-            
+
         }
     };
-
+    const onClickLock = () => {
+        setIsActive(!isActive);
+    }
     useEffect(() => {
         async function fetchData() {
             try {
@@ -53,13 +56,13 @@ export default function Editor() {
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputsHeads}>
-                <div className={styles.inputs}>
-                    <label htmlFor="title">Título</label>
-                    <input id="title" {...register('title', { required: true, maxLength: 255 })} />
-                    {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                    {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
-                </div>
-                <div className={styles.inputs}>
+                    <div className={styles.inputs}>
+                        <label htmlFor="title">Título</label>
+                        <input id="title" {...register('title', { required: true, maxLength: 255 })} />
+                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
+                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                    </div>
+                    <div className={styles.inputs}>
                         <label htmlFor="location">Ubicación</label>
                         <select
                             id="location"
@@ -75,7 +78,7 @@ export default function Editor() {
                         </select>
                         {errors.location && <span>Selecciona una ubicación</span>}
                     </div>
-                <div className={styles.inputs}>
+                    <div className={styles.inputs}>
                         <label htmlFor="category">Categoría</label>
                         <select
                             id="category"
@@ -93,11 +96,15 @@ export default function Editor() {
                     </div>
                 </div>
                 <div className={styles.bodyPost}>
-                <textarea id="description" {...register('description', { required: true, maxLength: 1500 })} />
-                <input className={styles.btnSend} type="submit" />
+                    <textarea id="description" {...register('description', { required: true, maxLength: 1500 })} />
+                    <div className={styles.buttonRack}>
+                        <input className={styles.btnSend} type="submit" />
+                        <div className={styles.btnCerrarReporte} style={{ backgroundColor: isActive ? 'green' : 'red' }} onClick={onClickLock} title="Cerrar Reporte">
+                            {isActive ? (<PiLockKeyOpenFill style={{ fontSize: '20px' }} />) : (<PiLockFill style={{ fontSize: '20px' }} />)}
+                        </div>
+                    </div>
                 </div>
             </form>
-
         </div>
     )
 }

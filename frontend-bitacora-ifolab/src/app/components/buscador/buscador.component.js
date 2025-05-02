@@ -11,10 +11,11 @@ import { Calendar, DateRange, DateRangePicker  } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
-export default function BuscadorForm() {
+export default function BuscadorForm({onFilterList}) {
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
+    const [results, setResults] = useState([]);
     const [date, setDate] = useState([
         {
             startDate: new Date(),
@@ -26,18 +27,19 @@ export default function BuscadorForm() {
     const { handleSubmit, control, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
 
-
-    const onSubmit = async (values) => {
+    const onSubmit = async (query) => {
         try {
+            console.log(query);
             const token = getToken();
-            const res = await apiGet(/* AQUI VA LA API DE CONSULTAS */ '/post', values, token);
+            const res = await apiGet('/post', token, query);
             if (res.error) {
                 throw new Error(res.error.msg);
             } else {
                 console.log(res.data)
+                onFilterList(res.data)
             }
         } catch (err) {
-            throw err;
+            throw err.message;
         }
     };
 
@@ -67,16 +69,16 @@ export default function BuscadorForm() {
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputsHeads}>
                     <div className={styles.inputs}>
-                        <label htmlFor="title">Buscar Por título</label>
+                        <label htmlFor="title">Buscar Título</label>
                         <input id="title" {...register('title', { required: false, maxLength: 255 })} />
-                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                        {errors.title && errors.title.type === "required" && <span>This is required</span>}
+                        {errors.title && errors.title.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="title">Buscar Por Palabra Clave</label>
-                        <input id="title" {...register('title', { required: false, maxLength: 255 })} />
-                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                        <label htmlFor="keyword">Buscar Palabra Clave</label>
+                        <input id="keyword" {...register('keyword', { required: false, maxLength: 255 })} />
+                        {errors.keyword && errors.keyword.type === "required" && <span>This is required</span>}
+                        {errors.keyword && errors.keyword.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
                         <label htmlFor="location">Filtrar por ubicación</label>
@@ -111,11 +113,11 @@ export default function BuscadorForm() {
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="category">Filtrar por Autor</label>
+                        <label htmlFor="author">Filtrar por Autor</label>
                         <select
-                            id="category"
-                            {...register('category', { required: false })}
-                            onChange={(e) => setValue('category', e.target.value)}
+                            id="user"
+                            {...register('user', { required: false })}
+                            onChange={(e) => setValue('user', e.target.value)}
                         >
                             <option value="">Selecciona ...</option>
                             {users.map(user => (
@@ -124,21 +126,25 @@ export default function BuscadorForm() {
                                 </option>
                             ))}
                         </select>
-                        {errors.category && <span>Selecciona una categoría</span>}
+                        {errors.author && <span>Selecciona un autor</span>}
                     </div>
                 </div>
                 
-                {
-                    <div className={styles.datePicker}>
+                <div className={styles.datePicker}>
                     <label htmlFor="date">Filtrar por Fecha</label>
-                        <DateRange
-                            editableDateInputs={true}
-                            onChange={item => setDate([item.selection])}
-                            moveRangeOnFirstSelection={false}
-                            ranges={date}
-                        />
-                    </div>
-                }
+                    <DateRange
+                        editableDateInputs={true}
+                        onChange={item => setDate([item.selection])}
+                        moveRangeOnFirstSelection={false}
+                        ranges={date}
+                    />
+                </div>
+
+                <div>
+                    <button type="submit">
+                        Buscar
+                    </button>
+                </div>
             </form>
 
         </div>

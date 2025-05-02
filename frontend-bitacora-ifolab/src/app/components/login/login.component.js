@@ -36,7 +36,7 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.mainContent}>
+    <div className={styles.mainContentLogin}>
       <div className={styles.backgroundTop}>
       <h1>Acceso Bitácora</h1>
       <p>Laboratorio de Computación</p>
