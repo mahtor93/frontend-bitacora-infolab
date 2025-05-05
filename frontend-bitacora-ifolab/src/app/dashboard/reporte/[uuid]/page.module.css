@@ -71,7 +71,6 @@
 }
 
 .commentSection ul {
-    list-style: none;
     width: 90vw;
 }
 
@@ -205,7 +204,6 @@
         display: flex;
         flex-direction: column;
         align-items: end;
-        list-style: none;
         width: 80vw;
     }
     .error{

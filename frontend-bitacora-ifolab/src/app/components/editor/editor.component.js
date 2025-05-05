@@ -58,7 +58,7 @@ export default function Editor() {
                 <div className={styles.inputsHeads}>
                     <div className={styles.inputs}>
                         <label htmlFor="title">Título</label>
-                        <input id="title" {...register('title', { required: true, maxLength: 255 })} />
+                        <input placeholder="Escriba un título" id="title" {...register('title', { required: true, maxLength: 255 })} />
                         {errors.name && errors.name.type === "required" && <span>This is required</span>}
                         {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
@@ -96,7 +96,7 @@ export default function Editor() {
                     </div>
                 </div>
                 <div className={styles.bodyPost}>
-                    <textarea id="description" {...register('description', { required: true, maxLength: 1500 })} />
+                    <textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} />
                     <div className={styles.buttonRack}>
                         <input className={styles.btnSend} type="submit" />
                         <div className={styles.btnCerrarReporte} style={{ backgroundColor: isActive ? 'green' : 'red' }} onClick={onClickLock} title="Cerrar Reporte">

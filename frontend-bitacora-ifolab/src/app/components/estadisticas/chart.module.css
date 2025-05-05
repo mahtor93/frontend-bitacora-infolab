@@ -1,0 +1,17 @@
+.ChartContainer{
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+}
+
+@media(min-width: 720px){
+    .ChartContainer{
+        width: 75vw;
+    }
+}
+
+@media(min-width: 1880px){
+    .ChartContainer{
+        width: 80vw;
+    }
+}

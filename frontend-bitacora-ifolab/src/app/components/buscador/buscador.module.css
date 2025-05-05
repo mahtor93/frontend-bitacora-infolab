@@ -1,115 +1,138 @@
 .form {
-    display: flex;
-    flex-direction: column;
-    color:var(--main-blue-color);
-    width: 90vw;   
-    margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  color: var(--main-blue-color);
+  width: 90vw;
+  margin: 0 20px;
 }
-.inputs{
-    display: flex;
-    gap: 12px;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+.inputs {
+  display: flex;
+  gap: 12px;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 .inputs input {
-    color:#000000;
-    border-radius: 3px;
-    border:2px solid #063d7d;
-    margin: 6px 0 6px 6px;
-    width: 200px;
-    padding: 6px 12px;
-    background-color: #ffffff;
+  color: #000000;
+  border-radius: 3px;
+  border: 2px solid #063d7d;
+  margin: 6px 0 6px 6px;
+  width: 200px;
+  padding: 6px 12px;
+  background-color: #ffffff;
 }
-.inputs select{
-    background-color: #ffffff;
-    border: 2px solid #063d7d;
-    width: 200px;
-    margin: 6px 0 6px 6px;
-    padding: 6px 12px;
-    border-radius: 3px;
-    color: #000000;
+.inputs select {
+  background-color: #ffffff;
+  border: 2px solid #063d7d;
+  width: 200px;
+  margin: 6px 0 6px 6px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  color: #000000;
+}
+.buttonRack {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
 }
 .btnSend {
-    border:2px solid #063d7d;
-    padding: 6px;
-    background-color: var(--primary-blue-color);
-    align-content: center;
-    align-items: center;
-    border-radius: 3px;
+  border: 2px solid #063d7d;
+  padding: 6px 18px;
+  background-color: var(--primary-blue-color);
+  align-content: center;
+  align-items: center;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  color: var(--main-blue-color);
+  transition: ease-in-out 0.2s;
+  margin: 18px 0;
+}
+.datePicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+}
+.datePicker label {
+  margin-bottom: 12px;
+}
+.btnSend:hover {
+  background-color: #003471;
+  color: #fff;
+}
+
+@media (min-width: 720px) {
+  .form {
+    width: 80vw;
+    display: flexbox;
+    margin-left: 0px;
+  }
+  .datePicker {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    padding-top: 6px;
+  }
+  .datePicker label {
+    margin-top: 6px;
+    width: 100%;
+  }
+  .inputs {
     display: flex;
     flex-direction: row;
-    color:var(--main-blue-color);
-    transition: ease-in-out 0.2s;
-    margin-top: 12px;
+    gap: 12px;
+  }
+  .inputs select {
+    width: 350px;
+  }
+  .inputs input {
+    width: 350px;
+  }
+  .btnSend {
+    display: block;
+    align-self: flex-end;
+    padding: 6px 32px;
+  }
 }
 
-.btnSend:hover{
-    background-color:#003471 ;
-    color: #fff;
-}
-
-@media (min-width: 720px){
-    .form {
-        width: 80vw;
-        display: flexbox;
-        margin-left: 0px;
-    }
-    .datePicker{
-        display: flex;
-        align-items: start;
-        justify-content: start;
-        width: 100%;
-        padding-top: 6px;
-    }
-    .datePicker label {
-        margin-top: 6px;
-        width: 100%;
-    }
-    .inputs{
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-    }
-    .inputs select{
-        width: 350px;
-    }
-    .inputs input{
-        width: 350px;
-    }
-    .btnSend{
-        display: block;
-        align-self: flex-end;
-        padding: 6px 32px;
-    }
-}
-
-@media (min-width: 1880px){
-    .form{
-        display: flex;
-        flex-direction: row;
-    }
-    .inputsHeads{
-        display: flex;
-        flex-direction: column;
-        width: auto;
-        gap:12px;
-        width: 80vw;
-        margin-right: 24px;
-        align-items: start;
-    }
-    .datePicker{
-        width: 50%;
-        padding: 0px;
-    }
-    .inputs {
-        width: 30vw;
-    }
-    .inputs input{
-        width: 320px;
-    }
-    .inputs select{
-        width: 320px;
-    }
+@media (min-width: 1880px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  .firstPartForm {
+    display: flex;
+    flex-direction: row;
+  }
+  .inputsHeads {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    gap: 12px;
+    width: 80vw;
+    margin-right: 24px;
+    align-items: start;
+  }
+  .datePicker {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0;
+    width: 50%;
+    padding: 0px;
+  }
+  .datePicker label {
+    margin: 0;
+  }
+  .inputs {
+    width: 30vw;
+  }
+  .inputs input {
+    width: 320px;
+  }
+  .inputs select {
+    width: 320px;
+  }
 }

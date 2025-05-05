@@ -63,7 +63,7 @@ const apiGet = async (endpoint, token, query = {}) => {
           const queryString = objectToQueryString(query);
           fullUrl += queryString;
           // Puedes descomentar la siguiente línea para ver la URL final en consola
-          // console.log("GET URL:", fullUrl);
+          console.log("GET URL:", fullUrl);
       }
       const response = await axios.get(`${URL}${endpoint}`, config);
       return response;

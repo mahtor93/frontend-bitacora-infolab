@@ -47,6 +47,7 @@ a {
   color: #fff;
   text-decoration: none;
 }
+
 .mainContent{
   color:var(--main-blue-color);
   width: 100%;
@@ -63,6 +64,11 @@ a {
   border-bottom: 1px solid var(--main-blue-color);
   margin-bottom: 32px;
 }
+
+ul{
+  list-style: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

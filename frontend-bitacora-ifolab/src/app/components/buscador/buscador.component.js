@@ -15,29 +15,45 @@ export default function BuscadorForm({onFilterList}) {
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
-    const [results, setResults] = useState([]);
     const [date, setDate] = useState([
         {
-            startDate: new Date(),
+            startDate: null,
             endDate: null,
             key: 'selection'
-          }
+        }
     ]);
 
-    const { handleSubmit, control, register, setValue, formState: { errors } } = useForm();
+    const { handleSubmit, control, register, setValue, reset,formState: { errors } } = useForm();
     const router = useRouter();
 
     const onSubmit = async (query) => {
         try {
-            console.log(query);
+            const { startDate, endDate } = date[0];
+            if (startDate && endDate && startDate.toDateString() !== endDate.toDateString()) {
+                query.date_from = Math.floor(startDate.getTime() / 1000);
+                query.date_to = Math.floor(endDate.getTime() / 1000);
+                delete query.date;
+            } else if (startDate) {
+                query.date = Math.floor(startDate.getTime() / 1000);
+                delete query.date_from;
+                delete query.date_to;
+            }
+
             const token = getToken();
             const res = await apiGet('/post', token, query);
             if (res.error) {
                 throw new Error(res.error.msg);
             } else {
-                console.log(res.data)
                 onFilterList(res.data)
             }
+            reset();
+            setDate([
+                {
+                    startDate: null,
+                    endDate: null,
+                    key: 'selection'
+            }
+        ])
         } catch (err) {
             throw err.message;
         }
@@ -67,21 +83,22 @@ export default function BuscadorForm({onFilterList}) {
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <div className={styles.firstPartForm}>
                 <div className={styles.inputsHeads}>
                     <div className={styles.inputs}>
-                        <label htmlFor="title">Buscar Título</label>
+                        <label htmlFor="title">Título</label>
                         <input id="title" {...register('title', { required: false, maxLength: 255 })} />
                         {errors.title && errors.title.type === "required" && <span>This is required</span>}
                         {errors.title && errors.title.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="keyword">Buscar Palabra Clave</label>
+                        <label htmlFor="keyword">Palabra Clave</label>
                         <input id="keyword" {...register('keyword', { required: false, maxLength: 255 })} />
                         {errors.keyword && errors.keyword.type === "required" && <span>This is required</span>}
                         {errors.keyword && errors.keyword.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="location">Filtrar por ubicación</label>
+                        <label htmlFor="location">Ubicación</label>
                         <select
                             id="location"
                             {...register('location', { required: false })}
@@ -97,7 +114,7 @@ export default function BuscadorForm({onFilterList}) {
                         {errors.location && <span>Selecciona una ubicación</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="category">Filtrar por categoría</label>
+                        <label htmlFor="category">Categoría</label>
                         <select
                             id="category"
                             {...register('category', { required: false })}
@@ -113,7 +130,7 @@ export default function BuscadorForm({onFilterList}) {
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="author">Filtrar por Autor</label>
+                        <label htmlFor="author">Autor</label>
                         <select
                             id="user"
                             {...register('user', { required: false })}
@@ -131,7 +148,7 @@ export default function BuscadorForm({onFilterList}) {
                 </div>
                 
                 <div className={styles.datePicker}>
-                    <label htmlFor="date">Filtrar por Fecha</label>
+                    <label htmlFor="date">Fecha</label>
                     <DateRange
                         editableDateInputs={true}
                         onChange={item => setDate([item.selection])}
@@ -139,12 +156,13 @@ export default function BuscadorForm({onFilterList}) {
                         ranges={date}
                     />
                 </div>
-
-                <div>
-                    <button type="submit">
+                </div>
+                <div className={styles.buttonRack}>
+                    <button className={styles.btnSend} type="submit">
                         Buscar
                     </button>
                 </div>
+
             </form>
 
         </div>

@@ -119,7 +119,8 @@ export default function Dashboard() {
                     <div className={styles.error}>
                         <p><FcLock style={{ fontSize: '24px', }} /></p>
                         <p> El Reporte se ha cerrado y no admite más comentarios</p>
-                        <p><FcLock style={{ fontSize: '24px', }} /></p>                    </div>
+                        <p><FcLock style={{ fontSize: '24px', }} /></p>
+                    </div>
                 )
                 }
             </div>
