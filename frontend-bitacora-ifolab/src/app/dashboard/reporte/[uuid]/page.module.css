@@ -17,6 +17,7 @@
 
 .header {
     background-color: #063d7d;
+    color:#fff;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -52,8 +53,8 @@
 
 .footerReport {
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: flex-end;
     width: 100%;
     gap: 12px;
     padding: 12px 24px;
@@ -71,7 +72,6 @@
 }
 
 .commentSection ul {
-    list-style: none;
     width: 90vw;
 }
 
@@ -91,8 +91,8 @@
     font-weight: 600;
     display: flex;
     font-size: 12px;
-    align-items: end;
-    justify-content: end;
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 
 .commentSection p:first-child {    
@@ -103,10 +103,11 @@
 }
 
 .commentBox {
-    width: 80vw;
+    width: 90vw;
     margin: 6px 0 72px 0;
     display: flex;
     flex-direction: column;
+
     align-items: center;
 }
 
@@ -123,9 +124,9 @@
     display: flex;
     gap:12px;
     width: 90vw;
-    justify-content: end;
-    align-items: end;
-    align-content: end;
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-content: flex-end;
 }
 .buttonRack button {
     border:2px solid #063d7d;
@@ -178,16 +179,17 @@
         display: flex;
         margin-left: 140px;
         flex-direction: column;
-        align-items: start;
-        justify-content: start;
+        align-items: flex-start;
+        justify-content: flex-start;
         width: 80vw;
     }
     .reportSection{
         width: 80vw;
         margin-bottom: 6px;
+        margin-left: 20px;
     }
     .commentBox{
-        align-items: end;
+        align-items: flex-end;
         width: 80vw;
     }
     .commentBox textarea {
@@ -204,8 +206,7 @@
     .commentSection ul {
         display: flex;
         flex-direction: column;
-        align-items: end;
-        list-style: none;
+        align-items: flex-end;
         width: 80vw;
     }
     .error{

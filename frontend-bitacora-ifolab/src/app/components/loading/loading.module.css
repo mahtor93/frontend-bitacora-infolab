@@ -1,5 +1,6 @@
 .loadercontainer{
-    width: 80vw;
+    width: 90vw;
+    margin-bottom: 64px;
     margin-top:128px;
     height: 100%;
     color: var(--main-blue-color);

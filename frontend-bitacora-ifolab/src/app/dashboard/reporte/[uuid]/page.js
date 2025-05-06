@@ -79,7 +79,7 @@ export default function Dashboard() {
                 <h2 onClick={onClickReturn}> <MdOutlineKeyboardReturn style={{ fontSize: '32px' }} /> Volver</h2>
                 <div className={styles.reportSection}>
                     <div className={styles.header}>
-                        <h2>{reporte.title}</h2>
+                        <h3>{reporte.title}</h3>
                     </div>
                     <div className={styles.bodyReport}>
                         <p>Ubicación: {reporte.Location.name}</p>
@@ -119,7 +119,8 @@ export default function Dashboard() {
                     <div className={styles.error}>
                         <p><FcLock style={{ fontSize: '24px', }} /></p>
                         <p> El Reporte se ha cerrado y no admite más comentarios</p>
-                        <p><FcLock style={{ fontSize: '24px', }} /></p>                    </div>
+                        <p><FcLock style={{ fontSize: '24px', }} /></p>
+                    </div>
                 )
                 }
             </div>

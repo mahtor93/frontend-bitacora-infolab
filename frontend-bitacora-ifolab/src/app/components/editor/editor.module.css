@@ -93,7 +93,7 @@
     .bodyPost {
         display: flex;
         flex-direction: column;
-        align-items: end;
+        align-items: flex-end;
     }
     .bodyPost textarea {
         height: 240px;
@@ -129,7 +129,7 @@
         width: auto;
         gap:12px;
         margin-right: 24px;
-        align-items: start;
+        align-items: flex-start;
     }
     .inputs {
         width: 22vw;
