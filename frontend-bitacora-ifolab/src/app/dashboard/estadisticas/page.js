@@ -23,9 +23,8 @@ export default function Estadisticas(){
     return(
         <div className="mainContent">
             <h2>Estadisticas</h2>
-            <Chart dataChart={userDataChart} chartTitle={"Estadisticas de Usuario"}/>
-            <Chart dataChart={postDataChart} chartTitle={"Reportes por Ubicación"}/>
-            <Chart dataChart={commentDataChart} chartTitle={"Reportes por Comentarios"}/>
+            <Chart dataChart={postDataChart} chartTitle={"Cantidad de reportes por ubicación"}/>
+            {/* Cualificar los tipos de problemas */}
         </div>
     )
 }

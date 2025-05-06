@@ -11,7 +11,7 @@
     padding: 16px;
     width: 90vw;
     display: flex;
-    align-self: start;
+    align-self: flex-start;
     border-bottom: 1px solid var(--main-blue-color);
     margin-bottom: 16px;
 }

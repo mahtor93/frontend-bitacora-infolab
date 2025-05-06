@@ -4,6 +4,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 9999;
   background-color: var(--main-blue-color);
   overflow-x: auto;
   overflow-y: hidden;
@@ -70,10 +71,9 @@
   .buttonRack {
     display: flex;
     flex-direction: column;
-   
   }
   .buttonRack p{ 
-    display: block;
+    display: flex;
   }
   .adminButtonRack{
     margin-top: 32px;

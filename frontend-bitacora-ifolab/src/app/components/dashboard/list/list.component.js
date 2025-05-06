@@ -30,6 +30,7 @@ export default function ListDashboard({ reportesList }) {
                         };
                     });
                     setReportes(reportesProcesados);
+                    console.log(reportes.data)
                     setLoading(false);
                 } else {
                     setReportes([]);
@@ -65,6 +66,7 @@ export default function ListDashboard({ reportesList }) {
                                 </div>
                                 <p>{reporte.description.substring(0, 256)}...</p>
                                 <div className={styles.date}>
+                                    <p>{reporte.Comments.length>0?`Comentarios: ${reporte.Comments.length}`:`Sin comentarios`}</p>
                                     <p>{reporte.date}</p>
                                 </div>
                             </li>
