@@ -1,0 +1,108 @@
+.mainCreateForm{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    width: 90vw;
+    margin-left: 16px;
+    align-content: center;
+
+}
+.mainCreateForm input {
+    width: 40vw;
+    margin-bottom: 6px;
+}
+.mainCreateForm button {
+    width: 5vw;
+}
+.main{
+    display: flex;
+    width: 90vw;    
+    margin-bottom: 128px;
+}
+.ha3 {
+    padding: 16px;
+    width: 80vw;
+    display: flex;
+    align-self: flex-start;
+    border-bottom: 1px solid var(--main-blue-color);
+    margin-bottom: 16px;
+}
+.main button{
+    margin-left: 16px;
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.buttonRack button{
+    border: 2px solid #063d7d;
+    padding: 6px 18px;
+    background-color: var(--primary-blue-color);
+    align-content: center;
+    align-items: center;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    color: var(--main-blue-color);
+    transition: ease-in-out 0.2s;
+}
+.buttonRack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+@media(min-width: 720px){    
+    .mainCreateForm{
+        display: flex;
+        flex-direction: row;
+        width: 60vw;
+        justify-content: space-between;
+    }
+    .mainCreateForm input {
+        width: 15vw;
+        padding: 2px;
+        margin-bottom: 0px;
+    }
+    .col{
+        padding-right: 12px;
+        display: flex;
+        flex-direction: column;
+        gap:6px;
+        justify-content: space-between;
+        padding-bottom: 0;
+    }
+    .row{
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media(min-width: 1880px){
+    .col{
+        justify-content: start;
+    }
+    .row{
+        flex-direction: column;
+    }
+    .mainCreateForm{
+        justify-content: start;
+        gap: 16px;
+    }
+    .mainCreateForm input {
+        width: 15vw;
+        margin-bottom: 6px;
+    }
+    .main{
+        display: block;
+    }
+}

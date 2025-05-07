@@ -30,7 +30,6 @@ export default function ListDashboard({ reportesList }) {
                         };
                     });
                     setReportes(reportesProcesados);
-                    console.log(reportes.data)
                     setLoading(false);
                 } else {
                     setReportes([]);

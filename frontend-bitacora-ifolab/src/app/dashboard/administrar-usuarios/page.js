@@ -1,3 +1,4 @@
+import CreateUser from "@/app/components/administracion/createUsers/createUser.component";
 import ListUsers from "@/app/components/administracion/listUsers/listUsers.component";
 
 export default function UserAdmin() {
@@ -5,6 +6,7 @@ export default function UserAdmin() {
         <div className="mainContent">
         <h2>Administración</h2>
         <ListUsers/>
+        <CreateUser/>
         </div>
 
     )
