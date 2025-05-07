@@ -20,16 +20,13 @@ export default function Login() {
     try {
       const res = await apiPost('/login', values);
       if(res.status === 404){
-        console.log('404!!!!')
       }
       if(res.data.token){
-        console.log('seteando token')
         setToken(res.data.token);
         setIsBadLogin(false);
         router.push('/dashboard');
       }
     }catch(err) {
-      console.log(err.message)
       const errorMessage = err.message;
       setError(errorMessage);
     } 

@@ -6,7 +6,6 @@ import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/utils/auth";
-import { FcLock } from "react-icons/fc";
 import { PiLockFill } from "react-icons/pi";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 export default function Editor() {
@@ -19,16 +18,28 @@ export default function Editor() {
     const onSubmit = async (values) => {
         try {
             const token = getToken();
-            const res = await apiPost('/post', { ...values, isActive: isActive }, token);
+            const formData = new FormData();
+    
+            // Campos de texto
+            formData.append("title", values.title);
+            formData.append("location", values.location);
+            formData.append("category", values.category);
+            formData.append("description", values.description);
+            formData.append("isActive", isActive);
+    
+            // Archivo (image)
+            if (values.image && values.image[0]) {
+                formData.append("image", values.image[0]);
+            }
+    
+            const res = await apiPost('/post', formData, token, true); // true para indicar multipart/form-data
             if (res.error) {
                 throw new Error(res.error.msg);
             } else {
                 router.push('/dashboard');
             }
-
         } catch (err) {
             console.error(err);
-
         }
     };
     const onClickLock = () => {
@@ -93,6 +104,15 @@ export default function Editor() {
                             ))}
                         </select>
                         {errors.category && <span>Selecciona una categoría</span>}
+                    </div>
+                    <div className={styles.inputs}>
+                        <label htmlFor="image">Imagen</label>
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/png, image/jpg, image/jpeg"
+                            {...register('image', { required: false })}
+                        />
                     </div>
                 </div>
                 <div className={styles.bodyPost}>

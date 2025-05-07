@@ -1,17 +1,17 @@
 "use client"
-import * as React from 'react';
-import styles from "./buscador.module.css"
-import { Controller, useForm } from "react-hook-form"
-import { apiGet } from "@/api/user.service";
-import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import styles from "./buscador.module.css"
+import {  useForm } from "react-hook-form"
+import { apiGet } from "@/api/user.service";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getToken } from "@/utils/auth";
-import { Calendar, DateRange, DateRangePicker  } from 'react-date-range';
+import {  DateRange  } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 export default function BuscadorForm({onFilterList}) {
+    const searchParams = useSearchParams();
+    const locationParam = searchParams.get('location') || null;
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
@@ -79,6 +79,25 @@ export default function BuscadorForm({onFilterList}) {
         }
         fetchData();
     }, []);
+
+    useEffect(() =>{
+        async function getGraphQuery(locationParam){
+            // Opcional: setear el valor en el formulario
+            setValue('location', locationParam);
+
+            // Ejecutar la búsqueda automáticamente
+            onSubmit({ location: locationParam });
+
+            // Limpiar el parámetro del query string después de la búsqueda
+            // (esto reemplaza la URL actual sin el parámetro location)
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete('location');
+            router.replace(`?${params.toString()}`, { scroll: false });
+        }
+        if (locationParam) {
+            getGraphQuery(locationParam);
+        }
+    }, [locationParam])
 
     return (
         <div>
