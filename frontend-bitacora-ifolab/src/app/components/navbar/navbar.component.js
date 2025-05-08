@@ -39,18 +39,18 @@ export default function Navbar() {
                     </Link>
                 </div>
                 <div className={styles.button}>
-                    <Link href="/users">
+                    <Link href="/dashboard/administrar-usuarios">
                         <HiUserAdd /> <p>Usuarios</p>
                     </Link>
                 </div>
                 <div className={styles.button}>
-                    <Link href="/">
-                        <TbReportAnalytics /> <p>Reportes</p>
+                    <Link href="/dashboard/estadisticas">
+                        <TbReportAnalytics /> <p>Estadísticas</p>
                     </Link>
                 </div>
                 <div className={styles.button}>
                     <Link href="/">
-                        <GrConfigure /> <p>Reportes</p>
+                        <GrConfigure /> <p>Configuración</p>
                     </Link>
                 </div>
                 <div className={/*styles.logoutButton*/ styles.button}>

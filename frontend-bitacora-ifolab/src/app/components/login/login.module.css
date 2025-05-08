@@ -1,10 +1,10 @@
-.mainContent{
+.mainContentLogin{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 .backgroundTop{
-    background-color: #003471;
+    background-color:var(--lightblue-color);
     width: 100vw;
     padding: 40px;
     color:#ffffffc7;
@@ -41,13 +41,13 @@
     padding:6px 0;
     color: #ffffffc7;
     padding-left: 12px;
-    border: 1px solid #063d7d;
+    border: 1px solid var(--blue-color);
     background:transparent;
 }
 .loginForm button {
     width: 320px;
     height: 45px;
-    border:1px solid #063d7d;
+    border:1px solid var(--blue-color);
     background-color: var(--primary-blue-color);
     border-radius: 3px;
     color: #ffffff;
@@ -62,11 +62,4 @@
 }
 .loginForm button:hover{
     background-color:#003471 ;
-}
-.error {
-    color:red;
-    font-size: 12px;
-    font-weight: 600;
-    font-variant: small-caps;
-    width: 320px;
 }

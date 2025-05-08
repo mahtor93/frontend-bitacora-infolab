@@ -30,6 +30,17 @@
     width: 100%;
     justify-content: space-between;
 }
+.imageInputs{
+    margin-top: 6px;
+    display: flex;
+    gap: 12px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: end;
+}
+.imageInputs label{
+    width: 100%;
+}
 .inputs input {
     color:#000000;
     border-radius: 3px;
@@ -59,12 +70,29 @@
     flex-direction: row;
     color:var(--main-blue-color);
     transition: ease-in-out 0.2s;
-    margin-top: 12px;
 }
 
 .btnSend:hover{
     background-color:#003471 ;
     color: #fff;
+}
+.btnCerrarReporte{
+    border: 2px solid var(--main-blue-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 31px;
+    border-radius: 3px;
+    color:#fff
+}
+.buttonRack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:12px;
+    margin-top: 18px;
+    height: 32px;
 }
 
 @media (min-width: 720px){
@@ -76,7 +104,7 @@
     .bodyPost {
         display: flex;
         flex-direction: column;
-        align-items: end;
+        align-items: flex-end;
     }
     .bodyPost textarea {
         height: 240px;
@@ -112,7 +140,7 @@
         width: auto;
         gap:12px;
         margin-right: 24px;
-        align-items: start;
+        align-items: flex-start;
     }
     .inputs {
         width: 22vw;

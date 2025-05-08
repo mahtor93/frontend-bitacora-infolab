@@ -1,43 +1,61 @@
 "use client"
-import * as React from 'react';
-import styles from "./buscador.module.css"
-import { Controller, useForm } from "react-hook-form"
-import { apiGet } from "@/api/user.service";
-import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import styles from "./buscador.module.css"
+import {  useForm } from "react-hook-form"
+import { apiGet } from "@/api/user.service";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getToken } from "@/utils/auth";
-import { Calendar, DateRange, DateRangePicker  } from 'react-date-range';
+import {  DateRange  } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
-export default function BuscadorForm() {
+export default function BuscadorForm({onFilterList}) {
+    const searchParams = useSearchParams();
+    const locationParam = searchParams.get('location') || null;
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
     const [date, setDate] = useState([
         {
-            startDate: new Date(),
+            startDate: null,
             endDate: null,
             key: 'selection'
-          }
+        }
     ]);
 
-    const { handleSubmit, control, register, setValue, formState: { errors } } = useForm();
+    const { handleSubmit, control, register, setValue, reset,formState: { errors } } = useForm();
     const router = useRouter();
 
-
-    const onSubmit = async (values) => {
+    const onSubmit = async (query) => {
         try {
+            const { startDate, endDate } = date[0];
+            if (startDate && endDate && startDate.toDateString() !== endDate.toDateString()) {
+                query.date_from = Math.floor(startDate.getTime() / 1000);
+                query.date_to = Math.floor(endDate.getTime() / 1000);
+                delete query.date;
+            } else if (startDate) {
+                query.date = Math.floor(startDate.getTime() / 1000);
+                delete query.date_from;
+                delete query.date_to;
+            }
+
             const token = getToken();
-            const res = await apiGet(/* AQUI VA LA API DE CONSULTAS */ '/post', values, token);
+            const res = await apiGet('/post', token, query);
             if (res.error) {
                 throw new Error(res.error.msg);
             } else {
-                console.log(res.data)
+                onFilterList(res.data)
             }
+            reset();
+            setDate([
+                {
+                    startDate: null,
+                    endDate: null,
+                    key: 'selection'
+            }
+        ])
         } catch (err) {
-            throw err;
+            throw err.message;
         }
     };
 
@@ -62,24 +80,44 @@ export default function BuscadorForm() {
         fetchData();
     }, []);
 
+    useEffect(() =>{
+        async function getGraphQuery(locationParam){
+            // Opcional: setear el valor en el formulario
+            setValue('location', locationParam);
+
+            // Ejecutar la búsqueda automáticamente
+            onSubmit({ location: locationParam });
+
+            // Limpiar el parámetro del query string después de la búsqueda
+            // (esto reemplaza la URL actual sin el parámetro location)
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete('location');
+            router.replace(`?${params.toString()}`, { scroll: false });
+        }
+        if (locationParam) {
+            getGraphQuery(locationParam);
+        }
+    }, [locationParam])
+
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <div className={styles.firstPartForm}>
                 <div className={styles.inputsHeads}>
                     <div className={styles.inputs}>
-                        <label htmlFor="title">Buscar Por título</label>
+                        <label htmlFor="title">Título</label>
                         <input id="title" {...register('title', { required: false, maxLength: 255 })} />
-                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                        {errors.title && errors.title.type === "required" && <span>This is required</span>}
+                        {errors.title && errors.title.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="title">Buscar Por Palabra Clave</label>
-                        <input id="title" {...register('title', { required: false, maxLength: 255 })} />
-                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                        <label htmlFor="keyword">Palabra Clave</label>
+                        <input id="keyword" {...register('keyword', { required: false, maxLength: 255 })} />
+                        {errors.keyword && errors.keyword.type === "required" && <span>This is required</span>}
+                        {errors.keyword && errors.keyword.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="location">Filtrar por ubicación</label>
+                        <label htmlFor="location">Ubicación</label>
                         <select
                             id="location"
                             {...register('location', { required: false })}
@@ -95,7 +133,7 @@ export default function BuscadorForm() {
                         {errors.location && <span>Selecciona una ubicación</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="category">Filtrar por categoría</label>
+                        <label htmlFor="category">Categoría</label>
                         <select
                             id="category"
                             {...register('category', { required: false })}
@@ -111,11 +149,11 @@ export default function BuscadorForm() {
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="category">Filtrar por Autor</label>
+                        <label htmlFor="author">Autor</label>
                         <select
-                            id="category"
-                            {...register('category', { required: false })}
-                            onChange={(e) => setValue('category', e.target.value)}
+                            id="user"
+                            {...register('user', { required: false })}
+                            onChange={(e) => setValue('user', e.target.value)}
                         >
                             <option value="">Selecciona ...</option>
                             {users.map(user => (
@@ -124,21 +162,26 @@ export default function BuscadorForm() {
                                 </option>
                             ))}
                         </select>
-                        {errors.category && <span>Selecciona una categoría</span>}
+                        {errors.author && <span>Selecciona un autor</span>}
                     </div>
                 </div>
                 
-                {
-                    <div className={styles.datePicker}>
-                    <label htmlFor="date">Filtrar por Fecha</label>
-                        <DateRange
-                            editableDateInputs={true}
-                            onChange={item => setDate([item.selection])}
-                            moveRangeOnFirstSelection={false}
-                            ranges={date}
-                        />
-                    </div>
-                }
+                <div className={styles.datePicker}>
+                    <label htmlFor="date">Fecha</label>
+                    <DateRange
+                        editableDateInputs={true}
+                        onChange={item => setDate([item.selection])}
+                        moveRangeOnFirstSelection={false}
+                        ranges={date}
+                    />
+                </div>
+                </div>
+                <div className={styles.buttonRack}>
+                    <button className={styles.btnSend} type="submit">
+                        Buscar
+                    </button>
+                </div>
+
             </form>
 
         </div>

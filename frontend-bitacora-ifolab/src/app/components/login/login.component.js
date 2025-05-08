@@ -20,23 +20,20 @@ export default function Login() {
     try {
       const res = await apiPost('/login', values);
       if(res.status === 404){
-        console.log('404!!!!')
       }
       if(res.data.token){
-        console.log('seteando token')
         setToken(res.data.token);
         setIsBadLogin(false);
         router.push('/dashboard');
       }
     }catch(err) {
-      console.log(err.message)
       const errorMessage = err.message;
       setError(errorMessage);
     } 
   };
 
   return (
-    <div className={styles.mainContent}>
+    <div className={styles.mainContentLogin}>
       <div className={styles.backgroundTop}>
       <h1>Acceso Bitácora</h1>
       <p>Laboratorio de Computación</p>
@@ -55,7 +52,7 @@ export default function Login() {
           {errors.username && errors.username.message}
           <button type="submit">Acceso <i><CiLogin /></i></button>
           { 
-            isBadLogin && <p className={styles.error}>{error}</p>
+            isBadLogin && <span className="globalError"><p className="globalError">{error}</p></span>
           }
         </form>
       </div>

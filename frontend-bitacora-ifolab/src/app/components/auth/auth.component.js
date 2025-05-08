@@ -31,7 +31,6 @@ const StateCompo = ({ children }) => {
 
     } catch (error) {
       if (error?.message?.status === 401) {
-        console.log('ERROR DE AUTH')
         if (pathname.includes("dashboard")) { // Solo si la ruta contiene "dashboard"
           push("/");
         }

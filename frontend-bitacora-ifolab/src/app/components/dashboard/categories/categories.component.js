@@ -44,7 +44,6 @@ export default function RowCategories({onCategorySelect}) {
             onCategorySelect(reportes.data);
         }
         } catch(error){
-            console.log(`ERROR >>> ${error.message}`)
             throw error.message;
         }
     }

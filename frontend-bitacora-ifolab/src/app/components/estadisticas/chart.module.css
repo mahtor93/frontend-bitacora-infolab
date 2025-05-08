@@ -1,0 +1,32 @@
+.ChartContainer{
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    overflow: scroll;
+    overflow-y: hidden;
+    margin-bottom: 64px;
+    margin-left: 32px;
+}
+
+.achetres{
+    margin:0 0 32px 32px;
+    padding: 0 0 6px 0;
+    width: 50vw;
+    border-bottom: 1px var(--secondary-blue-color) dashed;
+}
+
+@media(min-width: 720px){
+    .ChartContainer{
+        width: 75vw;
+    }
+
+}
+
+@media(min-width: 1880px){
+    .ChartContainer{
+        width: 80vw;
+    }
+    .ChartContainer h3{
+        width: 80vw;
+    }
+}
