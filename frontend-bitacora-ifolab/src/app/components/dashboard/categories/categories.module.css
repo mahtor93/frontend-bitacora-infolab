@@ -3,7 +3,7 @@
     gap: 18px;
     width: 100vw;
     color:#fff;
-    background-color: #063d7d;
+    background-color: var(--blue-color);
     margin-bottom: 24px;
     justify-content: space-between;
 }
@@ -23,8 +23,6 @@
         display: flex;
         gap: 18px;
         width: 80vw;
-        color:#fff;
-        background-color: #063d7d;
         margin-bottom: 16px;
         justify-content: space-between;
     }

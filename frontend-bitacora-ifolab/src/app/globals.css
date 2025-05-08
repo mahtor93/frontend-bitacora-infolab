@@ -1,18 +1,32 @@
 :root {
-  /*Colores Institucionales*/
   --main-black-color: #000000;
   --main-blue-color:#0c216e;
+  --blue-color:#063d7d;
+  --lightblue-color: #003471;
   --main-gray-color:#cccccc;
   --main-green-color:#369443;
   --main-yellow-color:#f5d500;
-  /*Comunicacion Visual*/
   --secondary-darkblue-color:#003366;
   --secondary-blue-color:#1c5199;
   --secondary-gray-color:#ebebeb;
   --secondary-yellow-color:#f8aa00;
+  /*Colores Institucionales*/
 
 }
 
+/*Colores Institucionales*
+  --main-black-color: #000000;
+  --main-blue-color:#000000;
+  --blue-color:#262727;
+  --main-gray-color:#505050;
+  --main-green-color:#369443;
+  --main-yellow-color:#f5d500;
+
+  --secondary-darkblue-color:#212122;
+  --secondary-blue-color:#19191a;
+  --secondary-gray-color:#ebebeb;
+  --secondary-yellow-color:#f8aa00;
+*/
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -61,12 +75,30 @@ a {
   width: 80vw;
   display: flex;
   align-self: flex-start;
-  border-bottom: 1px solid var(--main-blue-color);
+  border-bottom: 1px solid var(--blue-color);
   margin-bottom: 32px;
 }
 
 ul{
   list-style: none;
+}
+
+.globalError{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 12px;
+}
+
+.globalError p {
+  color:red;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant: small-caps;
+  width: 320px;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -90,4 +122,6 @@ ul{
       width: 80vw;
       display: flex;
   }
+
+
 }

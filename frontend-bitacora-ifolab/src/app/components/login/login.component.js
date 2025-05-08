@@ -52,7 +52,7 @@ export default function Login() {
           {errors.username && errors.username.message}
           <button type="submit">Acceso <i><CiLogin /></i></button>
           { 
-            isBadLogin && <p className={styles.error}>{error}</p>
+            isBadLogin && <span className="globalError"><p className="globalError">{error}</p></span>
           }
         </form>
       </div>

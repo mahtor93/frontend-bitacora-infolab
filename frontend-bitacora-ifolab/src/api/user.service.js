@@ -43,7 +43,7 @@ const apiPostFiles = async (endpoint, payload, token) => {
             payload,
             {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "multipart/forms-data",
                     'Authorization': `Bearer ${token}`
                 }
             }
@@ -95,4 +95,35 @@ const apiGet = async (endpoint, token, query = {}) => {
   }
 };
 
-export { apiPost, apiPostFiles, apiGet }
+/**
+ * Realiza una petición GET a la API para obtener una imagen como Blob.
+ * @param {string} url - Ruta relativa del recurso (ej: /post/uuid/filename.png)
+ * @param {string} [token] - Token de autenticación opcional
+ * @returns {Promise<Blob>} - Imagen como Blob
+ * @throws {Error} - Si la petición falla
+ */
+export async function apiGetFiles(url, token) {
+    // Si la url ya es absoluta, úsala tal cual; si no, prepende el host base
+    const baseUrl = "http://152.74.180.135:3000/api";
+    const fullUrl = url.startsWith("http") ? url : `${baseUrl}${url}`;
+
+    const headers = {};
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(fullUrl, {
+        method: "GET",
+        headers,
+    });
+
+    if (!res.ok) {
+        throw new Error(`No se pudo obtener la imagen (${res.status})`);
+    }
+
+    // Devuelve el blob directamente
+    return await res.blob();
+}
+
+
+export { apiPost, apiPostFiles, apiGet, apiGetFiles }

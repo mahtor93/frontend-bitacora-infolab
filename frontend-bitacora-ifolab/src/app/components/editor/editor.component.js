@@ -1,7 +1,7 @@
 "use client"
 import styles from "./editor.module.css"
 import { useForm } from "react-hook-form"
-import { apiGet } from "@/api/user.service";
+import { apiGet, apiPostFiles } from "@/api/user.service";
 import { apiPost } from "@/api/user.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,28 +11,45 @@ import { PiLockKeyOpenFill } from "react-icons/pi";
 export default function Editor() {
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [isActive, setIsActive] = useState(true);
+    const [multipleImages, setMultipleImages] = useState([]);
+    const [imageError, setImageError] = useState(false);
     const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
-    const [isActive, setIsActive] = useState(true);
+    const changeMultipleFiles = (e) => {
+        if (e.target.files) {
+
+            const imageArray = Array.from(e.target.files).map((file) =>
+                URL.createObjectURL(file)
+            );
+            if(imageArray.length > 5){
+                setImageError(true);
+            }
+            setMultipleImages(imageArray);
+        }
+    };
 
     const onSubmit = async (values) => {
+        if (values.file && values.file.length > 5) {
+            setImageError(true);
+            return;
+        }
         try {
             const token = getToken();
             const formData = new FormData();
-    
-            // Campos de texto
-            formData.append("title", values.title);
-            formData.append("location", values.location);
-            formData.append("category", values.category);
-            formData.append("description", values.description);
-            formData.append("isActive", isActive);
-    
-            // Archivo (image)
-            if (values.image && values.image[0]) {
-                formData.append("image", values.image[0]);
+            formData.append('data', JSON.stringify({
+                "title": values.title,
+                "location": values.location,
+                "category": values.category,
+                "description": values.description,
+                "isActive": values.isActive
+            }));
+            if (values.file && values.file.length > 0) {
+                for (let i = 0; i < values.file.length; i++) {
+                    formData.append('file', values.file[i]);
+                }
             }
-    
-            const res = await apiPost('/post', formData, token, true); // true para indicar multipart/form-data
+            let res = await apiPostFiles('/post', formData, token);
             if (res.error) {
                 throw new Error(res.error.msg);
             } else {
@@ -70,8 +87,8 @@ export default function Editor() {
                     <div className={styles.inputs}>
                         <label htmlFor="title">Título</label>
                         <input placeholder="Escriba un título" id="title" {...register('title', { required: true, maxLength: 255 })} />
-                        {errors.name && errors.name.type === "required" && <span>This is required</span>}
-                        {errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>}
+                        {errors.title && errors.title.type === "required" && <span>This is required</span>}
+                        {errors.title && errors.title.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
                         <label htmlFor="location">Ubicación</label>
@@ -105,18 +122,30 @@ export default function Editor() {
                         </select>
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
-                    <div className={styles.inputs}>
-                        <label htmlFor="image">Imagen</label>
-                        <input
-                            type="file"
-                            id="image"
-                            accept="image/png, image/jpg, image/jpeg"
-                            {...register('image', { required: false })}
-                        />
-                    </div>
                 </div>
                 <div className={styles.bodyPost}>
                     <textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} />
+                    <div className={styles.imageInputs}>
+                        <label htmlFor="file">Adjuntar imágenes</label>
+                        <input
+                            type="file"
+                            id="file"
+                            accept="image/png, image/jpg, image/jpeg"
+                            multiple
+                            {...register('file', { required: false })}
+                            onChange={changeMultipleFiles}
+                        />
+
+                        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                            {multipleImages.map((img, idx) => (
+                                <img key={idx} src={img} alt={`preview-${idx}`} width={60} height={60} style={{ objectFit: "cover", borderRadius: "4px" }} />
+                            ))}
+                        </div>
+                        
+                    </div>
+                    <span className="globalError">
+                    {imageError? <p>"Solo puedes enviar hasta 5 imágenes."</p> : <p></p> }
+                    </span>
                     <div className={styles.buttonRack}>
                         <input className={styles.btnSend} type="submit" />
                         <div className={styles.btnCerrarReporte} style={{ backgroundColor: isActive ? 'green' : 'red' }} onClick={onClickLock} title="Cerrar Reporte">
@@ -124,6 +153,7 @@ export default function Editor() {
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
     )

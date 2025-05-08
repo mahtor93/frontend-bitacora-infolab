@@ -12,7 +12,7 @@ export default function Buscador(){
         <div className="mainContent">
             <h2>Buscar Reportes</h2>
             <BuscadorForm onFilterList={setResultList}/>
-            <h2>Resultados</h2>
+            <h2>Resultados ({resultList.length})</h2>
             <ListDashboard reportesList={resultList}/>
         </div>
         </StateCompo>

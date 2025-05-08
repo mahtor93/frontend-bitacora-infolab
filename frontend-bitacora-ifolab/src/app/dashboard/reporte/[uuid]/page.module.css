@@ -186,7 +186,7 @@
     .reportSection{
         width: 80vw;
         margin-bottom: 6px;
-        margin-left: 20px;
+        margin-left: 0;
     }
     .commentBox{
         align-items: flex-end;
