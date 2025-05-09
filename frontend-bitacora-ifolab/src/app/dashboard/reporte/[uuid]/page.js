@@ -84,11 +84,9 @@ export default function Dashboard() {
                     <div className={styles.header}>
                         <h3>{reporte.title}</h3>
                     </div>
-                    <div>
-                        <CarouselImages imagesArray={imagesList} />
-                    </div>
                     <div className={styles.bodyReport}>
                         <p>Ubicación: {reporte.Location.name}</p>
+                        <CarouselImages imagesArray={imagesList} />
                         <p>{reporte.description}</p>
                     </div>
                     <div className={styles.footerReport}>

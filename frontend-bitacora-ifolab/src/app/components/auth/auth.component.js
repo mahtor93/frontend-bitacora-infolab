@@ -21,7 +21,7 @@ const StateCompo = ({ children }) => {
     try {
         const token = getToken();
         if(token){
-            const data = await apiGet('/user',token);
+            const data = await apiGet('/login',token);
             saveUser(data);
         }else{
             if (pathname.includes("dashboard")) { // Solo si la ruta contiene "dashboard"

@@ -2,7 +2,10 @@ import styles from "./list.module.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FcHighPriority } from "react-icons/fc";
+import { GoAlertFill } from "react-icons/go";
+
 import { FcOk } from "react-icons/fc";
+
 import moment from "moment-timezone";
 import LoadingSign from '@/app/components/loading/loading.component.js'
 export default function ListDashboard({ reportesList }) {
@@ -60,7 +63,7 @@ export default function ListDashboard({ reportesList }) {
                         reportes.map((reporte) => (
                             <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
                                 <div className={styles.encabezado}>
-                                    <div className={styles.iconAndTitle}>{reporte.isActive ? (<FcHighPriority />) : (<FcOk />)}<h3>{reporte.title}</h3></div>
+                                    <div className={styles.iconAndTitle}>{reporte.isActive ? (<GoAlertFill  style={{ color:'#f5d500'}}/>) : (<FcOk />)}<h3>{reporte.title}</h3></div>
                                     <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
                                 </div>
                                 <p>{reporte.description.substring(0, 256)}...</p>
