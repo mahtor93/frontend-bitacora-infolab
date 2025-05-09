@@ -60,7 +60,11 @@ export default function Editor() {
         }
     };
     const onClickLock = () => {
-        setIsActive(!isActive);
+        setIsActive(prev => {
+        const newValue = !prev;
+        setValue('isActive', newValue); // <-- sincroniza con react-hook-form
+        return newValue;
+    });
     }
     useEffect(() => {
         async function fetchData() {
