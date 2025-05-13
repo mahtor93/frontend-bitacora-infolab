@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { UserRoleProvider } from "./components/context/user.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +21,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
+      <UserRoleProvider>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
-
       </body>
+      </UserRoleProvider>
     </html>
   );
 }

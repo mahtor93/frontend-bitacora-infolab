@@ -23,6 +23,13 @@ export default function RowCategories({onCategorySelect}) {
         async function initialReports(){
             const token = getToken();
             try{
+                const prevCategory = localStorage.getItem('prevCategorySelected')
+                if(prevCategory){
+                    const defaultReports = await apiGet('/post', token, { category: prevCategory });
+                    onCategorySelect(defaultReports.data)
+                    console.log(prevCategory)
+                    return
+                } 
                 const defaultReports = await apiGet('/post', token, { category: 3 });
                 onCategorySelect(defaultReports.data)
             }catch(error){
@@ -37,8 +44,8 @@ export default function RowCategories({onCategorySelect}) {
     const onClickCategory = async (index) => {
         try{
         setSelectedCategory(index);
+        localStorage.setItem('prevCategorySelected', selectedCategory);
         const token = getToken();
-
         if(token){
             const reportes = await apiGet('/post', token,{category: index})
             onCategorySelect(reportes.data);

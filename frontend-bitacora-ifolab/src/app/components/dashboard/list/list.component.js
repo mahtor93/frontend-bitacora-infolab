@@ -1,9 +1,7 @@
 import styles from "./list.module.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { FcHighPriority } from "react-icons/fc";
 import { GoAlertFill } from "react-icons/go";
-
 import { FcOk } from "react-icons/fc";
 
 import moment from "moment-timezone";
@@ -32,6 +30,7 @@ export default function ListDashboard({ reportesList }) {
                             date: moment(reporte.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')
                         };
                     });
+                    console.log(reportesProcesados);
                     setReportes(reportesProcesados);
                     setLoading(false);
                 } else {
@@ -64,7 +63,7 @@ export default function ListDashboard({ reportesList }) {
                             <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
                                 <div className={styles.encabezado}>
                                     <div className={styles.iconAndTitle}>{reporte.isActive ? (<GoAlertFill  style={{ color:'#f5d500'}}/>) : (<FcOk />)}<h3>{reporte.title}</h3></div>
-                                    <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
+                                    <p>- {`${reporte.User?.name} ${reporte.User?.lastname}`}</p>
                                 </div>
                                 <p>{reporte.description.substring(0, 256)}...</p>
                                 <div className={styles.date}>
