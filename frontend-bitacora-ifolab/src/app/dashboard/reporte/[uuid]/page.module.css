@@ -60,10 +60,11 @@
     margin:12px 12px;
 
 }
-
-.bodyReport p {
+.bodyReportText {
     margin: 12px;
+    padding-left: 10vw;
     width:100%;
+    max-width: 85%;
     padding-left: 18px;
 }
 .bodyReport p:first-child{

@@ -12,7 +12,6 @@ export default function CreateUser() {
         setError('');
         setIsLoading(true);
         try {
-            console.log('Creando usuario', values)
             setIsBadLogin(false);
         } catch (err) {
             const errorMessage = err.message;

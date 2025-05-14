@@ -2,27 +2,37 @@
 import styles from "./editor.module.css"
 import { useForm } from "react-hook-form"
 import { apiGet, apiPostFiles } from "@/api/user.service";
-import { apiPost } from "@/api/user.service";
+import { Editor, EditorState, RichUtils, CompositeDecorator, convertToRaw } from "draft-js";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/utils/auth";
 import { PiLockFill } from "react-icons/pi";
 import { PiLockKeyOpenFill } from "react-icons/pi";
-export default function Editor() {
+import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from "react-icons/fa";
+import { IoCodeOutline } from "react-icons/io5";
+import { BsBlockquoteLeft } from "react-icons/bs";
+import { GrUnorderedList } from "react-icons/gr";
+import { AiOutlineOrderedList } from "react-icons/ai";
+import 'draft-js/dist/Draft.css';
+
+export default function PostEditor() {
     const [locations, setLocations] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isActive, setIsActive] = useState(true);
     const [multipleImages, setMultipleImages] = useState([]);
     const [imageError, setImageError] = useState(false);
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+    );
     const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const router = useRouter();
+
     const changeMultipleFiles = (e) => {
         if (e.target.files) {
-
             const imageArray = Array.from(e.target.files).map((file) =>
                 URL.createObjectURL(file)
             );
-            if(imageArray.length > 5){
+            if (imageArray.length > 5) {
                 setImageError(true);
             }
             setMultipleImages(imageArray);
@@ -37,11 +47,13 @@ export default function Editor() {
         try {
             const token = getToken();
             const formData = new FormData();
+            const rawContent = convertToRaw(editorState.getCurrentContent());
+            const contentString = JSON.stringify(rawContent);
             formData.append('data', JSON.stringify({
                 "title": values.title,
                 "location": values.location,
                 "category": values.category,
-                "description": values.description,
+                "description": contentString,
                 "isActive": values.isActive
             }));
             if (values.file && values.file.length > 0) {
@@ -59,13 +71,15 @@ export default function Editor() {
             console.error(err);
         }
     };
+
     const onClickLock = () => {
         setIsActive(prev => {
-        const newValue = !prev;
-        setValue('isActive', newValue); // <-- sincroniza con react-hook-form
-        return newValue;
-    });
+            const newValue = !prev;
+            setValue('isActive', newValue); // <-- sincroniza con react-hook-form
+            return newValue;
+        });
     }
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -84,6 +98,13 @@ export default function Editor() {
         fetchData();
     }, []);
 
+    const toggleInlineStyle = (style) => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
+    };
+
+    const toggleBlockType = (blockType) => {
+        setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+    };
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -128,7 +149,88 @@ export default function Editor() {
                     </div>
                 </div>
                 <div className={styles.bodyPost}>
-                    <textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} />
+                    {/*<textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} /> */}
+                    <div className={styles.textEditor}> 
+                    <div className={styles.editorButtonRack}>
+                    <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
+                        <FaBold />
+                    </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleInlineStyle("ITALIC")}
+                            title="Cursiva"
+                        >
+                            <FaItalic />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleInlineStyle("UNDERLINE")}
+                            title="Subrayado"
+                        >
+                            <FaUnderline />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleInlineStyle("STRIKETHROUGH")}
+                            title="Tachado"
+                        >
+                            <FaStrikethrough />
+                        </button>
+                        <button type="button" onClick={() => toggleInlineStyle("CODE")} title="Código"> 
+                            <IoCodeOutline />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("blockquote")}
+                            title="Cita"
+                        >
+                            <BsBlockquoteLeft />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("unordered-list-item")}
+                            title="Lista"
+                        >
+                            <GrUnorderedList />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("ordered-list-item")}
+                            title="Lista Ordenada"
+                        >
+                            <AiOutlineOrderedList />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("header-three")}
+                            title="Encabezado 3"
+                        >
+                            H3
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("header-four")}
+                            title="Encabezado 4"
+                        >
+                            H4
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("header-five")}
+                            title="Encabezado 5"
+                        >
+                            H5
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => toggleBlockType("header-six")}
+                            title="Encabezado 6"
+                        >
+                            H6
+                        </button>
+                        </div>
+                        <Editor name="description"  editorState={editorState} onChange={setEditorState} placeholder="[ PLACEHOLDER ]"  />
+                    </div>
                     <div className={styles.imageInputs}>
                         <label htmlFor="file">Adjuntar imágenes</label>
                         <input
@@ -145,10 +247,10 @@ export default function Editor() {
                                 <img key={idx} src={img} alt={`preview-${idx}`} width={60} height={60} style={{ objectFit: "cover", borderRadius: "4px" }} />
                             ))}
                         </div>
-                        
+
                     </div>
                     <span className="globalError">
-                    {imageError? <p>"Solo puedes enviar hasta 5 imágenes."</p> : <p></p> }
+                        {imageError ? <p>"Solo puedes enviar hasta 5 imágenes."</p> : <p></p>}
                     </span>
                     <div className={styles.buttonRack}>
                         <input className={styles.btnSend} type="submit" />
@@ -159,6 +261,7 @@ export default function Editor() {
                 </div>
 
             </form>
+
         </div>
     )
 }

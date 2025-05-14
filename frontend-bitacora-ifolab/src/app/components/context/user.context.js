@@ -17,7 +17,6 @@ export const UserRoleProvider = ({ children }) => {
                 const user = await apiGet('/login', token);
                 const role = user?.data?.Role?.name_rol || null;
                 setUserRole(role);
-                console.log(role)
             } catch (error) {
                 setUserRole(null);
             } 

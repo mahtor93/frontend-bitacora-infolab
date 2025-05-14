@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { GoAlertFill } from "react-icons/go";
 import { FcOk } from "react-icons/fc";
-
 import moment from "moment-timezone";
 import LoadingSign from '@/app/components/loading/loading.component.js'
 export default function ListDashboard({ reportesList }) {
@@ -30,7 +29,6 @@ export default function ListDashboard({ reportesList }) {
                             date: moment(reporte.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')
                         };
                     });
-                    console.log(reportesProcesados);
                     setReportes(reportesProcesados);
                     setLoading(false);
                 } else {

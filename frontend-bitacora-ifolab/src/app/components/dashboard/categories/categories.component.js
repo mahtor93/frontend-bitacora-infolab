@@ -27,7 +27,6 @@ export default function RowCategories({onCategorySelect}) {
                 if(prevCategory){
                     const defaultReports = await apiGet('/post', token, { category: prevCategory });
                     onCategorySelect(defaultReports.data)
-                    console.log(prevCategory)
                     return
                 } 
                 const defaultReports = await apiGet('/post', token, { category: 3 });
