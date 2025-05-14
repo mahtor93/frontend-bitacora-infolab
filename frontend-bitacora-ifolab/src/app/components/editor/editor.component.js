@@ -147,111 +147,120 @@ export default function PostEditor() {
                         </select>
                         {errors.category && <span>Selecciona una categoría</span>}
                     </div>
+                    <div>
+                        <div className={styles.imageInputs}>
+                            <label htmlFor="file">Adjuntar imágenes</label>
+
+                            <input
+                                type="file"
+                                id="file"
+                                accept="image/png, image/jpg, image/jpeg"
+                                multiple
+                                style={{ zIndex: '100', cursor: 'pointer' }}
+                                {...register('file', { required: false })}
+                                onChange={changeMultipleFiles}
+                            />
+
+                            <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                                {multipleImages.map((img, idx) => (
+                                    <img key={idx} src={img} alt={`preview-${idx}`} width={60} height={60} style={{ objectFit: "cover", borderRadius: "4px" }} />
+                                ))}
+                            </div>
+
+                        </div>
+                        <span className="globalError">
+                            {imageError ? <p>"Solo puedes enviar hasta 5 imágenes."</p> : <p></p>}
+                        </span>
+                    </div>
                 </div>
                 <div className={styles.bodyPost}>
                     {/*<textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} /> */}
-                    <div className={styles.textEditor}> 
-                    <div className={styles.editorButtonRack}>
-                    <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
-                        <FaBold />
-                    </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleInlineStyle("ITALIC")}
-                            title="Cursiva"
-                        >
-                            <FaItalic />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleInlineStyle("UNDERLINE")}
-                            title="Subrayado"
-                        >
-                            <FaUnderline />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleInlineStyle("STRIKETHROUGH")}
-                            title="Tachado"
-                        >
-                            <FaStrikethrough />
-                        </button>
-                        <button type="button" onClick={() => toggleInlineStyle("CODE")} title="Código"> 
-                            <IoCodeOutline />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("blockquote")}
-                            title="Cita"
-                        >
-                            <BsBlockquoteLeft />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("unordered-list-item")}
-                            title="Lista"
-                        >
-                            <GrUnorderedList />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("ordered-list-item")}
-                            title="Lista Ordenada"
-                        >
-                            <AiOutlineOrderedList />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("header-three")}
-                            title="Encabezado 3"
-                        >
-                            H3
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("header-four")}
-                            title="Encabezado 4"
-                        >
-                            H4
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("header-five")}
-                            title="Encabezado 5"
-                        >
-                            H5
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => toggleBlockType("header-six")}
-                            title="Encabezado 6"
-                        >
-                            H6
-                        </button>
+                    <div className={styles.textEditor}>
+                        <div className={styles.editorButtonRack}>
+                            <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
+                                <FaBold />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleInlineStyle("ITALIC")}
+                                title="Cursiva"
+                            >
+                                <FaItalic />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleInlineStyle("UNDERLINE")}
+                                title="Subrayado"
+                            >
+                                <FaUnderline />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleInlineStyle("STRIKETHROUGH")}
+                                title="Tachado"
+                            >
+                                <FaStrikethrough />
+                            </button>
+                            <button type="button" onClick={() => toggleInlineStyle("CODE")} title="Código">
+                                <IoCodeOutline />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("blockquote")}
+                                title="Cita"
+                            >
+                                <BsBlockquoteLeft />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("unordered-list-item")}
+                                title="Lista"
+                            >
+                                <GrUnorderedList />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("ordered-list-item")}
+                                title="Lista Ordenada"
+                            >
+                                <AiOutlineOrderedList />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("header-three")}
+                                title="Encabezado 3"
+                            >
+                                H3
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("header-four")}
+                                title="Encabezado 4"
+                            >
+                                H4
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("header-five")}
+                                title="Encabezado 5"
+                            >
+                                H5
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => toggleBlockType("header-six")}
+                                title="Encabezado 6"
+                            >
+                                H6
+                            </button>
                         </div>
-                        <Editor name="description"  editorState={editorState} onChange={setEditorState} placeholder="[ PLACEHOLDER ]"  />
-                    </div>
-                    <div className={styles.imageInputs}>
-                        <label htmlFor="file">Adjuntar imágenes</label>
-                        <input
-                            type="file"
-                            id="file"
-                            accept="image/png, image/jpg, image/jpeg"
-                            multiple
-                            {...register('file', { required: false })}
-                            onChange={changeMultipleFiles}
-                        />
-
-                        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                            {multipleImages.map((img, idx) => (
-                                <img key={idx} src={img} alt={`preview-${idx}`} width={60} height={60} style={{ objectFit: "cover", borderRadius: "4px" }} />
-                            ))}
+                        <div style={{padding:'6px 12px',resize:"vertical",minHeight:"120px",maxHeight: "600px"}}>
+                            <Editor name="description" editorState={editorState} onChange={setEditorState} placeholder="Escribe tu reporte aquí" />
                         </div>
 
                     </div>
-                    <span className="globalError">
-                        {imageError ? <p>"Solo puedes enviar hasta 5 imágenes."</p> : <p></p>}
-                    </span>
+
+
                     <div className={styles.buttonRack}>
                         <input className={styles.btnSend} type="submit" />
                         <div className={styles.btnCerrarReporte} style={{ backgroundColor: isActive ? 'green' : 'red' }} onClick={onClickLock} title="Cerrar Reporte">

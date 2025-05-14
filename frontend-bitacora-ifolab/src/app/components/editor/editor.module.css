@@ -32,6 +32,7 @@
     width: 100%;
     border: solid 1px black;
     padding-bottom: 6px;
+    height: 256px;
 }
 .editorButtonRack{
     background-color: rgb(202, 202, 202);
@@ -40,8 +41,13 @@
     padding: 3px 3px;
     margin-bottom: 6px;
 }
+.editorButtonRack button{
+    width: 34px;
+    height: 34px;
+}
+
 .imageInputs{
-    margin-top: 6px;
+    margin-top: 24px;
     display: flex;
     gap: 12px;
     flex-direction: row;

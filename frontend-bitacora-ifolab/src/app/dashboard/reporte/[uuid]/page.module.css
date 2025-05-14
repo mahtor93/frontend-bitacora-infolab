@@ -143,12 +143,14 @@
     margin: 12px 0;
     display: flex;
     gap:12px;
-    width: 80vw;
+    width: 90vw;
     justify-content: flex-end;
     align-items: flex-end;
     align-content: flex-end;
+
 }
 .buttonRack button {
+
     border:2px solid #063d7d;
     padding: 6px;
     width: 128px;
@@ -222,6 +224,9 @@
         border-radius: 3px;
         width: 80vw;
         margin: 6px 0;
+    }
+    .buttonRack{
+        width: 80vw;
     }
     .commentSection ul {
         display: flex;

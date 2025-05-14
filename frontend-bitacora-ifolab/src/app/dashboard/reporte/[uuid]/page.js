@@ -35,7 +35,7 @@ const Link = (props) => {
             href={props.decoratedText}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "#FB923C", textDecoration: "underline" }}
+            style={{ color: "#00b9ff", textDecoration: "underline" }}
         >
             {props.children}
         </a>
