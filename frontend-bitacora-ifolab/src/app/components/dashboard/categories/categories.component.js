@@ -2,10 +2,18 @@ import { useEffect, useState } from "react"
 import styles from "./categories.module.css"
 import { apiGet } from "@/api/user.service";
 import { getToken } from "@/utils/auth";
-import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 
 export default function RowCategories({onCategorySelect}) {
-    const [selectedCategory, setSelectedCategory] = useState(3);
+
+    function getInitialCategory() {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem('prevCategorySelected');
+            if (stored) return Number(stored);
+        }
+        return 3;
+    }
+
+    const [selectedCategory, setSelectedCategory] = useState(getInitialCategory || 3);
     const [categories, setCategories] = useState([]);
     
     useEffect(()=>{
@@ -20,18 +28,13 @@ export default function RowCategories({onCategorySelect}) {
                 throw error.message;
             }
         }
-        async function initialReports(){
+        async function initialReports() {
             const token = getToken();
-            try{
-                const prevCategory = localStorage.getItem('prevCategorySelected')
-                if(prevCategory){
-                    const defaultReports = await apiGet('/post', token, { category: prevCategory });
-                    onCategorySelect(defaultReports.data)
-                    return
-                } 
-                const defaultReports = await apiGet('/post', token, { category: 3 });
-                onCategorySelect(defaultReports.data)
-            }catch(error){
+            try {
+                const categoryToFetch = getInitialCategory();
+                const defaultReports = await apiGet('/post', token, { category: categoryToFetch });
+                onCategorySelect(defaultReports.data);
+            } catch (error) {
                 throw error.message;
             }
         }
@@ -40,16 +43,18 @@ export default function RowCategories({onCategorySelect}) {
         getCategories();
     },[onCategorySelect])
 
-    const onClickCategory = async (index) => {
-        try{
-        setSelectedCategory(index);
-        localStorage.setItem('prevCategorySelected', selectedCategory);
-        const token = getToken();
-        if(token){
-            const reportes = await apiGet('/post', token,{category: index})
-            onCategorySelect(reportes.data);
-        }
-        } catch(error){
+    const onClickCategory = async (categoryId) => {
+        try {
+            setSelectedCategory(categoryId);
+            if (typeof window !== "undefined") {
+                localStorage.setItem('prevCategorySelected', categoryId);
+            }
+            const token = getToken();
+            if (token) {
+                const reportes = await apiGet('/post', token, { category: categoryId });
+                onCategorySelect(reportes.data);
+            }
+        } catch (error) {
             throw error.message;
         }
     }

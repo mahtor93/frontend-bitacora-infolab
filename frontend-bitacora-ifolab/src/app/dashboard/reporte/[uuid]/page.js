@@ -18,7 +18,7 @@ import StateCompo from "@/app/components/auth/auth.component.js";
 import LoadingSign from "@/app/components/loading/loading.component";
 import CarouselImages from "@/app/components/reporte/images.component";
 
-const findUrls = (contentBlock, callback, contentState) => {
+const findUrls = (contentBlock, callback) => {
     const text = contentBlock.getText();
     const urlRegex = /https?:\/\/[^\s]+/g;
     let matchArr, start;
