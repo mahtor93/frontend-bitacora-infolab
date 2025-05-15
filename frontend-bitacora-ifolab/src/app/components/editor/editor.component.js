@@ -254,8 +254,8 @@ export default function PostEditor() {
                                 H6
                             </button>
                         </div>
-                        <div style={{padding:'6px 12px',resize:"vertical",minHeight:"120px",maxHeight: "600px"}}>
-                            <Editor name="description" editorState={editorState} onChange={setEditorState} placeholder="Escribe tu reporte aquí" />
+                        <div className={styles.wrapperClassName}>
+                            <Editor className={styles.editorClassName} name="description" editorState={editorState} onChange={setEditorState}  placeholder="Escribe tu reporte aquí" />
                         </div>
 
                     </div>
