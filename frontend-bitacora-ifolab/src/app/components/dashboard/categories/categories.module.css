@@ -13,6 +13,7 @@
     text-align: center;
     justify-content: center;
     margin: 6px 6px 0 6px;
+    cursor: pointer;
 }
 .category h3{
     font-size: 14px;

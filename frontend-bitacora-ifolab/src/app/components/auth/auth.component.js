@@ -7,7 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 export const context = createContext();
 
 const StateCompo = ({ children }) => {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState("undefined");
   const [eventShow, setEventShow] = useState(null);
   const [events, setEvents] = useState(null);
   const { push } = useRouter();
@@ -40,14 +40,14 @@ const StateCompo = ({ children }) => {
   };
 
   useEffect(() => {
-    if (user === undefined) {
+    if (user === "undefined") {
       getUser();
     }
   }, [user]);
 
   return (
     <context.Provider value={{ user, saveUser, eventShow, setEventShow, events, setEvents }}>
-      {user ? children : null} {/* Solo muestra el contenido si hay usuario válido */}
+      {user ? children : null} 
     </context.Provider>
   );
 };

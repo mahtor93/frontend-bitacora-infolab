@@ -1,6 +1,10 @@
 "use client"
 import React from "react";
 import { useForm } from "react-hook-form"
+import styles from './configuracion.module.css'
+import { getToken } from "@/utils/auth";
+import { apiPatch } from "@/api/user.service";
+
 
 export default function Configurations() {
     const {
@@ -11,20 +15,20 @@ export default function Configurations() {
     } = useForm();
 
     const onSubmit = (data) => {
-        // Aquí iría la lógica para enviar la nueva contraseña al backend
-        // Por ejemplo: apiChangePassword(data)
-        alert("Contraseña cambiada exitosamente");
+        const token = getToken();
+        const message = apiPatch('/user', token, data);
+        alert(`${message}`);
     };
 
     // Para comparar las contraseñas nuevas
-    const newPassword = watch("newPassword", "");
+    const password = watch("password", "");
 
     return (
         <div className="mainContent" >
             <h2>Configuración</h2>
             <h3>Cambiar contraseña</h3>
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <div>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.colForm}autoComplete="off">
+                <div className={styles.rowForm}>
                     <label htmlFor="oldPassword">Contraseña actual</label>
                     <input
                         id="oldPassword"
@@ -35,12 +39,12 @@ export default function Configurations() {
                         <span>{errors.oldPassword.message}</span>
                     )}
                 </div>
-                <div >
-                    <label htmlFor="newPassword">Nueva contraseña</label>
+                <div className={styles.rowForm}>
+                    <label htmlFor="password">Nueva contraseña</label>
                     <input
-                        id="newPassword"
+                        id="password"
                         type="password"
-                        {...register("newPassword", {
+                        {...register("password", {
                             required: "La nueva contraseña es obligatoria",
                             minLength: {
                                 value: 8,
@@ -48,11 +52,11 @@ export default function Configurations() {
                             }
                         })}
                     />
-                    {errors.newPassword && (
-                        <span>{errors.newPassword.message}</span>
+                    {errors.password && (
+                        <span>{errors.password.message}</span>
                     )}
                 </div>
-                <div >
+                <div className={styles.rowForm}>
                     <label htmlFor="confirmPassword">Repetir nueva contraseña</label>
                     <input
                         id="confirmPassword"
@@ -60,7 +64,7 @@ export default function Configurations() {
                         {...register("confirmPassword", {
                             required: "Debes repetir la nueva contraseña",
                             validate: value =>
-                                value === newPassword || "Las contraseñas no coinciden"
+                                value === password || "Las contraseñas no coinciden"
                         })}
    
                     />

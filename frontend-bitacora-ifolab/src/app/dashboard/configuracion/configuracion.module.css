@@ -1,0 +1,25 @@
+.rowForm{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    gap: 16px;
+}
+.rowForm input{
+    width: 210px;
+    padding: 4px;
+}
+.colForm{
+        margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.colForm button{
+    margin-top: 6px;
+    width: 160px;
+    margin-left: 0;
+    align-self: flex-end;
+}

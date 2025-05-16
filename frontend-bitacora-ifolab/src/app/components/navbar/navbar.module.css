@@ -43,7 +43,7 @@
   justify-content: center;
 }
 .button p {
-  font-size: 14px;
+  font-size: 12px;
 }
 .logoutButton{
   color: #fff;
@@ -58,12 +58,12 @@
   justify-content: center;
 }
 .logoutButton p {
-  font-size: 14px;
+  font-size: 12px;
 }
 @media (min-width: 720px) {
   .navbar {
     height: auto;
-    width: 120px;
+    width: 92px;
     top: 0;
     left: 0;
     background-color: var(--main-blue-color);

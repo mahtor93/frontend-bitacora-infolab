@@ -5,12 +5,10 @@
     width: 90vw;   
     margin: 0 20px;
 }
-
 .bodyPost {
     display: flex;
     flex-direction: column;
 }
-
 .bodyPost textarea {
     color:#000000;
     border:2px solid #063d7d;
@@ -21,7 +19,6 @@
     border-radius: 3px;
     background-color: #ffffff;
 }
-
 .inputs{
     display: flex;
     gap: 12px;
@@ -30,8 +27,35 @@
     width: 100%;
     justify-content: space-between;
 }
+.textEditor{
+    background-color: white;
+    width: 100%;
+    border: solid 1px black;
+    padding-bottom: 6px;
+    resize: vertical;
+    overflow: auto;
+    height: 256px;
+        .editorClassName {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+
+.editorButtonRack{
+    background-color: rgb(202, 202, 202);
+    display: flex;
+    gap: 3px;
+    padding: 3px 3px;
+    margin-bottom: 6px;
+}
+.editorButtonRack button{
+    width: 34px;
+    height: 34px;
+}
+
 .imageInputs{
-    margin-top: 6px;
+    margin-top: 24px;
     display: flex;
     gap: 12px;
     flex-direction: row;
@@ -75,6 +99,7 @@
 .btnSend:hover{
     background-color:#003471 ;
     color: #fff;
+    
 }
 .btnCerrarReporte{
     border: 2px solid var(--main-blue-color);

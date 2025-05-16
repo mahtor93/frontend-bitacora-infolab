@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    margin-left: 0;
+    margin-left: 20px;
     border: 2px solid #063d7d;
 }
 .reportSection h2 {
@@ -24,6 +24,19 @@
     align-items: center;
     justify-content: center;
 }
+.header h3 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header .removePost{
+    margin-right: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    color:rgb(230, 2, 2);
+}
+
 
 .headerdos{
     display: flex;
@@ -33,6 +46,7 @@
 .header h2 {
     text-transform: capitalize;
     margin: 1 12px;
+        cursor: pointer;
 }
 .header h3 {
     margin: 1px 12px;
@@ -46,10 +60,11 @@
     margin:12px 12px;
 
 }
-
-.bodyReport p {
+.bodyReportText {
     margin: 12px;
+    padding-left: 10vw;
     width:100%;
+    max-width: 85%;
     padding-left: 18px;
 }
 .bodyReport p:first-child{
@@ -128,12 +143,14 @@
     margin: 12px 0;
     display: flex;
     gap:12px;
-    width: 80vw;
+    width: 90vw;
     justify-content: flex-end;
     align-items: flex-end;
     align-content: flex-end;
+
 }
 .buttonRack button {
+
     border:2px solid #063d7d;
     padding: 6px;
     width: 128px;
@@ -207,6 +224,9 @@
         border-radius: 3px;
         width: 80vw;
         margin: 6px 0;
+    }
+    .buttonRack{
+        width: 80vw;
     }
     .commentSection ul {
         display: flex;

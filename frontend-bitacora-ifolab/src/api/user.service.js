@@ -1,7 +1,6 @@
 import axios from "axios";
 const URL = process.env.NEXT_PUBLIC_SERVER_URL 
 
-
 /**
  * Envía una solicitud POST autenticada al endpoint especificado de la API.
  *
@@ -29,7 +28,7 @@ const apiPost = async (endpoint, payload, token) => {
 }
 
 /**
- * Realiza una solicitud GET autenticada al endpoint especificado de la API.
+ * Realiza una solicitud POST autenticada al endpoint especificado de la API.
  *
  * @param {string} endpoint - El endpoint de la API al que se enviará la solicitud GET (se añade a la URL base).
  * @param {string} token - El token Bearer utilizado para la autorización en la cabecera de la solicitud.
@@ -104,8 +103,7 @@ const apiGet = async (endpoint, token, query = {}) => {
  */
 export async function apiGetFiles(url, token) {
     // Si la url ya es absoluta, úsala tal cual; si no, prepende el host base
-    const baseUrl = "http://152.74.180.135:3000/api";
-    const fullUrl = url.startsWith("http") ? url : `${baseUrl}${url}`;
+    const fullUrl = url.startsWith("http") ? url : `${URL}${url}`;
 
     const headers = {};
     if (token) {
@@ -126,4 +124,37 @@ export async function apiGetFiles(url, token) {
 }
 
 
-export { apiPost, apiPostFiles, apiGet, apiGetFiles }
+export async function apiDelete(endpoint, token, id){
+    try{
+        const response = await axios.delete(`${URL}${endpoint}/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+    }catch(error){
+        throw error.response?.data || { message: 'Error de Conexión' };
+    }
+    
+}
+
+export async function apiPatch(endpoint, token, payload){
+        try {
+        const response = await axios.patch(`${URL}${endpoint}`,
+            payload,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response;
+    } catch (error) {
+        throw error?.response?.data || { message:'Error de Conexión' } 
+    }
+
+}
+
+export { apiPost, apiPostFiles, apiGet, apiGetFiles,apiDelete }

@@ -1,11 +1,8 @@
 import styles from "./list.module.css";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { FcHighPriority } from "react-icons/fc";
 import { GoAlertFill } from "react-icons/go";
-
 import { FcOk } from "react-icons/fc";
-
 import moment from "moment-timezone";
 import LoadingSign from '@/app/components/loading/loading.component.js'
 export default function ListDashboard({ reportesList }) {
@@ -18,6 +15,20 @@ export default function ListDashboard({ reportesList }) {
         localStorage.setItem('previousPage', pathname)
         router.push(`/dashboard/reporte/${uuid}`);
     }
+
+    const getPlainTextDraft = (jsonString) => {
+        if (!jsonString) return "";
+        try {
+            const rawContent = JSON.parse(jsonString); 
+            const blocks = rawContent.blocks || rawContent.blocks.blocks || [];
+            const plainText = blocks
+                .map((block) => block.text) 
+                .join("\n"); 
+            return plainText; 
+        } catch (error) {
+            return jsonString;
+        }
+    };
 
     useEffect(() => {
         let timeoutId;
@@ -38,7 +49,7 @@ export default function ListDashboard({ reportesList }) {
                     setReportes([]);
                     timeoutId = setTimeout(() => {
                         setLoading(false);
-                    }, 7000);
+                    }, 1000);
                 }
             } catch (error) {
                 setError(error)
@@ -63,12 +74,12 @@ export default function ListDashboard({ reportesList }) {
                         reportes.map((reporte) => (
                             <li key={reporte.id} onClick={e => onPostClick(reporte.uuid)}>
                                 <div className={styles.encabezado}>
-                                    <div className={styles.iconAndTitle}>{reporte.isActive ? (<GoAlertFill  style={{ color:'#f5d500'}}/>) : (<FcOk />)}<h3>{reporte.title}</h3></div>
-                                    <p>- {`${reporte.User.name} ${reporte.User.lastname}`}</p>
+                                    <div className={styles.iconAndTitle}>{reporte.isActive ? (<GoAlertFill style={{ color: '#f5d500' }} />) : (<FcOk />)}<h3>{reporte.title}</h3></div>
+                                    <p>- {`${reporte.User?.name} ${reporte.User?.lastname}`}</p>
                                 </div>
-                                <p>{reporte.description.substring(0, 256)}...</p>
+                                <p>{getPlainTextDraft(reporte.description).substring(0, 256)}...</p>
                                 <div className={styles.date}>
-                                    <p>{reporte.Comments.length>0?`Comentarios: ${reporte.Comments.length}`:`Sin comentarios`}</p>
+                                    <p>{reporte.Comments.length > 0 ? `Comentarios: ${reporte.Comments.length}` : `Sin comentarios`}</p>
                                     <p>{reporte.date}</p>
                                 </div>
                             </li>
