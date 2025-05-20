@@ -14,6 +14,8 @@ import { BsBlockquoteLeft } from "react-icons/bs";
 import { GrUnorderedList } from "react-icons/gr";
 import { AiOutlineOrderedList } from "react-icons/ai";
 import 'draft-js/dist/Draft.css';
+import TextEditor from "./textEditor.component";
+import Dropdown from "../dropdown/dropdown.component";
 
 export default function PostEditor() {
     const [locations, setLocations] = useState([]);
@@ -98,13 +100,6 @@ export default function PostEditor() {
         fetchData();
     }, []);
 
-    const toggleInlineStyle = (style) => {
-        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
-    };
-
-    const toggleBlockType = (blockType) => {
-        setEditorState(RichUtils.toggleBlockType(editorState, blockType));
-    };
     return (
         <div>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -116,36 +111,22 @@ export default function PostEditor() {
                         {errors.title && errors.title.type === "maxLength" && <span>Max length exceeded</span>}
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="location">Ubicación</label>
-                        <select
-                            id="location"
-                            {...register('location', { required: true })}
-                            onChange={(e) => setValue('location', e.target.value)}
-                        >
-                            <option value="">Selecciona ...</option>
-                            {locations.map(location => (
-                                <option key={location.id} value={location.id}>
-                                    {location.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.location && <span>Selecciona una ubicación</span>}
+                        <Dropdown 
+                            id={"location"}
+                            options={locations}
+                            onChange={val=>setValue('location', val)}
+                            label={"Ubicación"}
+                            firstOption={"Seleccione una ubicación"}
+                        />
                     </div>
                     <div className={styles.inputs}>
-                        <label htmlFor="category">Categoría</label>
-                        <select
-                            id="category"
-                            {...register('category', { required: true })}
-                            onChange={(e) => setValue('category', e.target.value)}
-                        >
-                            <option value="">Selecciona ...</option>
-                            {categories.map(category => (
-                                <option key={category.id} value={category.name}>
-                                    {category.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.category && <span>Selecciona una categoría</span>}
+                        <Dropdown 
+                            id={"category"}
+                            options={categories}
+                            onChange={val=>setValue('category', val)}
+                            label={"Categoría"}
+                            firstOption={"Seleccione una categoría"}
+                        />
                     </div>
                     <div>
                         <div className={styles.imageInputs}>
@@ -173,93 +154,8 @@ export default function PostEditor() {
                         </span>
                     </div>
                 </div>
-                <div className={styles.bodyPost}>
-                    {/*<textarea id="description" placeholder="Escriba su reporte aquí" {...register('description', { required: true, maxLength: 1500 })} /> */}
-                    <div className={styles.textEditor}>
-                        <div className={styles.editorButtonRack}>
-                            <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
-                                <FaBold />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleInlineStyle("ITALIC")}
-                                title="Cursiva"
-                            >
-                                <FaItalic />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleInlineStyle("UNDERLINE")}
-                                title="Subrayado"
-                            >
-                                <FaUnderline />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleInlineStyle("STRIKETHROUGH")}
-                                title="Tachado"
-                            >
-                                <FaStrikethrough />
-                            </button>
-                            <button type="button" onClick={() => toggleInlineStyle("CODE")} title="Código">
-                                <IoCodeOutline />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("blockquote")}
-                                title="Cita"
-                            >
-                                <BsBlockquoteLeft />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("unordered-list-item")}
-                                title="Lista"
-                            >
-                                <GrUnorderedList />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("ordered-list-item")}
-                                title="Lista Ordenada"
-                            >
-                                <AiOutlineOrderedList />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("header-three")}
-                                title="Encabezado 3"
-                            >
-                                H3
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("header-four")}
-                                title="Encabezado 4"
-                            >
-                                H4
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("header-five")}
-                                title="Encabezado 5"
-                            >
-                                H5
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => toggleBlockType("header-six")}
-                                title="Encabezado 6"
-                            >
-                                H6
-                            </button>
-                        </div>
-                        <div className={styles.wrapperClassName}>
-                            <Editor className={styles.editorClassName} name="description" editorState={editorState} onChange={setEditorState}  placeholder="Escribe tu reporte aquí" />
-                        </div>
 
-                    </div>
-
+                <TextEditor editorState={editorState} setEditorState={setEditorState}/>
 
                     <div className={styles.buttonRack}>
                         <input className={styles.btnSend} type="submit" />
@@ -267,7 +163,7 @@ export default function PostEditor() {
                             {isActive ? (<PiLockKeyOpenFill style={{ fontSize: '20px' }} />) : (<PiLockFill style={{ fontSize: '20px' }} />)}
                         </div>
                     </div>
-                </div>
+
 
             </form>
 

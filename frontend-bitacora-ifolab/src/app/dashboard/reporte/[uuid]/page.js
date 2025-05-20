@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { apiGet, apiPost, apiDelete } from "@/api/user.service";
+import { apiGet, apiPost, apiDelete, apiPatch } from "@/api/user.service";
 import styles from './page.module.css';
 import { getToken } from "@/utils/auth";
 import { useParams } from "next/navigation";
@@ -10,6 +10,7 @@ import { MdOutlineKeyboardReturn } from "react-icons/md";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 import { IoTrashBinSharp } from "react-icons/io5";
 import { PiLockFill } from "react-icons/pi";
+import { BsPencilSquare } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { useUserRole } from "@/app/components/context/user.context";
 import { Editor, EditorState, convertFromRaw, CompositeDecorator, } from "draft-js";
@@ -17,6 +18,9 @@ import "draft-js/dist/Draft.css";
 import StateCompo from "@/app/components/auth/auth.component.js";
 import LoadingSign from "@/app/components/loading/loading.component";
 import CarouselImages from "@/app/components/reporte/images.component";
+import TextEditor from "@/app/components/editor/textEditor.component";
+import Dropdown from "@/app/components/dropdown/dropdown.component";
+import Input from "@/app/components/inputText/input.component";
 
 const findUrls = (contentBlock, callback) => {
     const text = contentBlock.getText();
@@ -52,6 +56,7 @@ const decorator = new CompositeDecorator([
 
 export default function Dashboard() {
     const [reporte, setReporte] = useState(null);
+    const [locations, setLocations] = useState([]);
     const [imagesList, setImagesList] = useState([]);
     const [uuidPost, setUuidPost] = useState('');
     const [isActive, setIsActive] = useState(true);
@@ -60,11 +65,14 @@ export default function Dashboard() {
         EditorState.createEmpty(decorator)
     );
     const [mensaje, setMensaje] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
     const commentRef = useRef(null);
     const { userRole } = useUserRole();
     const params = useParams();
     const reportId = params.uuid;
     const router = useRouter()
+
+    const [locationValue, setLocationValue] = useState("");
 
     const onLoadPost = async () => {
         try {
@@ -84,8 +92,21 @@ export default function Dashboard() {
         } catch (error) {
             return error;
         }
-
     }
+
+    const onLoadEditor = async () => {
+        try{
+            const token = getToken();
+            const resLocations = await apiGet(`/location`,token);
+            if (resLocations.status !== 200) {
+                   throw new Error('Error al cargar datos');
+            }
+            setLocations(resLocations.data);
+        }catch(error){
+            return error;
+        }
+    }
+
     useEffect(() => {
         if (reporte && reporte.description) {
             setText(reporte.description);
@@ -133,10 +154,15 @@ export default function Dashboard() {
         try {
             const token = getToken()
             setIsDeleted(true);
-            const removedPost = apiDelete('/post', token, reportId);
+            apiDelete('/post', token, reportId);
         } catch (error) {
             return error;
         }
+    }
+    const onClickEdit = () => {
+        setIsEditing(!isEditing);
+        onLoadEditor()
+        console.log('Listo para Editar')
     }
     const onSubmitComment = async (e) => {
         e.preventDefault();
@@ -186,29 +212,51 @@ export default function Dashboard() {
                 {isDeleted ? (<p></p>) : (
                     <>
                         <div className={styles.reportSection}>
-
                             <div className={styles.header}>
-                                <h3>{reporte.title}</h3>
+                                {
+                                    isEditing?
+                                    <Input 
+                                        id={"title"}
+                                    />
+                                    :
+                                    <h3>{reporte.title}</h3>
+                                }
                                 {userRole === 'Admin' && (
-                                    <>
-                                        <IoTrashBinSharp className={styles.removePost} onClick={onClickDelete} />
-                                    </>
+                                    <div style={{ display: 'flex', position: 'relative', flexDirection: 'row', gap: '12px', right: '0', alignItems: 'center' }}>
+                                        <BsPencilSquare title="Editar Reporte" onClick={onClickEdit} />
+                                        <IoTrashBinSharp className={styles.removePost} onClick={onClickDelete} title="Eliminar Reporte" />
+                                    </div>
                                 )}
                             </div>
                             <div className={styles.bodyReport}>
-
-
-                                <p>Ubicación: {reporte.Location.name}</p>
-
-
                                 <CarouselImages imagesArray={imagesList} />
-
+                                    {
+                                        isEditing?
+                                        <Dropdown
+                                            id={"location"}
+                                            options={locations}
+                                            onChange={val=>setLocationValue('location',val)}
+                                            label={"Ubicación"}
+                                            firstOption={"Seleccione una ubicación"}
+                                        />
+                                        :
+                                        <p style={{ margin: '16px 0', fontWeight: '600' }}>Ubicación: {reporte.Location.name}</p>
+                                    }
                                 <div className={styles.bodyReportText}>
-                                    <Editor editorState={editorState} readOnly={true} />
+                                    {
+                                        isEditing?
+                                        <TextEditor 
+                                            editorState={editorState} 
+                                            setEditorState={setEditorState}
+                                        />
+                                        :
+                                        <Editor 
+                                            editorState={editorState} 
+                                            readOnly={true}
+                                        />
+                                    }
+                                    
                                 </div>
-                                {/*<p>{reporte.description}</p>*/}
-
-
                             </div>
                             <div className={styles.footerReport}>
                                 <p>{reporte.User.name} {reporte.User.lastname}</p>
@@ -223,7 +271,6 @@ export default function Dashboard() {
                                         <p>{comment.comment}</p>
                                         <p>{moment(comment.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')}</p>
                                     </li>
-
                                 ))}
                             </ul>
                         </div>

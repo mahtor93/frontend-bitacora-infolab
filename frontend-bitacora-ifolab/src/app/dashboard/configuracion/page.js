@@ -1,12 +1,69 @@
 "use client"
 import React from "react";
 import { useForm } from "react-hook-form"
+import { useUserRole } from "@/app/components/context/user.context";
 import styles from './configuracion.module.css'
+
 import { getToken } from "@/utils/auth";
-import { apiPatch } from "@/api/user.service";
+import { apiPatch, apiPost } from "@/api/user.service";
+
+
+function LocationCreator() {
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting, isSubmitSuccessful }
+    } = useForm();
+
+    const onSubmit = async (data) => {
+        const token = getToken();
+        try {
+            // Suponiendo que tu endpoint para crear location es '/location'
+            const response = await apiPost('/location', data, token);
+            console.log(response);
+            alert("¡Ubicación creada exitosamente!");
+            reset();
+        } catch (error) {
+            alert("Error al crear la ubicación");
+        }
+    };
+
+    return (
+        <div>
+            <h3>Crear Ubicación</h3>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.colForm} autoComplete="off">
+                <div className={styles.rowForm}>
+                    <label htmlFor="name">Nombre de la ubicación</label>
+                    <input
+                        id="name"
+                        type="text"
+                        {...register("name", { required: "El nombre es obligatorio" })}
+                        style={{ marginLeft: "1rem" }}
+                    />
+                    {errors.name && (
+                        <span style={{ color: "yellow", marginLeft: "1rem" }}>{errors.name.message}</span>
+                    )}
+                </div>
+                <button type="submit" disabled={isSubmitting}>
+                    Crear ubicación
+                </button>
+                {isSubmitSuccessful && (
+                    <div style={{ color: "lightgreen", marginTop: "1rem" }}>
+                        ¡Ubicación creada exitosamente!
+                    </div>
+                )}
+            </form>
+        </div>
+    );
+}
+
+
 
 
 export default function Configurations() {
+    const { userRole } = useUserRole();
+    console.log(userRole)
     const {
         register,
         handleSubmit,
@@ -23,11 +80,16 @@ export default function Configurations() {
     // Para comparar las contraseñas nuevas
     const password = watch("password", "");
 
+
+
     return (
         <div className="mainContent" >
             <h2>Configuración</h2>
-            <h3>Cambiar contraseña</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.colForm}autoComplete="off">
+            {
+                userRole === 'Admin' ? <LocationCreator /> : <></>
+            }
+            <h3>Cambiar contraseña de la cuenta</h3>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.colForm} autoComplete="off">
                 <div className={styles.rowForm}>
                     <label htmlFor="oldPassword">Contraseña actual</label>
                     <input
@@ -66,7 +128,7 @@ export default function Configurations() {
                             validate: value =>
                                 value === password || "Las contraseñas no coinciden"
                         })}
-   
+
                     />
                     {errors.confirmPassword && (
                         <span>{errors.confirmPassword.message}</span>
@@ -84,6 +146,9 @@ export default function Configurations() {
                     </div>
                 )}
             </form>
+            <div>
+
+            </div>
         </div>
     );
 }
