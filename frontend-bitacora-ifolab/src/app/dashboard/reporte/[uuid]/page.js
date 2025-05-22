@@ -1,23 +1,27 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { apiGet, apiPost, apiDelete } from "@/api/user.service";
-import styles from './page.module.css';
+import { apiGet, apiPost, apiDelete, apiPatch } from "@/api/user.service";
 import { getToken } from "@/utils/auth";
 import { useParams } from "next/navigation";
+import { useForm } from "react-hook-form"
 import { FcLock } from "react-icons/fc";
-import moment from "moment-timezone";
 import { MdOutlineKeyboardReturn } from "react-icons/md";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 import { IoTrashBinSharp } from "react-icons/io5";
 import { PiLockFill } from "react-icons/pi";
+import { BsPencilSquare } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { useUserRole } from "@/app/components/context/user.context";
-import { Editor, EditorState, convertFromRaw, CompositeDecorator, } from "draft-js";
-import "draft-js/dist/Draft.css";
+import { Editor, EditorState, convertFromRaw, CompositeDecorator, convertToRaw, } from "draft-js";
+import styles from './page.module.css';
+import moment from "moment-timezone";
 import StateCompo from "@/app/components/auth/auth.component.js";
 import LoadingSign from "@/app/components/loading/loading.component";
 import CarouselImages from "@/app/components/reporte/images.component";
-
+import TextEditor from "@/app/components/editor/textEditor.component";
+import Dropdown from "@/app/components/dropdown/dropdown.component";
+import Input from "@/app/components/inputText/input.component";
+import "draft-js/dist/Draft.css";
 const findUrls = (contentBlock, callback) => {
     const text = contentBlock.getText();
     const urlRegex = /https?:\/\/[^\s]+/g;
@@ -52,19 +56,22 @@ const decorator = new CompositeDecorator([
 
 export default function Dashboard() {
     const [reporte, setReporte] = useState(null);
+    const [locations, setLocations] = useState([]);
     const [imagesList, setImagesList] = useState([]);
     const [uuidPost, setUuidPost] = useState('');
     const [isActive, setIsActive] = useState(true);
     const [isDeleted, setIsDeleted] = useState(false);
+    const [mensaje, setMensaje] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const params = useParams();
+    const reportId = params.uuid;
+    const commentRef = useRef(null);
+    const router = useRouter()
     const [editorState, setEditorState] = useState(
         EditorState.createEmpty(decorator)
     );
-    const [mensaje, setMensaje] = useState("");
-    const commentRef = useRef(null);
+    const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const { userRole } = useUserRole();
-    const params = useParams();
-    const reportId = params.uuid;
-    const router = useRouter()
 
     const onLoadPost = async () => {
         try {
@@ -78,20 +85,35 @@ export default function Dashboard() {
                 }, 5000);
                 return;
             }
+            console.log(post.data)
             setReporte(post.data);
             setImagesList(post.data.Photos_Posts);
             localStorage.setItem("selectedPost", JSON.stringify(post.data));
         } catch (error) {
             return error;
         }
-
     }
+
+    const onLoadEditor = async () => {
+        try {
+            const token = getToken();
+            const resLocations = await apiGet(`/location`, token);
+            if (resLocations.status !== 200) {
+                throw new Error('Error al cargar datos');
+            }
+            setLocations(resLocations.data);
+        } catch (error) {
+            return error;
+        }
+    }
+
     useEffect(() => {
         if (reporte && reporte.description) {
             setText(reporte.description);
         }
         // eslint-disable-next-line
     }, [reporte?.description]);
+
     function setText(text) {
         try {
             const rawContent = JSON.parse(text);
@@ -116,15 +138,20 @@ export default function Dashboard() {
             setEditorState(EditorState.createWithContent(contentState, decorator));
         }
     }
+
+    // ----------------------- FUNCIONES PARA ADMINISTRAR POST
+
     const onClickLock = () => {
         setIsActive(!isActive);
     }
+
     const onClickReturn = () => {
         const previousURL = localStorage.getItem('previousPage')
         localStorage.removeItem('previousPage')
         router.push(previousURL)
 
     }
+
     const onClickDelete = () => {
         const aceptado = confirm('¿Está seguro que desea eliminar permanentemente el Reporte?');
         if (!aceptado) {
@@ -133,11 +160,46 @@ export default function Dashboard() {
         try {
             const token = getToken()
             setIsDeleted(true);
-            const removedPost = apiDelete('/post', token, reportId);
+            apiDelete('/post', token, reportId);
         } catch (error) {
             return error;
         }
     }
+
+    // ----------------------- FUNCIONES PARA MANEJAR EDICIÓN
+
+    const onClickEdit = () => {
+        //alert("Editor en construcción");
+
+        setIsEditing(!isEditing);
+        onLoadEditor()
+        console.log('Listo para Editar')
+
+    }
+    const onSubmitEdit = async (values) => {
+        try {
+            const token = getToken();
+            const formData = new FormData();
+            const rawContent = convertToRaw(editorState?.getCurrentContent());
+            const contentString = JSON.stringify(rawContent);
+            formData.append('data', JSON.stringify({
+                "title": values?.title,
+                "location": values?.location,
+                "description": contentString
+            }))
+            console.log(formData)
+            let res = await apiPatch(`/post/${reportId}`, token, formData);
+            if (res.error) {
+                throw new Error(res.error.msg);
+            } else {
+                router.push('/dashboard');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
     const onSubmitComment = async (e) => {
         e.preventDefault();
         const token = getToken();
@@ -190,30 +252,68 @@ export default function Dashboard() {
                             <div className={styles.header}>
                                 <h3>{reporte.title}</h3>
                                 {userRole === 'Admin' && (
-                                    <>
-                                        <IoTrashBinSharp className={styles.removePost} onClick={onClickDelete} />
-                                    </>
+                                    <div style={{ display: 'flex', position: 'relative', flexDirection: 'row', gap: '12px', right: '0', alignItems: 'center' }}>
+                                        {isActive ? <BsPencilSquare title="Editar Reporte" onClick={onClickEdit} /> : <></>}
+                                        <IoTrashBinSharp className={styles.removePost} onClick={onClickDelete} title="Eliminar Reporte" />
+                                    </div>
                                 )}
                             </div>
+
                             <div className={styles.bodyReport}>
-
-
-                                <p>Ubicación: {reporte.Location.name}</p>
-
-
                                 <CarouselImages imagesArray={imagesList} />
-
+                                {
+                                    isEditing ?
+                                        <></>
+                                        :
+                                        <p style={{ margin: '16px 0', fontWeight: '600' }}>Ubicación: {reporte.Location.name}</p>
+                                }
                                 <div className={styles.bodyReportText}>
-                                    <Editor editorState={editorState} readOnly={true} />
+                                    {
+                                        isEditing ?
+                                            <div >
+                                                <form style={{display:'flex',flexDirection:'column',gap:'22px'}} onSubmit={handleSubmit(onSubmitEdit)}>
+                                                    <div style={{ width: '30vw',display:'flex',flexDirection:'column' }}>
+                                                        <div style={{marginBottom:'12px'}}>
+                                                            Editar Título
+                                                            <input placeholder={reporte.title} style={{display:'flex',padding:'6px',width:'25vw' }} id="title" {...register('title', { required: false, maxLength: 255 })} />
+                                                        </div>
+                                                        <div>
+                                                            Editar Ubicación
+                                                            <Dropdown
+                                                                id={"location"}
+                                                                options={locations}
+                                                                firstOption={reporte.id_location}
+                                                                onChange={val => setValue('location', val)}
+
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <TextEditor
+                                                        editorState={editorState}
+                                                        setEditorState={setEditorState}
+                                                    />
+                                                    <div style={{display:'flex', justifyContent:'end'}}>
+                                                        <button style={{color:'white',backgroundColor:'#003471',padding:'6px 18px',border:'none',borderRadius:'3px'}} type="submit">Editar</button>
+                                                    </div>
+                                                    
+                                                </form>
+
+                                            </div>
+                                            :
+                                            <Editor
+                                                editorState={editorState}
+                                                readOnly={true}
+                                            />
+                                    }
+
                                 </div>
-                                {/*<p>{reporte.description}</p>*/}
-
-
                             </div>
+
                             <div className={styles.footerReport}>
                                 <p>{reporte.User.name} {reporte.User.lastname}</p>
                                 <p>{moment(reporte.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')}</p>
                             </div>
+
                         </div>
                         <div className={styles.commentSection}>
                             <ul>
@@ -223,7 +323,6 @@ export default function Dashboard() {
                                         <p>{comment.comment}</p>
                                         <p>{moment(comment.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')}</p>
                                     </li>
-
                                 ))}
                             </ul>
                         </div>
