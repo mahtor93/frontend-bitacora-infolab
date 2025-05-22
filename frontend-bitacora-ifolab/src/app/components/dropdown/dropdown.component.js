@@ -1,9 +1,12 @@
 "use client"
 
+import styles from './dropdown.module.css'
+
+
 
 export default function Dropdown({ id, options, value, onChange, label, firstOption }) {
   return (
-    <div>
+    <div  className={styles.inputs}>
       {label && <label htmlFor={id}>{label}</label>}
       <select
         id={id}

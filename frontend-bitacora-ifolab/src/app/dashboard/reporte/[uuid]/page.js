@@ -85,6 +85,7 @@ export default function Dashboard() {
                 }, 5000);
                 return;
             }
+            console.log(post.data)
             setReporte(post.data);
             setImagesList(post.data.Photos_Posts);
             localStorage.setItem("selectedPost", JSON.stringify(post.data));
@@ -179,13 +180,14 @@ export default function Dashboard() {
         try {
             const token = getToken();
             const formData = new FormData();
-            const rawContent = convertToRaw(editorState.getCurrentContent());
+            const rawContent = convertToRaw(editorState?.getCurrentContent());
             const contentString = JSON.stringify(rawContent);
             formData.append('data', JSON.stringify({
-                "title": values.title,
-                "location": values.location,
+                "title": values?.title,
+                "location": values?.location,
                 "description": contentString
             }))
+            console.log(formData)
             let res = await apiPatch(`/post/${reportId}`, token, formData);
             if (res.error) {
                 throw new Error(res.error.msg);
@@ -248,12 +250,7 @@ export default function Dashboard() {
                         <div className={styles.reportSection}>
 
                             <div className={styles.header}>
-                                {
-                                    isEditing ?
-                                        <></>
-                                        :
-                                        <h3>{reporte.title}</h3>
-                                }
+                                <h3>{reporte.title}</h3>
                                 {userRole === 'Admin' && (
                                     <div style={{ display: 'flex', position: 'relative', flexDirection: 'row', gap: '12px', right: '0', alignItems: 'center' }}>
                                         {isActive ? <BsPencilSquare title="Editar Reporte" onClick={onClickEdit} /> : <></>}
@@ -273,26 +270,35 @@ export default function Dashboard() {
                                 <div className={styles.bodyReportText}>
                                     {
                                         isEditing ?
-                                            <>
-                                                <form onSubmit={handleSubmit(onSubmitEdit)}>
-                                                    Título: <Input
-                                                        id={"title"}
-                                                    />
-                                                    Ubicación
-                                                    <Dropdown
-                                                        id={"location"}
-                                                        options={locations}
-                                                        onChange={val => setValue('location', val)}
-                                                        firstOption={"Seleccione una ubicación"}
-                                                    />
+                                            <div >
+                                                <form style={{display:'flex',flexDirection:'column',gap:'22px'}} onSubmit={handleSubmit(onSubmitEdit)}>
+                                                    <div style={{ width: '30vw',display:'flex',flexDirection:'column' }}>
+                                                        <div style={{marginBottom:'12px'}}>
+                                                            Editar Título
+                                                            <input placeholder={reporte.title} style={{display:'flex',padding:'6px',width:'25vw' }} id="title" {...register('title', { required: false, maxLength: 255 })} />
+                                                        </div>
+                                                        <div>
+                                                            Editar Ubicación
+                                                            <Dropdown
+                                                                id={"location"}
+                                                                options={locations}
+                                                                firstOption={reporte.id_location}
+                                                                onChange={val => setValue('location', val)}
+
+                                                            />
+                                                        </div>
+                                                    </div>
                                                     <TextEditor
                                                         editorState={editorState}
                                                         setEditorState={setEditorState}
                                                     />
-                                                    <button type="submit">Editar</button>
+                                                    <div style={{display:'flex', justifyContent:'end'}}>
+                                                        <button style={{color:'white',backgroundColor:'#003471',padding:'6px 18px',border:'none',borderRadius:'3px'}} type="submit">Editar</button>
+                                                    </div>
+                                                    
                                                 </form>
-                                                
-                                            </>
+
+                                            </div>
                                             :
                                             <Editor
                                                 editorState={editorState}
