@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { apiGet, apiPost, apiDelete, apiPatch } from "@/api/user.service";
-import styles from './page.module.css';
 import { getToken } from "@/utils/auth";
 import { useParams } from "next/navigation";
+import { useForm } from "react-hook-form"
 import { FcLock } from "react-icons/fc";
-import moment from "moment-timezone";
 import { MdOutlineKeyboardReturn } from "react-icons/md";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 import { IoTrashBinSharp } from "react-icons/io5";
@@ -13,15 +12,16 @@ import { PiLockFill } from "react-icons/pi";
 import { BsPencilSquare } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { useUserRole } from "@/app/components/context/user.context";
-import { Editor, EditorState, convertFromRaw, CompositeDecorator, } from "draft-js";
-import "draft-js/dist/Draft.css";
+import { Editor, EditorState, convertFromRaw, CompositeDecorator, convertToRaw, } from "draft-js";
+import styles from './page.module.css';
+import moment from "moment-timezone";
 import StateCompo from "@/app/components/auth/auth.component.js";
 import LoadingSign from "@/app/components/loading/loading.component";
 import CarouselImages from "@/app/components/reporte/images.component";
 import TextEditor from "@/app/components/editor/textEditor.component";
 import Dropdown from "@/app/components/dropdown/dropdown.component";
 import Input from "@/app/components/inputText/input.component";
-
+import "draft-js/dist/Draft.css";
 const findUrls = (contentBlock, callback) => {
     const text = contentBlock.getText();
     const urlRegex = /https?:\/\/[^\s]+/g;
@@ -61,18 +61,17 @@ export default function Dashboard() {
     const [uuidPost, setUuidPost] = useState('');
     const [isActive, setIsActive] = useState(true);
     const [isDeleted, setIsDeleted] = useState(false);
+    const [mensaje, setMensaje] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const params = useParams();
+    const reportId = params.uuid;
+    const commentRef = useRef(null);
+    const router = useRouter()
     const [editorState, setEditorState] = useState(
         EditorState.createEmpty(decorator)
     );
-    const [mensaje, setMensaje] = useState("");
-    const [isEditing, setIsEditing] = useState(false);
-    const commentRef = useRef(null);
+    const { handleSubmit, register, setValue, formState: { errors } } = useForm();
     const { userRole } = useUserRole();
-    const params = useParams();
-    const reportId = params.uuid;
-    const router = useRouter()
-
-    const [locationValue, setLocationValue] = useState("");
 
     const onLoadPost = async () => {
         try {
@@ -95,14 +94,14 @@ export default function Dashboard() {
     }
 
     const onLoadEditor = async () => {
-        try{
+        try {
             const token = getToken();
-            const resLocations = await apiGet(`/location`,token);
+            const resLocations = await apiGet(`/location`, token);
             if (resLocations.status !== 200) {
-                   throw new Error('Error al cargar datos');
+                throw new Error('Error al cargar datos');
             }
             setLocations(resLocations.data);
-        }catch(error){
+        } catch (error) {
             return error;
         }
     }
@@ -113,6 +112,7 @@ export default function Dashboard() {
         }
         // eslint-disable-next-line
     }, [reporte?.description]);
+
     function setText(text) {
         try {
             const rawContent = JSON.parse(text);
@@ -137,15 +137,20 @@ export default function Dashboard() {
             setEditorState(EditorState.createWithContent(contentState, decorator));
         }
     }
+
+    // ----------------------- FUNCIONES PARA ADMINISTRAR POST
+
     const onClickLock = () => {
         setIsActive(!isActive);
     }
+
     const onClickReturn = () => {
         const previousURL = localStorage.getItem('previousPage')
         localStorage.removeItem('previousPage')
         router.push(previousURL)
 
     }
+
     const onClickDelete = () => {
         const aceptado = confirm('¿Está seguro que desea eliminar permanentemente el Reporte?');
         if (!aceptado) {
@@ -159,11 +164,40 @@ export default function Dashboard() {
             return error;
         }
     }
+
+    // ----------------------- FUNCIONES PARA MANEJAR EDICIÓN
+
     const onClickEdit = () => {
+        //alert("Editor en construcción");
+
         setIsEditing(!isEditing);
         onLoadEditor()
         console.log('Listo para Editar')
+
     }
+    const onSubmitEdit = async (values) => {
+        try {
+            const token = getToken();
+            const formData = new FormData();
+            const rawContent = convertToRaw(editorState.getCurrentContent());
+            const contentString = JSON.stringify(rawContent);
+            formData.append('data', JSON.stringify({
+                "title": values.title,
+                "location": values.location,
+                "description": contentString
+            }))
+            let res = await apiPatch(`/post/${reportId}`, token, formData);
+            if (res.error) {
+                throw new Error(res.error.msg);
+            } else {
+                router.push('/dashboard');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
     const onSubmitComment = async (e) => {
         e.preventDefault();
         const token = getToken();
@@ -212,56 +246,68 @@ export default function Dashboard() {
                 {isDeleted ? (<p></p>) : (
                     <>
                         <div className={styles.reportSection}>
+
                             <div className={styles.header}>
                                 {
-                                    isEditing?
-                                    <Input 
-                                        id={"title"}
-                                    />
-                                    :
-                                    <h3>{reporte.title}</h3>
+                                    isEditing ?
+                                        <></>
+                                        :
+                                        <h3>{reporte.title}</h3>
                                 }
                                 {userRole === 'Admin' && (
                                     <div style={{ display: 'flex', position: 'relative', flexDirection: 'row', gap: '12px', right: '0', alignItems: 'center' }}>
-                                        <BsPencilSquare title="Editar Reporte" onClick={onClickEdit} />
+                                        {isActive ? <BsPencilSquare title="Editar Reporte" onClick={onClickEdit} /> : <></>}
                                         <IoTrashBinSharp className={styles.removePost} onClick={onClickDelete} title="Eliminar Reporte" />
                                     </div>
                                 )}
                             </div>
+
                             <div className={styles.bodyReport}>
                                 <CarouselImages imagesArray={imagesList} />
-                                    {
-                                        isEditing?
-                                        <Dropdown
-                                            id={"location"}
-                                            options={locations}
-                                            onChange={val=>setLocationValue('location',val)}
-                                            label={"Ubicación"}
-                                            firstOption={"Seleccione una ubicación"}
-                                        />
+                                {
+                                    isEditing ?
+                                        <></>
                                         :
                                         <p style={{ margin: '16px 0', fontWeight: '600' }}>Ubicación: {reporte.Location.name}</p>
-                                    }
+                                }
                                 <div className={styles.bodyReportText}>
                                     {
-                                        isEditing?
-                                        <TextEditor 
-                                            editorState={editorState} 
-                                            setEditorState={setEditorState}
-                                        />
-                                        :
-                                        <Editor 
-                                            editorState={editorState} 
-                                            readOnly={true}
-                                        />
+                                        isEditing ?
+                                            <>
+                                                <form onSubmit={handleSubmit(onSubmitEdit)}>
+                                                    Título: <Input
+                                                        id={"title"}
+                                                    />
+                                                    Ubicación
+                                                    <Dropdown
+                                                        id={"location"}
+                                                        options={locations}
+                                                        onChange={val => setValue('location', val)}
+                                                        firstOption={"Seleccione una ubicación"}
+                                                    />
+                                                    <TextEditor
+                                                        editorState={editorState}
+                                                        setEditorState={setEditorState}
+                                                    />
+                                                    <button type="submit">Editar</button>
+                                                </form>
+                                                
+                                            </>
+                                            :
+                                            <Editor
+                                                editorState={editorState}
+                                                readOnly={true}
+                                            />
                                     }
-                                    
+
                                 </div>
                             </div>
+
                             <div className={styles.footerReport}>
                                 <p>{reporte.User.name} {reporte.User.lastname}</p>
                                 <p>{moment(reporte.date).tz('America/Santiago').format('DD-MM-YYYY HH:mm')}</p>
                             </div>
+
                         </div>
                         <div className={styles.commentSection}>
                             <ul>

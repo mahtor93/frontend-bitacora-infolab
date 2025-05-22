@@ -2,17 +2,12 @@
 import styles from "./editor.module.css"
 import { useForm } from "react-hook-form"
 import { apiGet, apiPostFiles } from "@/api/user.service";
-import { Editor, EditorState, RichUtils, CompositeDecorator, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/utils/auth";
 import { PiLockFill } from "react-icons/pi";
 import { PiLockKeyOpenFill } from "react-icons/pi";
-import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from "react-icons/fa";
-import { IoCodeOutline } from "react-icons/io5";
-import { BsBlockquoteLeft } from "react-icons/bs";
-import { GrUnorderedList } from "react-icons/gr";
-import { AiOutlineOrderedList } from "react-icons/ai";
 import 'draft-js/dist/Draft.css';
 import TextEditor from "./textEditor.component";
 import Dropdown from "../dropdown/dropdown.component";
